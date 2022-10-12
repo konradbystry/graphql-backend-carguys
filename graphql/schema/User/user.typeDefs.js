@@ -2,8 +2,6 @@ const {gql} = require('graphql-tag')
 const mongoose = require('mongoose')
 
 module.exports = gql`
-    
-
     type User{
         nickname : String,
         email : String,
@@ -19,31 +17,15 @@ module.exports = gql`
         email : String,
         password : String
     }
-
-   
-
     type Query{
-        
-
         getUser(ID: ID!): User!
         getUsers : [User]
-        getUserByName(nickname : String!): [User]
-
-        
+        getUserByName(nickname : String!): [User]    
     }
 
     type Mutation{
-        
-
         createUser(userInput: UserInput): User!
         deleteUser(ID: ID!): Boolean
         editUser(ID: ID!, userInput: UserInput): Boolean
-
-        
-
-        
-
-    }
-
-  
+    } 
 `
