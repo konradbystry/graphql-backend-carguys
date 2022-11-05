@@ -1,101 +1,72 @@
-import { useContext, useState } from "react"
-import { AuthContext } from '../../context/authContext'
-import { useForm } from '../../utility/hooks'
-import { useMutation } from '@apollo/react-hooks'
-import { gql } from "graphql-tag"
-import { useNavigate } from "react-router-dom"
-import { Container, Stack } from "@mui/system"
-import { Alert, Button, TextField } from "@mui/material"
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/authContext";
+import { useForm } from "../../utility/hooks";
+import { useMutation } from "@apollo/react-hooks";
+import { gql } from "graphql-tag";
+import { useNavigate } from "react-router-dom";
+import { Container, Stack } from "@mui/system";
+import { Alert, Button, TextField } from "@mui/material";
 
 const REGISTER_USER = gql`
-    mutation Mutation($registerInput: RegisterInput) {
-        registerUser(registerInput: $registerInput) {
-            email
-            nickname
-            token
-        }
+  mutation Mutation($registerInput: RegisterInput) {
+    registerUser(registerInput: $registerInput) {
+      email
+      nickname
+      token
     }
-`
+  }
+`;
 
 function Register(props) {
-    
-    const context = useContext(AuthContext)
-    let navigate = useNavigate()
-    const [errors, setErrors] = useState([])
+  const context = useContext(AuthContext);
+  let navigate = useNavigate();
+  const [errors, setErrors] = useState([]);
 
-    function registerUserCallback(){
-        console.log('Callback hit')
-        registerUser()
-    }
+  function registerUserCallback() {
+    registerUser();
+  }
 
-    // eslint-disable-next-line no-undef
-    const { onChange, onSubmit, values} = useForm(registerUserCallback, {
-        nickname: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-    })
+  // eslint-disable-next-line no-undef
+  const { onChange, onSubmit, values } = useForm(registerUserCallback, {
+    nickname: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-    const [ registerUser, { loading }] = useMutation(REGISTER_USER, {
-        update(proxy, {data: { registerUser: userData }}) {
-            context.login(userData)
-            console.log(userData)
-            navigate('/')
-        },
-        onError({ graphQLErrors }) {
-            setErrors(graphQLErrors)
-            console.log(graphQLErrors)
-            console.log(values)
-            console.log(this.variables)
-        },
-        variables: { registerInput: values }
-        // variables: {
-        //     "registerInput": {
-        //       "nickname": null,
-        //       "email": "test",
-        //       "password": null,
-        //       "confirmPassword": null
-        //     }
-        //   }
-    })
-    
-    
-    return (
-    <Container spacing={2} maxWidth='sm'>
-        <h3>Register</h3>
-        <p>This is the register page</p>
-        <Stack spacing={2} paddingBottom={2}>
-            <TextField
-                label='Nickname'
-                name="nickname"
-                onChange={onChange}
-            />
-               <TextField
-                label='Email'
-                name='email'
-                onChange={onChange}
-            />
-               <TextField
-                label='Password'
-                name='password'
-                onChange={onChange}
-            />
-               <TextField
-                label='Confirm password'
-                name='confirmPassword'
-                onChange={onChange}
-            />
-        </Stack>
-        {errors.map(function(error){
-            return(
-                <Alert severity="error">
-                    {error.message}
-                </Alert>
-            )
-        })}
-        <Button variant="contained" onClick={onSubmit}>Register</Button>
+  const [registerUser, { loading }] = useMutation(REGISTER_USER, {
+    update(proxy, { data: { registerUser: userData } }) {
+      context.login(userData);
+      navigate("/");
+    },
+    onError({ graphQLErrors }) {
+      setErrors(graphQLErrors);
+    },
+    variables: { registerInput: values },
+  });
+
+  return (
+    <Container spacing={2} maxWidth="sm">
+      <h3>Register</h3>
+      <p>This is the register page</p>
+      <Stack spacing={2} paddingBottom={2}>
+        <TextField label="Nickname" name="nickname" onChange={onChange} />
+        <TextField label="Email" name="email" onChange={onChange} />
+        <TextField label="Password" name="password" onChange={onChange} />
+        <TextField
+          label="Confirm password"
+          name="confirmPassword"
+          onChange={onChange}
+        />
+      </Stack>
+      {errors.map(function (error) {
+        return <Alert severity="error">{error.message}</Alert>;
+      })}
+      <Button variant="contained" onClick={onSubmit}>
+        Register
+      </Button>
     </Container>
-    ) 
+  );
 }
 
-export default Register
+export default Register;
