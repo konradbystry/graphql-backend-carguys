@@ -3,6 +3,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { useContext } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "graphql-tag";
+import { Container, Stack } from "@mui/system";
 
 const GET_TOPICS = gql`
   query GetTopics {
@@ -23,18 +24,21 @@ function TopicsList() {
   if (error) return <p>error</p>;
 
   return (
-    <div>
-      {data.getTopics.map((topic) => (
-        <Link to={topic._id}>
-          <h1>{topic.name}</h1>
-        </Link>
-      ))}
+    <Container spacing={2} maxWidth="sm">
       <div>
-        <Link to="new">
-          <h1>Create your own topic</h1>
-        </Link>
+        <div>
+          <Link to="new">
+            <h1>Create your own topic</h1>
+          </Link>
+          <br></br>
+        </div>
+        {data.getTopics.map((topic) => (
+          <Link to={topic._id}>
+            <h1>{topic.name}</h1>
+          </Link>
+        ))}
       </div>
-    </div>
+    </Container>
   );
 }
 

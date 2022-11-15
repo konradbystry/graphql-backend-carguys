@@ -12,6 +12,7 @@ const LOGIN_USER = gql`
     loginUser(loginInput: $loginInput) {
       _id
       email
+      nickname
       password
       token
     }
