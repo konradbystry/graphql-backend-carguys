@@ -5,6 +5,7 @@ const topicSchema = new Schema({
   posts: [Schema.Types.ObjectId],
   premium: Boolean,
   ownerId: Schema.Types.ObjectId,
+  ownerName: String,
 });
 
 module.exports = model("Topic", topicSchema);
