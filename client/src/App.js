@@ -9,6 +9,7 @@ import TopicsList from "./pages/TopicsList";
 import User from "./pages/User";
 import NewTopic from "./pages/NewTopic";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import Notifications from "./pages/Notifications";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           </Route>
         </Route>
         <Route path="/user/:id" element={<User />} />
+        <Route path="/user/:id/notifications" element={<Notifications />} />
       </Routes>
     </div>
   );
