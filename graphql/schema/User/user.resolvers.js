@@ -4,8 +4,9 @@ const Topic = require("../../../models/Topic");
 const { ApolloError } = require("apollo-server-errors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-// const {ObjectId} = require('mongodb')
 const mongoose = require("mongoose");
+const lodash = require("lodash");
+
 module.exports = {
   Query: {
     async getUser(_, { ID }) {
@@ -30,6 +31,7 @@ module.exports = {
         freinds: [],
         cars: [],
         token: "just test",
+        friendRequest: 0,
       });
 
       const res = await createdUser.save();
@@ -59,9 +61,13 @@ module.exports = {
         password: encryptedPassword,
       });
       //Create JWT
-      const token = jwt.sign({ _id: newUser._id, email }, "TEMP_STRING", {
-        expiresIn: "2h",
-      });
+      const token = jwt.sign(
+        { _id: newUser._id, email, name: newUser.nickname },
+        "TEMP_STRING",
+        {
+          expiresIn: "2h",
+        }
+      );
 
       newUser.token = token;
       //Save user
@@ -78,7 +84,7 @@ module.exports = {
 
       if (user && (await bcrypt.compare(password, user.password))) {
         const token = jwt.sign(
-          { _id: user._id, email, test: "test" },
+          { _id: user._id, email, name: user.nickname },
           "TEMP_STRING",
           {
             expiresIn: "2h",
@@ -93,6 +99,73 @@ module.exports = {
       } else {
         throw new ApolloError("Incorrect password", "INCORRECT_PASSWORD");
       }
+    },
+
+    async sendFriendRequest(_, { recevierId, senderId }) {
+      const user = await User.findById(recevierId);
+
+      user.friendRequest = true;
+      user.friendRequests.push(senderId);
+
+      user.save();
+
+      return {
+        id: user.id,
+        ...user._doc,
+      };
+    },
+
+    async acceptFreindRequest(_, { recevierId, senderId }) {
+      const recevier = await User.findById(recevierId);
+      const sender = await User.findById(senderId);
+
+      // const test = lodash.map(recevier.friendRequests, function (item) {
+      //   return item.toString();
+      // });
+      // console.log(test);
+      console.log(senderId);
+      console.log(recevierId);
+      console.log(recevier.freinds);
+      console.log(
+        lodash.includes(
+          lodash.map(recevier.freinds, function (item) {
+            return item.toString();
+          }),
+          senderId
+        )
+      );
+
+      if (
+        !lodash.includes(
+          lodash.map(recevier.freinds, function (item) {
+            return item.toString();
+          }),
+          senderId
+        )
+      ) {
+        console.log(recevier.friendRequests + "here");
+
+        recevier.friendRequests = lodash.filter(
+          recevier.friendRequests,
+          function (item) {
+            return !item.toString().includes(senderId);
+          }
+        );
+
+        recevier.freinds.push(senderId);
+        sender.freinds.push(recevierId);
+        recevier.save();
+        sender.save();
+      } else {
+        console.log(sender.freinds);
+        console.log(recevier.freinds);
+        console.log("Already friends");
+      }
+
+      return {
+        id: recevier.id,
+        ...recevier._doc,
+      };
     },
   },
 };

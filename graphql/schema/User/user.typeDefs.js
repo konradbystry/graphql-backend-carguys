@@ -7,11 +7,13 @@ module.exports = gql`
     nickname: String
     email: String
     password: String
-    posts: Int
+    posts: [String]
     premium: Boolean
-    freinds: Int
-    cars: Int
+    freinds: [String]
+    cars: [String]
     token: String
+    friendRequest: Boolean
+    friendRequests: [String]
   }
 
   input UserInput {
@@ -44,5 +46,7 @@ module.exports = gql`
     editUser(ID: ID!, userInput: UserInput): Boolean
     registerUser(registerInput: RegisterInput): User
     loginUser(loginInput: LoginInput): User
+    sendFriendRequest(recevierId: ID!, senderId: ID!): User
+    acceptFreindRequest(recevierId: ID!, senderId: ID!): User
   }
 `;
