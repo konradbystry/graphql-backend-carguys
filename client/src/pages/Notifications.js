@@ -78,10 +78,8 @@ function Notifications() {
             variant="contained"
             onClick={(e) => {
               e.preventDefault();
-              let senderId = friendRequest;
-              console.log(senderId);
               acceptFreindRequest({
-                variables: { recevierId: user._id, senderId: senderId },
+                variables: { recevierId: user._id, senderId: friendRequest },
               });
             }}
           >
