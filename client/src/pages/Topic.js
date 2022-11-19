@@ -3,9 +3,19 @@ import { useParams, Link } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "graphql-tag";
 import { Container, Stack } from "@mui/system";
-import { Alert, Button, TextField } from "@mui/material";
+import {
+  Alert,
+  Button,
+  TextField,
+  Avatar,
+  Paper,
+  Typography,
+  Grid,
+} from "@mui/material";
 import { useForm } from "../utility/hooks";
 import { useContext, useState } from "react";
+import defaultProfilePicture from "../assets/defaultProfilePicture.png";
+import { styled } from "@mui/material/styles";
 
 const GET_POSTS = gql`
   query Query($topicId: String) {
@@ -70,13 +80,14 @@ function Topic() {
   if (error) return <p>error</p>;
 
   return (
-    <Container spacing={2} maxWidth="sm">
+    <Container spacing={2} maxWidth="md">
       <h1>This is topic {id} page</h1>
       <br></br>
       <br></br>
       <br></br>
       {data.getPosts.map((post) => (
         <div>
+          <Avatar alt="User" src={defaultProfilePicture} />
           <Link to={"/user/" + post.userId}>
             <h1>{post.userName} :</h1>
           </Link>

@@ -1,15 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import client from './apolloClient';
-import { ApolloProvider } from '@apollo/react-hooks'
-import { BrowserRouter } from 'react-router-dom'
-import { AuthProvider } from './context/authContext';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import client from "./apolloClient";
+import { ApolloProvider } from "@apollo/react-hooks";
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./context/authContext";
+import { ThemeProvider } from "@mui/material";
+import { theme } from "./themes/theme";
 
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <AuthProvider>
     <ApolloProvider client={client}>

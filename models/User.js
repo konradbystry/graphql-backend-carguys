@@ -6,10 +6,9 @@ const userSchema = new Schema({
   password: String,
   posts: [Schema.Types.ObjectId],
   premium: Boolean,
-  freinds: [Schema.Types.ObjectId],
+  friends: [Schema.Types.ObjectId],
   cars: [Schema.Types.ObjectId],
   token: String,
-  friendRequest: Boolean,
   friendRequests: [Schema.Types.ObjectId],
 });
 

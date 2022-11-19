@@ -11,6 +11,7 @@ const GET_USER = gql`
   query GetUser($id: ID!) {
     getUser(ID: $id) {
       friendRequests
+      friends
     }
   }
 `;
@@ -20,6 +21,7 @@ const SEND_FRIEND_REQUEST = gql`
     sendFriendRequest(recevierId: $recevierId, senderId: $senderId) {
       email
       friendRequests
+      friends
     }
   }
 `;
@@ -32,6 +34,7 @@ function User() {
     variables: { id: id },
   });
 
+  // console.log(data);
   const [errors, setErrors] = useState([]);
 
   const [sendFriendRequest, freindRequest] = useMutation(SEND_FRIEND_REQUEST, {
@@ -72,12 +75,32 @@ function User() {
       return request === user._id;
     });
 
+    const friend = find(data.getUser.friends, function (friend) {
+      console.log(friend + " === " + id);
+
+      return friend === user._id;
+    });
+
+    // const friend = find(data.getUser.friends, function (friend) {
+    //   console.log(request + " === " + id);
+
+    //   return friend === user._id;
+    // });
+
     console.log(request);
     console.log(id);
     console.log(data.getUser.friendRequests);
 
     if (user._id === id) {
       return <h1>Your profile</h1>;
+    }
+
+    // if (user._id !== id && !friend) {
+    //   return <h1>This is your friend</h1>;
+    // }
+
+    if (user._id !== id && friend) {
+      return <h1>Friends</h1>;
     }
 
     if (user._id !== id && !request) {

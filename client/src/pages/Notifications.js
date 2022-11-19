@@ -16,7 +16,7 @@ const GET_USER = gql`
 
 const ACCEPT_FRIEND_REQUEST = gql`
   mutation Mutation($recevierId: ID!, $senderId: ID!) {
-    acceptFreindRequest(recevierId: $recevierId, senderId: $senderId) {
+    acceptFriendRequest(recevierId: $recevierId, senderId: $senderId) {
       _id
       email
     }

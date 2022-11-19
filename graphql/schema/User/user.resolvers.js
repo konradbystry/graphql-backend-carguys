@@ -28,10 +28,9 @@ module.exports = {
         password: password,
         posts: [],
         premium: 0,
-        freinds: [],
+        friends: [],
         cars: [],
         token: "just test",
-        friendRequest: 0,
       });
 
       const res = await createdUser.save();
@@ -115,7 +114,7 @@ module.exports = {
       };
     },
 
-    async acceptFreindRequest(_, { recevierId, senderId }) {
+    async acceptFriendRequest(_, { recevierId, senderId }) {
       const recevier = await User.findById(recevierId);
       const sender = await User.findById(senderId);
 
@@ -125,10 +124,10 @@ module.exports = {
       // console.log(test);
       console.log(senderId);
       console.log(recevierId);
-      console.log(recevier.freinds);
+      console.log(recevier.friends + " here?");
       console.log(
-        lodash.includes(
-          lodash.map(recevier.freinds, function (item) {
+        !lodash.includes(
+          lodash.map(recevier.friends, function (item) {
             return item.toString();
           }),
           senderId
@@ -137,14 +136,12 @@ module.exports = {
 
       if (
         !lodash.includes(
-          lodash.map(recevier.freinds, function (item) {
+          lodash.map(recevier.friends, function (item) {
             return item.toString();
           }),
           senderId
         )
       ) {
-        console.log(recevier.friendRequests + "here");
-
         recevier.friendRequests = lodash.filter(
           recevier.friendRequests,
           function (item) {
@@ -152,13 +149,13 @@ module.exports = {
           }
         );
 
-        recevier.freinds.push(senderId);
-        sender.freinds.push(recevierId);
+        recevier.friends.push(senderId);
+        sender.friends.push(recevierId);
         recevier.save();
         sender.save();
       } else {
-        console.log(sender.freinds);
-        console.log(recevier.freinds);
+        console.log(sender.friends);
+        console.log(recevier.friends);
         console.log("Already friends");
       }
 

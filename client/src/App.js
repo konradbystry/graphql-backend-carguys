@@ -3,18 +3,27 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
-import Navbar from "./components/navbar";
+import Navbar from "./components/Navbar";
 import Topic from "./pages/Topic";
 import TopicsList from "./pages/TopicsList";
 import User from "./pages/User";
 import NewTopic from "./pages/NewTopic";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import Notifications from "./pages/Notifications";
+import Feed from "./components/Feed";
+import Rightbar from "./components/Rightbar";
+import Sidebar from "./components/Sidebar";
+import { Box, Stack } from "@mui/material";
 
 function App() {
   return (
-    <div>
+    <Box>
       <Navbar />
+      <Stack direction={"row"} spacing={2} justifyContent="space-between">
+        <Sidebar />
+        <Feed />
+        <Rightbar />
+      </Stack>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -29,7 +38,7 @@ function App() {
         <Route path="/user/:id" element={<User />} />
         <Route path="/user/:id/notifications" element={<Notifications />} />
       </Routes>
-    </div>
+    </Box>
   );
 }
 

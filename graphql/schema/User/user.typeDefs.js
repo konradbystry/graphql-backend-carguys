@@ -9,10 +9,9 @@ module.exports = gql`
     password: String
     posts: [String]
     premium: Boolean
-    freinds: [String]
+    friends: [String]
     cars: [String]
     token: String
-    friendRequest: Boolean
     friendRequests: [String]
   }
 
@@ -47,6 +46,6 @@ module.exports = gql`
     registerUser(registerInput: RegisterInput): User
     loginUser(loginInput: LoginInput): User
     sendFriendRequest(recevierId: ID!, senderId: ID!): User
-    acceptFreindRequest(recevierId: ID!, senderId: ID!): User
+    acceptFriendRequest(recevierId: ID!, senderId: ID!): User
   }
 `;
