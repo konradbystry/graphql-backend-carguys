@@ -4,6 +4,23 @@ import { useContext } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "graphql-tag";
 import { Container, Stack } from "@mui/system";
+import {
+  Avatar,
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Checkbox,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const GET_TOPICS = gql`
   query GetTopics {
@@ -24,21 +41,48 @@ function TopicsList() {
   if (error) return <p>error</p>;
 
   return (
-    <Container spacing={2} maxWidth="sm">
-      <div>
-        <div>
-          <Link to="new">
-            <h1>Create your own topic</h1>
+    <Box marginTop={10}>
+      {data.getTopics.map((topic) => (
+        <Card sx={{ margin: 5 }}>
+          {/* <CardHeader
+          avatar={
+            <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
+              R
+            </Avatar>
+          }
+          title="Shrimp and Chorizo Paella"
+          subheader="September 14, 2016"
+        /> */}
+          <Link
+            to={topic._id}
+            style={{
+              textDecoration: "none",
+              color: "grey",
+            }}
+          >
+            <CardMedia
+              component="img"
+              height="100"
+              image="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/motorsport/customer-racing/custom_gt3.jpg"
+              alt="Paella dish"
+            />
+            <CardContent>
+              <Typography variant="h5" color="text.secondary">
+                {topic.name}
+              </Typography>
+            </CardContent>
           </Link>
-          <br></br>
-        </div>
-        {data.getTopics.map((topic) => (
-          <Link to={topic._id}>
-            <h1>{topic.name}</h1>
-          </Link>
-        ))}
-      </div>
-    </Container>
+          <CardActions disableSpacing>
+            <IconButton aria-label="add to favorites">
+              <Checkbox
+                icon={<FavoriteBorderIcon />}
+                checkedIcon={<FavoriteIcon sx={{ color: "red" }} />}
+              />
+            </IconButton>
+          </CardActions>
+        </Card>
+      ))}
+    </Box>
   );
 }
 

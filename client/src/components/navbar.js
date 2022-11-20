@@ -18,6 +18,7 @@ import { useContext, useState } from "react";
 import SportsMotorsportsIcon from "@mui/icons-material/SportsMotorsports";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MessageIcon from "@mui/icons-material/Message";
+import { grey } from "@mui/material/colors";
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
@@ -52,13 +53,14 @@ function Navbar() {
 
   const onLogout = () => {
     logout();
+    setOpen(false);
     navigate("/");
   };
   console.log(user);
 
   return (
     <div>
-      <AppBar position="sticky" style={{ background: "#2E3B55" }}>
+      <AppBar position="fixed" style={{ background: "#2E3B55" }}>
         <StyledToolbar>
           <Typography
             variant="h6"
@@ -69,10 +71,83 @@ function Navbar() {
           <SportsMotorsportsIcon
             sx={{ display: { xs: "block", sm: "none" } }}
           />
-          <Search>
-            <InputBase placeholder="Search..." />
-          </Search>
-          <Icons>
+
+          {user ? (
+            <>
+              <Search>
+                <InputBase placeholder="Search..." />
+              </Search>
+              <Box>
+                {" "}
+                <Icons>
+                  <Badge badgeContent={4} color="error">
+                    <MessageIcon />
+                  </Badge>
+                  <Badge badgeContent={4} color="error">
+                    <NotificationsIcon />
+                  </Badge>
+                  <Avatar
+                    sx={{ width: "30", height: "30" }}
+                    onClick={(e) => setOpen(true)}
+                  />
+                </Icons>
+                <UserBox onClick={(e) => setOpen(true)}>
+                  <Avatar sx={{ width: "30", height: "30" }} />
+                  <Typography>Username</Typography>
+                </UserBox>
+                <Menu
+                  id="demo-positioned-menu"
+                  aria-labelledby="demo-positioned-button"
+                  open={open}
+                  onClose={(e) => setOpen(false)}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                >
+                  <MenuItem>
+                    <Link
+                      to={"/user/" + user._id}
+                      style={{
+                        textDecoration: "none",
+                        color: "grey",
+                      }}
+                    >
+                      Profile
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>My account</MenuItem>
+                  <MenuItem onClick={onLogout}>Logout</MenuItem>
+                </Menu>
+              </Box>
+            </>
+          ) : (
+            <>
+              <Box>
+                <Link
+                  to="/login"
+                  style={{
+                    textDecoration: "none",
+                    color: "white",
+                    marginRight: "0.5rem",
+                  }}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  Register
+                </Link>
+              </Box>
+            </>
+          )}
+          {/* <Icons>
             <Badge badgeContent={4} color="error">
               <MessageIcon />
             </Badge>
@@ -87,26 +162,8 @@ function Navbar() {
           <UserBox onClick={(e) => setOpen(true)}>
             <Avatar sx={{ width: "30", height: "30" }} />
             <Typography>Username</Typography>
-          </UserBox>
+          </UserBox> */}
         </StyledToolbar>
-        <Menu
-          id="demo-positioned-menu"
-          aria-labelledby="demo-positioned-button"
-          open={open}
-          onClose={(e) => setOpen(false)}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "left",
-          }}
-        >
-          <MenuItem>Profile</MenuItem>
-          <MenuItem>My account</MenuItem>
-          <MenuItem>Logout</MenuItem>
-        </Menu>
       </AppBar>
     </div>
     // <Box sx={{ flexGrow: 1 }}>

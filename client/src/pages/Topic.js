@@ -11,11 +11,23 @@ import {
   Paper,
   Typography,
   Grid,
+  Box,
+  Card,
+  CardHeader,
+  IconButton,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Checkbox,
 } from "@mui/material";
 import { useForm } from "../utility/hooks";
 import { useContext, useState } from "react";
 import defaultProfilePicture from "../assets/defaultProfilePicture.png";
 import { styled } from "@mui/material/styles";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ShareIcon from "@mui/icons-material/Share";
 
 const GET_POSTS = gql`
   query Query($topicId: String) {
@@ -80,35 +92,86 @@ function Topic() {
   if (error) return <p>error</p>;
 
   return (
-    <Container spacing={2} maxWidth="md">
-      <h1>This is topic {id} page</h1>
-      <br></br>
-      <br></br>
-      <br></br>
+    <Box flex={4} p={2} marginTop={10}>
+      <Typography variant="h4" marginBottom={8}>
+        This is topic {id} page
+      </Typography>
+
       {data.getPosts.map((post) => (
-        <div>
-          <Avatar alt="User" src={defaultProfilePicture} />
-          <Link to={"/user/" + post.userId}>
-            <h1>{post.userName} :</h1>
-          </Link>
-          <h1>{post.date}</h1>
-          <h1>{post.text}</h1>
-        </div>
+        <Card sx={{ margin: 5 }}>
+          <CardHeader
+            avatar={
+              <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
+                R
+              </Avatar>
+            }
+            title={
+              <Link
+                to={"/user/" + post.userId}
+                style={{
+                  textDecoration: "none",
+                  color: "grey",
+                }}
+              >
+                {post.userName}
+              </Link>
+            }
+            subheader={post.date}
+          />
+          {/* <CardMedia
+            component="img"
+            height="%100"
+            image="https://www.wyborkierowcow.pl/wp-content/uploads/2022/10/bmw-m2-coupe-cennik-sylwetka1.jpg"
+            alt="Paella dish"
+          /> */}
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              {post.text}
+            </Typography>
+          </CardContent>
+          <CardActions disableSpacing>
+            <IconButton aria-label="add to favorites">
+              <Checkbox
+                icon={<FavoriteBorderIcon />}
+                checkedIcon={<FavoriteIcon sx={{ color: "red" }} />}
+              />
+            </IconButton>
+            {/* <IconButton aria-label="share">
+                 <ShareIcon />
+               </IconButton> */}
+          </CardActions>
+        </Card>
       ))}
-      <br></br>
-      <br></br>
-      <br></br>
-      <h3>Create new post</h3>
-      <Stack spacing={2} paddingBottom={2}>
-        <TextField label="Text" name="text" onChange={onChange} />
-      </Stack>
-      {errors.map(function (error) {
-        return <Alert severity="error">{error.message}</Alert>;
-      })}
-      <Button variant="contained" onClick={onSubmit}>
-        Post
-      </Button>
-    </Container>
+    </Box>
+    // <Container spacing={2} maxWidth="md">
+    //   <h1>This is topic {id} page</h1>
+    //   <br></br>
+    //   <br></br>
+    //   <br></br>
+    //   {data.getPosts.map((post) => (
+    //     <div>
+    //       <Avatar alt="User" src={defaultProfilePicture} />
+    //       <Link to={"/user/" + post.userId}>
+    //         <h1>{post.userName} :</h1>
+    //       </Link>
+    //       <h1>{post.date}</h1>
+    //       <h1>{post.text}</h1>
+    //     </div>
+    //   ))}
+    //   <br></br>
+    //   <br></br>
+    //   <br></br>
+    //   <h3>Create new post</h3>
+    //   <Stack spacing={2} paddingBottom={2}>
+    //     <TextField label="Text" name="text" onChange={onChange} />
+    //   </Stack>
+    //   {errors.map(function (error) {
+    //     return <Alert severity="error">{error.message}</Alert>;
+    //   })}
+    //   <Button variant="contained" onClick={onSubmit}>
+    //     Post
+    //   </Button>
+    // </Container>
   );
 }
 

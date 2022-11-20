@@ -11,12 +11,32 @@ import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import ArticleIcon from "@mui/icons-material/Article";
 import SettingsIcon from "@mui/icons-material/Settings";
+import AddIcon from "@mui/icons-material/Add";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { Link } from "react-router-dom";
 
 function Sidebar() {
   return (
     <Box flex={1} p={2} sx={{ display: { xs: "none", sm: "block" } }}>
-      <Box position="fixed">
+      <Box position="fixed" marginTop={10}>
         <List>
+          <Link
+            to="/topics/new"
+            style={{
+              textDecoration: "none",
+              color: "grey",
+            }}
+          >
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <AddIcon />
+                </ListItemIcon>
+                <ListItemText primary="Create new topic" />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+          <br></br>
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
@@ -27,12 +47,29 @@ function Sidebar() {
             </ListItemButton>
           </ListItem>
 
+          <Link
+            to="/topics"
+            style={{
+              textDecoration: "none",
+              color: "grey",
+            }}
+          >
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <ArticleIcon />
+                </ListItemIcon>
+                <ListItemText primary="Topics" />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                <ArticleIcon />
+                <FavoriteIcon />
               </ListItemIcon>
-              <ListItemText primary="Topics" />
+              <ListItemText primary="Favourites" />
             </ListItemButton>
           </ListItem>
 

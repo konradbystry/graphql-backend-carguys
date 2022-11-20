@@ -5,7 +5,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { gql } from "graphql-tag";
 import { useNavigate } from "react-router-dom";
 import { Container, Stack } from "@mui/system";
-import { Alert, Button, TextField } from "@mui/material";
+import { Alert, Button, TextField, Typography } from "@mui/material";
 
 const LOGIN_USER = gql`
   mutation Mutation($loginInput: LoginInput) {
@@ -46,8 +46,9 @@ function Login(props) {
 
   return (
     <Container spacing={2} maxWidth="sm">
-      <h3>Login</h3>
-      <p>This is the login page</p>
+      <Typography variant="h5" marginTop={10} marginBottom={3}>
+        Login
+      </Typography>
       <Stack spacing={2} paddingBottom={2}>
         <TextField label="Email" name="email" onChange={onChange} />
         <TextField label="Password" name="password" onChange={onChange} />

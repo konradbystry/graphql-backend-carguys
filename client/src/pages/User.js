@@ -1,11 +1,30 @@
 import { AuthContext } from "../context/authContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useState } from "react";
-import { Alert, Button, TextField } from "@mui/material";
+import {
+  Alert,
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Checkbox,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Container, Stack } from "@mui/system";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "graphql-tag";
 import { find } from "lodash";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ShareIcon from "@mui/icons-material/Share";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
 
 const GET_USER = gql`
   query GetUser($id: ID!) {
@@ -92,7 +111,7 @@ function User() {
     console.log(data.getUser.friendRequests);
 
     if (user._id === id) {
-      return <h1>Your profile</h1>;
+      return <Typography></Typography>;
     }
 
     // if (user._id !== id && !friend) {
@@ -100,7 +119,7 @@ function User() {
     // }
 
     if (user._id !== id && friend) {
-      return <h1>Friends</h1>;
+      return <HowToRegIcon />;
     }
 
     if (user._id !== id && !request) {
@@ -112,18 +131,47 @@ function User() {
     }
 
     if (user._id !== id && request) {
-      return <h1>Friend request sent</h1>;
+      return (
+        <Button variant="contained" disabled>
+          Request send
+        </Button>
+      );
     }
   }
 
   return (
-    <Container spacing={2} maxWidth="sm">
-      <h1>This is user {id} profile</h1>
-      {userButtonAction()}
-      {errors.map(function (error) {
-        return <Alert severity="error">{error.message}</Alert>;
-      })}
-    </Container>
+    <Box flex={4} p={2} marginTop={6}>
+      <Card sx={{ margin: 5 }}>
+        <CardHeader
+          avatar={
+            <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
+              R
+            </Avatar>
+          }
+          action={userButtonAction()}
+          title={id}
+          subheader="Joined date"
+        />
+        <CardMedia
+          component="img"
+          height="200"
+          image="https://www.wyborkierowcow.pl/wp-content/uploads/2022/10/bmw-m2-coupe-cennik-sylwetka1.jpg"
+          alt="Paella dish"
+        />
+        <CardContent>
+          <Typography variant="body2" color="text.secondary">
+            Description
+          </Typography>
+        </CardContent>
+      </Card>
+    </Box>
+    // <Container spacing={2} maxWidth="sm">
+    //   <h1>This is user {id} profile</h1>
+    //   {userButtonAction()}
+    //   {errors.map(function (error) {
+    //     return <Alert severity="error">{error.message}</Alert>;
+    //   })}
+    // </Container>
   );
 }
 

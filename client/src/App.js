@@ -14,30 +14,50 @@ import Feed from "./components/Feed";
 import Rightbar from "./components/Rightbar";
 import Sidebar from "./components/Sidebar";
 import { Box, Stack } from "@mui/material";
+import { AuthContext } from "./context/authContext";
+import { useContext } from "react";
 
 function App() {
+  const { user } = useContext(AuthContext);
+
   return (
     <Box>
       <Navbar />
+
       <Stack direction={"row"} spacing={2} justifyContent="space-between">
-        <Sidebar />
-        <Feed />
-        <Rightbar />
+        {user ? (
+          <>
+            <Sidebar />
+          </>
+        ) : (
+          <></>
+        )}
+
+        {/* <Feed /> */}
+        <Box flex={4} p={2}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/topics">
+              <Route index element={<TopicsList />} />
+              <Route path=":id" element={<Topic />} />
+              <Route element={<ProtectedRoutes />}>
+                <Route path="new" element={<NewTopic />} />
+              </Route>
+            </Route>
+            <Route path="/user/:id" element={<User />} />
+            <Route path="/user/:id/notifications" element={<Notifications />} />
+          </Routes>
+        </Box>
+        {user ? (
+          <>
+            <Rightbar />
+          </>
+        ) : (
+          <></>
+        )}
       </Stack>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/topics">
-          <Route index element={<TopicsList />} />
-          <Route path=":id" element={<Topic />} />
-          <Route element={<ProtectedRoutes />}>
-            <Route path="new" element={<NewTopic />} />
-          </Route>
-        </Route>
-        <Route path="/user/:id" element={<User />} />
-        <Route path="/user/:id/notifications" element={<Notifications />} />
-      </Routes>
     </Box>
   );
 }
