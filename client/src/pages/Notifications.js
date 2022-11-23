@@ -1,7 +1,20 @@
 import { AuthContext } from "../context/authContext";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useContext, useState } from "react";
-import { Alert, Button, TextField } from "@mui/material";
+import {
+  Alert,
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Checkbox,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "graphql-tag";
 import { Container, Stack } from "@mui/system";
@@ -65,29 +78,41 @@ function Notifications() {
   if (error) return <p>error</p>;
 
   return (
-    <Container spacing={2} maxWidth="sm">
-      <h1>This is notifications page for user {user.email}</h1>
-      {data.getUser.friendRequests.map((friendRequest) => (
-        <div>
-          <h1>
-            <Link to={"/user/" + friendRequest}>{friendRequest}</Link> send you
-            freind request
-          </h1>
+    <Box marginTop={10}>
+      <Container spacing={2} maxWidth="sm">
+        <h1>Friend request for {user.email}</h1>
+        {data.getUser.friendRequests.map((friendRequest) => (
+          <Card sx={{ margin: 5 }}>
+            <CardHeader
+              avatar={
+                <Avatar sx={{ bgcolor: "grey" }} aria-label="recipe">
+                  R
+                </Avatar>
+              }
+              title={friendRequest}
+              subheader="Want to be your friend"
+            />
 
-          <Button
-            variant="contained"
-            onClick={(e) => {
-              e.preventDefault();
-              acceptFreindRequest({
-                variables: { recevierId: user._id, senderId: friendRequest },
-              });
-            }}
-          >
-            Accept
-          </Button>
-        </div>
-      ))}
-    </Container>
+            <CardContent>
+              <Button
+                variant="contained"
+                onClick={(e) => {
+                  e.preventDefault();
+                  acceptFreindRequest({
+                    variables: {
+                      recevierId: user._id,
+                      senderId: friendRequest,
+                    },
+                  });
+                }}
+              >
+                Accept
+              </Button>
+            </CardContent>
+          </Card>
+        ))}
+      </Container>
+    </Box>
   );
 }
 

@@ -60,7 +60,7 @@ function Navbar() {
 
   return (
     <div>
-      <AppBar position="fixed" style={{ background: "#2E3B55" }}>
+      <AppBar position="fixed">
         <StyledToolbar>
           <Typography
             variant="h6"
@@ -83,9 +83,17 @@ function Navbar() {
                   <Badge badgeContent={4} color="error">
                     <MessageIcon />
                   </Badge>
-                  <Badge badgeContent={4} color="error">
-                    <NotificationsIcon />
-                  </Badge>
+                  <Link
+                    to={"/user/" + user._id + "/notifications"}
+                    style={{
+                      textDecoration: "none",
+                      color: "white",
+                    }}
+                  >
+                    <Badge badgeContent={4} color="error">
+                      <NotificationsIcon />
+                    </Badge>
+                  </Link>
                   <Avatar
                     sx={{ width: "30", height: "30" }}
                     onClick={(e) => setOpen(true)}
@@ -114,7 +122,7 @@ function Navbar() {
                       to={"/user/" + user._id}
                       style={{
                         textDecoration: "none",
-                        color: "grey",
+                        color: "white",
                       }}
                     >
                       Profile
@@ -128,22 +136,8 @@ function Navbar() {
           ) : (
             <>
               <Box>
-                <Link
-                  to="/login"
-                  style={{
-                    textDecoration: "none",
-                    color: "white",
-                    marginRight: "0.5rem",
-                  }}
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  style={{ textDecoration: "none", color: "white" }}
-                >
-                  Register
-                </Link>
+                <Link to="/login">Login</Link>
+                <Link to="/register">Register</Link>
               </Box>
             </>
           )}

@@ -2,17 +2,15 @@ import { AuthContext } from "../context/authContext";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useContext } from "react";
 import { Container, Stack } from "@mui/system";
+import { Box, Typography } from "@mui/material";
 
 function Home() {
   return (
-    <Container spacing={2} maxWidth="sm">
-      <div>
-        <h1>This is home page</h1>
-        <Link to="/topics">
-          <h1>Browse topics</h1>
-        </Link>
-      </div>
-    </Container>
+    <Box marginTop={10}>
+      <Container spacing={2} maxWidth="sm">
+        <Typography variant="h3">This is home page</Typography>
+      </Container>
+    </Box>
   );
 }
 

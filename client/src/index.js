@@ -8,7 +8,6 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/authContext";
 import { ThemeProvider } from "@mui/material";
-import { theme } from "./themes/theme";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

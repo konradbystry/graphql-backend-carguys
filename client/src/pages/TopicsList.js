@@ -41,7 +41,7 @@ function TopicsList() {
   if (error) return <p>error</p>;
 
   return (
-    <Box marginTop={10}>
+    <Box marginTop={10} bgcolor={"background.default"} color={"text.primary"}>
       {data.getTopics.map((topic) => (
         <Card sx={{ margin: 5 }}>
           {/* <CardHeader
@@ -57,7 +57,7 @@ function TopicsList() {
             to={topic._id}
             style={{
               textDecoration: "none",
-              color: "grey",
+              color: "white",
             }}
           >
             <CardMedia
@@ -67,7 +67,7 @@ function TopicsList() {
               alt="Paella dish"
             />
             <CardContent>
-              <Typography variant="h5" color="text.secondary">
+              <Typography variant="h5" color="text">
                 {topic.name}
               </Typography>
             </CardContent>

@@ -2,10 +2,18 @@ import { AuthContext } from "../context/authContext";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Stack } from "@mui/system";
-import { Alert, Button, TextField } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  styled,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useForm } from "../utility/hooks";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "graphql-tag";
+import { CssTextField } from "./../mui/styled/CssTextField";
 
 const CREATE_TOPIC = gql`
   mutation Mutation($topicInput: TopicInput) {
@@ -18,6 +26,26 @@ const CREATE_TOPIC = gql`
     }
   }
 `;
+
+// const CssTextField = styled(TextField)({
+//   "& label.Mui-focused": {
+//     color: "#5893df",
+//   },
+//   "& .MuiInput-underline:after": {
+//     borderBottomColor: "#5893df",
+//   },
+//   "& .MuiOutlinedInput-root": {
+//     "& fieldset": {
+//       borderColor: "#5893df",
+//     },
+//     "&:hover fieldset": {
+//       borderColor: "#5893df",
+//     },
+//     "&.Mui-focused fieldset": {
+//       borderColor: "#5893df",
+//     },
+//   },
+// });
 
 function NewTopic() {
   const { user } = useContext(AuthContext);
@@ -46,18 +74,25 @@ function NewTopic() {
   });
 
   return (
-    <Container spacing={2} maxWidth="sm">
-      <h3>Create new topic</h3>
-      <Stack spacing={2} paddingBottom={2}>
-        <TextField label="Name" name="name" onChange={onChange} />
-      </Stack>
-      {errors.map(function (error) {
-        return <Alert severity="error">{error.message}</Alert>;
-      })}
-      <Button variant="contained" onClick={onSubmit}>
-        Create
-      </Button>
-    </Container>
+    <Box marginTop={10}>
+      <Container spacing={2} maxWidth="sm">
+        <Typography variant="h5">Create new topic</Typography>
+        <Stack spacing={2} paddingBottom={2} marginTop={2}>
+          <CssTextField
+            label="Name"
+            name="name"
+            onChange={onChange}
+            id="custom-css-outlined-input"
+          />
+        </Stack>
+        {errors.map(function (error) {
+          return <Alert severity="error">{error.message}</Alert>;
+        })}
+        <Button variant="contained" onClick={onSubmit}>
+          Create
+        </Button>
+      </Container>
+    </Box>
   );
 }
 

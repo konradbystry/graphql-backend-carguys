@@ -140,7 +140,13 @@ function User() {
   }
 
   return (
-    <Box flex={4} p={2} marginTop={6}>
+    <Box
+      flex={4}
+      p={2}
+      marginTop={6}
+      bgcolor={"background.default"}
+      color={"text.primary"}
+    >
       <Card sx={{ margin: 5 }}>
         <CardHeader
           avatar={

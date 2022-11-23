@@ -6,6 +6,7 @@ import { gql } from "graphql-tag";
 import { useNavigate } from "react-router-dom";
 import { Container, Stack } from "@mui/system";
 import { Alert, Button, TextField, Typography } from "@mui/material";
+import { CssTextField } from "../../mui/styled/CssTextField";
 
 const LOGIN_USER = gql`
   mutation Mutation($loginInput: LoginInput) {
@@ -50,8 +51,8 @@ function Login(props) {
         Login
       </Typography>
       <Stack spacing={2} paddingBottom={2}>
-        <TextField label="Email" name="email" onChange={onChange} />
-        <TextField label="Password" name="password" onChange={onChange} />
+        <CssTextField label="Email" name="email" onChange={onChange} />
+        <CssTextField label="Password" name="password" onChange={onChange} />
       </Stack>
       {errors.map(function (error) {
         return <Alert severity="error">{error.message}</Alert>;

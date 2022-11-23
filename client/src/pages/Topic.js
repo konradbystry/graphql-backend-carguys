@@ -28,6 +28,8 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ShareIcon from "@mui/icons-material/Share";
+import { CssTextField } from "./../mui/styled/CssTextField";
+import { BootstrapPostField } from "../mui/styled/BootstrapPostField";
 
 const GET_POSTS = gql`
   query Query($topicId: String) {
@@ -101,8 +103,8 @@ function Topic() {
         <Card sx={{ margin: 5 }}>
           <CardHeader
             avatar={
-              <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
-                R
+              <Avatar sx={{ bgcolor: "grey" }} aria-label="recipe">
+                U
               </Avatar>
             }
             title={
@@ -142,6 +144,24 @@ function Topic() {
           </CardActions>
         </Card>
       ))}
+
+      <Container spacing={2} maxWidth="md">
+        <Stack spacing={2} paddingBottom={2}>
+          <CssTextField
+            label="Write something..."
+            name="text"
+            multiline
+            rows={3}
+            onChange={onChange}
+          />
+        </Stack>
+        {errors.map(function (error) {
+          return <Alert severity="error">{error.message}</Alert>;
+        })}
+        <Button variant="contained" onClick={onSubmit}>
+          Post
+        </Button>
+      </Container>
     </Box>
     // <Container spacing={2} maxWidth="md">
     //   <h1>This is topic {id} page</h1>
