@@ -150,7 +150,7 @@ function User() {
       <Card sx={{ margin: 5 }}>
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
+            <Avatar sx={{ bgcolor: "grey" }} aria-label="recipe">
               R
             </Avatar>
           }

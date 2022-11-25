@@ -26,7 +26,7 @@ const StyledToolbar = styled(Toolbar)({
 });
 
 const Search = styled("div")(({ theme }) => ({
-  backgroundColor: "white",
+  backgroundColor: "#192231",
   padding: "0 10px",
   borderRadius: theme.shape.borderRadius,
   width: "40%",
@@ -63,7 +63,7 @@ function Navbar() {
       <AppBar position="fixed">
         <StyledToolbar>
           <Typography
-            variant="h6"
+            variant="h4"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
             Carguys
@@ -80,7 +80,7 @@ function Navbar() {
               <Box>
                 {" "}
                 <Icons>
-                  <Badge badgeContent={4} color="error">
+                  <Badge badgeContent={4} color="secondary">
                     <MessageIcon />
                   </Badge>
                   <Link
@@ -90,7 +90,7 @@ function Navbar() {
                       color: "white",
                     }}
                   >
-                    <Badge badgeContent={4} color="error">
+                    <Badge badgeContent={4} color="secondary">
                       <NotificationsIcon />
                     </Badge>
                   </Link>
@@ -136,8 +136,26 @@ function Navbar() {
           ) : (
             <>
               <Box>
-                <Link to="/login">Login</Link>
-                <Link to="/register">Register</Link>
+                <Link
+                  to="/login"
+                  style={{
+                    marginRight: "0.5rem",
+                    textDecoration: "none",
+                    color: "white",
+                  }}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  style={{
+                    marginRight: "0.5rem",
+                    textDecoration: "none",
+                    color: "white",
+                  }}
+                >
+                  Register
+                </Link>
               </Box>
             </>
           )}

@@ -1,3 +1,4 @@
+import { useQuery } from "@apollo/client";
 import {
   Avatar,
   AvatarGroup,
@@ -6,19 +7,68 @@ import {
   List,
   ListItem,
   ListItemAvatar,
+  ListItemButton,
+  ListItemIcon,
   ListItemText,
   Typography,
 } from "@mui/material";
-import React from "react";
+import gql from "graphql-tag";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../context/authContext";
+
+const GET_USER = gql`
+  query GetUser($id: ID!) {
+    getUser(ID: $id) {
+      friendRequests
+      friends
+    }
+  }
+`;
 
 function Rightbar() {
+  const { user } = useContext(AuthContext);
+
+  const { data, error, loading } = useQuery(GET_USER, {
+    variables: { id: user._id },
+  });
+
+  if (loading) return <p>loading...</p>;
+  if (error) return <p>error</p>;
+
+  console.log(user._id);
+  console.log(data.getUser.friends);
+  console.log("TEst");
+
   return (
     <Box flex={2} p={2} sx={{ display: { xs: "none", sm: "block" } }}>
       <Box position="fixed" width="300" marginTop={10}>
         <Typography variant="h6" mt={2} mb={2}>
           Friends
         </Typography>
-        <AvatarGroup max={4}>
+        {data.getUser.friends.map((friend) => (
+          <List>
+            <Link
+              to={"/user/" + friend}
+              style={{
+                textDecoration: "none",
+                color: "white",
+              }}
+            >
+              <ListItem disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <Avatar sx={{ bgcolor: "grey" }} aria-label="recipe">
+                      U
+                    </Avatar>
+                  </ListItemIcon>
+                  <ListItemText color="primary" primary={friend} />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+          </List>
+        ))}
+        {/* <AvatarGroup max={4}>
           <Avatar alt="Remy Sharp" src="" />
           <Avatar alt="Travis Howard" src="" />
           <Avatar alt="Cindy Baker" src="" />
@@ -96,7 +146,7 @@ function Rightbar() {
               }
             />
           </ListItem>
-        </List>
+        </List> */}
       </Box>
     </Box>
   );
