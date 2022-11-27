@@ -46,25 +46,6 @@ function Notifications() {
 
   const [errors, setErrors] = useState([]);
 
-  // const [acceptFreindRequest, freindRequest] = useMutation(
-  //   ACCEPT_FRIEND_REQUEST,
-  //   {
-  //     update() {
-  //       // window.location.reload();
-  //       console.log("passed");
-  //       console.log(data);
-  //       // console.log(this.variables);
-  //     },
-  //     onError({ graphQLErrors }) {
-  //       console.log("error");
-  //       console.log(freindRequest.data);
-  //       setErrors(graphQLErrors);
-  //       console.log(this.variables);
-  //     },
-  //     variables: { recevierId: user._id, senderId: id },
-  //   }
-  // );
-
   const [acceptFreindRequest, mutation] = useMutation(ACCEPT_FRIEND_REQUEST);
 
   function acceptFreindRequestCallback(freindRequest) {

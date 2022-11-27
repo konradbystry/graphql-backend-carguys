@@ -36,10 +36,6 @@ function Rightbar() {
   if (loading) return <p>loading...</p>;
   if (error) return <p>error</p>;
 
-  console.log(user._id);
-  console.log(data.getUser.friends);
-  console.log("TEst");
-
   return (
     <Box flex={2} p={2} sx={{ display: { xs: "none", sm: "block" } }}>
       <Box position="fixed" width="300" marginTop={10}>

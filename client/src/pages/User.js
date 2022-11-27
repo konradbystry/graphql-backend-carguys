@@ -25,6 +25,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ShareIcon from "@mui/icons-material/Share";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
+import { CssTextField } from "../mui/styled/CssTextField";
 
 const GET_USER = gql`
   query GetUser($id: ID!) {
@@ -73,19 +74,18 @@ function User() {
     variables: { recevierId: id, senderId: user._id },
   });
 
-  // const [sendFriendRequest, freindRequest] = useMutation(SEND_FRIEND_REQUEST, {
-  //   variables: {
-  //     recevierId: id,
-  //     senderId: user._id,
-  //   },
-  // });
-
   if (loading) {
     return <p>loading...</p>;
   }
   if (error) {
     return <p>error</p>;
   }
+
+  const friend = find(data.getUser.friends, function (friend) {
+    console.log(friend + " === " + id);
+
+    return friend === user._id;
+  });
 
   function userButtonAction() {
     const request = find(data.getUser.friendRequests, function (request) {
@@ -94,18 +94,6 @@ function User() {
       return request === user._id;
     });
 
-    const friend = find(data.getUser.friends, function (friend) {
-      console.log(friend + " === " + id);
-
-      return friend === user._id;
-    });
-
-    // const friend = find(data.getUser.friends, function (friend) {
-    //   console.log(request + " === " + id);
-
-    //   return friend === user._id;
-    // });
-
     console.log(request);
     console.log(id);
     console.log(data.getUser.friendRequests);
@@ -113,10 +101,6 @@ function User() {
     if (user._id === id) {
       return <Typography></Typography>;
     }
-
-    // if (user._id !== id && !friend) {
-    //   return <h1>This is your friend</h1>;
-    // }
 
     if (user._id !== id && friend) {
       return <HowToRegIcon />;
@@ -170,14 +154,26 @@ function User() {
           </Typography>
         </CardContent>
       </Card>
+      {user._id !== id && (
+        <Container spacing={2} maxWidth="md">
+          <Stack spacing={2} paddingBottom={2}>
+            <CssTextField
+              label="Start chatting with friend..."
+              name="text"
+              multiline
+              rows={3}
+              onChange=""
+            />
+          </Stack>
+          {errors.map(function (error) {
+            return <Alert severity="error">{error.message}</Alert>;
+          })}
+          <Button variant="contained" onClick="">
+            Start chat
+          </Button>
+        </Container>
+      )}
     </Box>
-    // <Container spacing={2} maxWidth="sm">
-    //   <h1>This is user {id} profile</h1>
-    //   {userButtonAction()}
-    //   {errors.map(function (error) {
-    //     return <Alert severity="error">{error.message}</Alert>;
-    //   })}
-    // </Container>
   );
 }
 

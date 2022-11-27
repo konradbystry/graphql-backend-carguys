@@ -80,9 +80,17 @@ function Navbar() {
               <Box>
                 {" "}
                 <Icons>
-                  <Badge badgeContent={4} color="secondary">
-                    <MessageIcon />
-                  </Badge>
+                  <Link
+                    to={"/user/" + user._id + "/chats"}
+                    style={{
+                      textDecoration: "none",
+                      color: "white",
+                    }}
+                  >
+                    <Badge badgeContent={4} color="secondary">
+                      <MessageIcon />
+                    </Badge>
+                  </Link>
                   <Link
                     to={"/user/" + user._id + "/notifications"}
                     style={{

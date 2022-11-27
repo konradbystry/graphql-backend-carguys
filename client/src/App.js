@@ -16,6 +16,8 @@ import Sidebar from "./components/Sidebar";
 import { Box, createTheme, Stack, ThemeProvider } from "@mui/material";
 import { AuthContext } from "./context/authContext";
 import { useContext } from "react";
+import ChatList from "./pages/ChatList";
+import Chat from "./pages/Chat";
 
 const theme = createTheme({
   palette: {
@@ -80,6 +82,8 @@ function App() {
                 path="/user/:id/notifications"
                 element={<Notifications />}
               />
+              <Route path="user/:id/chats" element={<ChatList />} />
+              <Route path="user/:id/chats/:chatId" element={<Chat />} />
             </Routes>
           </Box>
           {user ? (
