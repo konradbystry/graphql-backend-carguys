@@ -19,6 +19,16 @@ module.exports = {
       //return await User.findOne({nickname})
       return await User.find({ email });
     },
+    async getFriends(_, friends) {
+      let getFriends = [];
+
+      friends.friends.forEach((friendId) => {
+        let friend = User.findById(friendId);
+        getFriends.push(friend);
+      });
+
+      return await getFriends;
+    },
   },
   Mutation: {
     async createUser(_, { userInput: { nickname, email, password } }) {
@@ -83,7 +93,7 @@ module.exports = {
 
       if (user && (await bcrypt.compare(password, user.password))) {
         const token = jwt.sign(
-          { _id: user._id, email, name: user.nickname },
+          { _id: user._id, email, name: user.nickname, friends: user.friends },
           "TEMP_STRING",
           {
             expiresIn: "2h",
