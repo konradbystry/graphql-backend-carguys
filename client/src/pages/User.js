@@ -26,6 +26,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ShareIcon from "@mui/icons-material/Share";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { CssTextField } from "../mui/styled/CssTextField";
+import StartChat from "../components/StartChat";
 
 const GET_USER = gql`
   query GetUser($id: ID!) {
@@ -50,11 +51,12 @@ function User() {
   const { id } = useParams();
   const { user } = useContext(AuthContext);
 
+  //get user
   const { loading, error, data } = useQuery(GET_USER, {
     variables: { id: id },
   });
 
-  // console.log(data);
+  //send friend request
   const [errors, setErrors] = useState([]);
 
   const [sendFriendRequest, freindRequest] = useMutation(SEND_FRIEND_REQUEST, {
@@ -74,6 +76,7 @@ function User() {
     variables: { recevierId: id, senderId: user._id },
   });
 
+  //loading
   if (loading) {
     return <p>loading...</p>;
   }
@@ -81,9 +84,8 @@ function User() {
     return <p>error</p>;
   }
 
+  //is friend
   const friend = find(data.getUser.friends, function (friend) {
-    console.log(friend + " === " + id);
-
     return friend === user._id;
   });
 
@@ -93,10 +95,6 @@ function User() {
 
       return request === user._id;
     });
-
-    console.log(request);
-    console.log(id);
-    console.log(data.getUser.friendRequests);
 
     if (user._id === id) {
       return <Typography></Typography>;
@@ -154,7 +152,8 @@ function User() {
           </Typography>
         </CardContent>
       </Card>
-      {user._id !== id && (
+      <StartChat />
+      {/* {user._id !== id && (
         <Container spacing={2} maxWidth="md">
           <Stack spacing={2} paddingBottom={2}>
             <CssTextField
@@ -165,14 +164,11 @@ function User() {
               onChange=""
             />
           </Stack>
-          {errors.map(function (error) {
-            return <Alert severity="error">{error.message}</Alert>;
-          })}
           <Button variant="contained" onClick="">
             Start chat
           </Button>
         </Container>
-      )}
+      )} */}
     </Box>
   );
 }
