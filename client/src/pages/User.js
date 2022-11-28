@@ -152,7 +152,8 @@ function User() {
           </Typography>
         </CardContent>
       </Card>
-      <StartChat />
+      {user._id !== id && <StartChat />}
+
       {/* {user._id !== id && (
         <Container spacing={2} maxWidth="md">
           <Stack spacing={2} paddingBottom={2}>
