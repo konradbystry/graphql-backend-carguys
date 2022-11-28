@@ -17,11 +17,11 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 
-const GET_USER = gql`
-  query GetUser($id: ID!) {
-    getUser(ID: $id) {
-      friendRequests
-      friends
+const GET_FRIENDS = gql`
+  query GetFriends($friends: [ID]) {
+    getFriends(friends: $friends) {
+      nickname
+      _id
     }
   }
 `;
@@ -29,12 +29,14 @@ const GET_USER = gql`
 function Rightbar() {
   const { user } = useContext(AuthContext);
 
-  const { data, error, loading } = useQuery(GET_USER, {
-    variables: { id: user._id },
+  const { data, error, loading } = useQuery(GET_FRIENDS, {
+    variables: { friends: user.friends },
   });
 
   if (loading) return <p>loading...</p>;
   if (error) return <p>error</p>;
+
+  console.log(data);
 
   return (
     <Box flex={2} p={2} sx={{ display: { xs: "none", sm: "block" } }}>
@@ -42,10 +44,10 @@ function Rightbar() {
         <Typography variant="h6" mt={2} mb={2}>
           Friends
         </Typography>
-        {data.getUser.friends.map((friend) => (
+        {data.getFriends.map((friend) => (
           <List>
             <Link
-              to={"/user/" + friend}
+              to={"/user/" + friend._id}
               style={{
                 textDecoration: "none",
                 color: "white",
@@ -58,7 +60,7 @@ function Rightbar() {
                       U
                     </Avatar>
                   </ListItemIcon>
-                  <ListItemText color="primary" primary={friend} />
+                  <ListItemText color="primary" primary={friend.nickname} />
                 </ListItemButton>
               </ListItem>
             </Link>
