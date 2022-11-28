@@ -30,6 +30,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ShareIcon from "@mui/icons-material/Share";
 import { CssTextField } from "./../mui/styled/CssTextField";
 import { BootstrapPostField } from "../mui/styled/BootstrapPostField";
+import Post from "../components/Post";
 
 const GET_POSTS = gql`
   query Query($topicId: String) {
@@ -100,49 +101,11 @@ function Topic() {
       </Typography>
 
       {data.getPosts.map((post) => (
-        <Card sx={{ margin: 5 }}>
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: "grey" }} aria-label="recipe">
-                U
-              </Avatar>
-            }
-            title={
-              <Link
-                to={"/user/" + post.userId}
-                style={{
-                  textDecoration: "none",
-                  color: "grey",
-                }}
-              >
-                {post.userName}
-              </Link>
-            }
-            subheader={post.date}
-          />
-          {/* <CardMedia
-            component="img"
-            height="%100"
-            image="https://www.wyborkierowcow.pl/wp-content/uploads/2022/10/bmw-m2-coupe-cennik-sylwetka1.jpg"
-            alt="Paella dish"
-          /> */}
-          <CardContent>
-            <Typography variant="body2" color="text.secondary">
-              {post.text}
-            </Typography>
-          </CardContent>
-          <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites">
-              <Checkbox
-                icon={<FavoriteBorderIcon />}
-                checkedIcon={<FavoriteIcon sx={{ color: "red" }} />}
-              />
-            </IconButton>
-            {/* <IconButton aria-label="share">
-                 <ShareIcon />
-               </IconButton> */}
-          </CardActions>
-        </Card>
+        <Post
+          postDate={post.date}
+          postUserId={post.userId}
+          postText={post.text}
+        />
       ))}
 
       <Container spacing={2} maxWidth="md">
