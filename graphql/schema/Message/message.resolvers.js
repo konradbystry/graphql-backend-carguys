@@ -1,8 +1,10 @@
 const User = require("../../../models/User");
 const Message = require("../../../models/Message");
+const Chat = require("../../../models/Chat");
 const date = require("date-and-time");
 // const {ObjectId} = require('mongodb')
 const mongoose = require("mongoose");
+const { ApolloError } = require("apollo-server");
 module.exports = {
   Query: {
     async getMessages(_, { chatId }) {
@@ -14,23 +16,29 @@ module.exports = {
       _,
       { messageInput: { text, userId, userName, chatId } }
     ) {
-      const now = new Date();
+      const chat = await Chat.findById(chatId);
 
-      const newMessage = new Message({
-        text: text,
-        userId: userId,
-        userName: userName,
-        chatId: chatId,
-        date: date.format(now, "ddd, MMM DD YYYY"),
-        image: "",
-      });
+      if (chat === null) {
+        throw new ApolloError("Chat doesn't exist");
+      } else {
+        const now = new Date();
 
-      const res = await newMessage.save();
+        const newMessage = new Message({
+          text: text,
+          userId: userId,
+          userName: userName,
+          chatId: chatId,
+          date: date.format(now, "ddd, MMM DD YYYY"),
+          image: "",
+        });
 
-      return {
-        id: res.id,
-        ...res._doc,
-      };
+        const res = await newMessage.save();
+
+        return {
+          id: res.id,
+          ...res._doc,
+        };
+      }
     },
   },
 };

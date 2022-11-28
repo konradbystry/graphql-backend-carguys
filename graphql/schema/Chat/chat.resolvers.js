@@ -4,16 +4,18 @@ const mongoose = require("mongoose");
 module.exports = {
   Query: {
     async getChats(_, { userId }) {
-      console.log(userId);
+      // console.log(userId);
 
-      const firstChatUser = await Chat.find({ userId });
+      // const firstChatUser = await Chat.find({ userId });
 
-      if (firstChatUser.length === 0) {
-        const secondChatUser = await Chat.find({ secondUserId: userId });
-        return secondChatUser;
-      }
+      // if (firstChatUser.length === 0) {
+      //   const secondChatUser = await Chat.find({ secondUserId: userId });
+      //   return secondChatUser;
+      // }
 
-      return firstChatUser;
+      return await Chat.find({
+        $or: [{ userId: userId }, { secondUserId: userId }],
+      });
     },
 
     async isAlreadyChatting(_, { userId, secondUserId }) {
@@ -36,10 +38,11 @@ module.exports = {
   },
 
   Mutation: {
-    async createChat(_, { chatInput: { userId, secondUserId } }) {
+    async createChat(_, { createChat: { userId, secondUserId, initMessage } }) {
       const newChat = new Chat({
         userId: userId,
         secondUserId: secondUserId,
+        initMessage: initMessage,
       });
       const res = await newChat.save();
 

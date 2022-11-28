@@ -7,9 +7,17 @@ module.exports = gql`
     date: String
     userId: String
     secondUserId: String
+    initMessage: String
+    lastMessage: String
   }
 
   input ChatInput {
+    userId: String
+    secondUserId: String
+  }
+
+  input CreateChat {
+    initMessage: String
     userId: String
     secondUserId: String
   }
@@ -21,7 +29,7 @@ module.exports = gql`
   }
 
   type Mutation {
-    createChat(chatInput: ChatInput): Chat!
+    createChat(createChat: CreateChat): Chat!
     deleteChat(ID: ID!): Boolean
   }
 `;
