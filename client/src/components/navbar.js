@@ -26,7 +26,7 @@ const StyledToolbar = styled(Toolbar)({
 });
 
 const Search = styled("div")(({ theme }) => ({
-  backgroundColor: "#192231",
+  backgroundColor: "#121212",
   padding: "0 10px",
   borderRadius: theme.shape.borderRadius,
   width: "40%",
@@ -60,7 +60,7 @@ function Navbar() {
 
   return (
     <div>
-      <AppBar position="fixed">
+      <AppBar position="fixed" color="secondary">
         <StyledToolbar>
           <Typography
             variant="h4"
@@ -87,7 +87,7 @@ function Navbar() {
                       color: "white",
                     }}
                   >
-                    <Badge badgeContent={4} color="secondary">
+                    <Badge badgeContent={4} color="primary">
                       <MessageIcon />
                     </Badge>
                   </Link>
@@ -98,7 +98,7 @@ function Navbar() {
                       color: "white",
                     }}
                   >
-                    <Badge badgeContent={4} color="secondary">
+                    <Badge badgeContent={4} color="primary">
                       <NotificationsIcon />
                     </Badge>
                   </Link>

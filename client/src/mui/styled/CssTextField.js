@@ -3,10 +3,10 @@ import { styled } from "@mui/system";
 
 export const CssTextField = styled(TextField)({
   "& label.Mui-focused": {
-    color: "#5893df",
+    color: "white",
   },
   "& .MuiInput-underline:after": {
-    borderBottomColor: "#5893df",
+    borderBottomColor: "white",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
@@ -17,6 +17,12 @@ export const CssTextField = styled(TextField)({
     },
     "&.Mui-focused fieldset": {
       borderColor: "#5893df",
+    },
+    "&:hover fieldset": {
+      borderColor: "white",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "white",
     },
   },
 });

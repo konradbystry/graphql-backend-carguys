@@ -60,11 +60,7 @@ function ChatList() {
         >
           <Card sx={{ margin: 5 }}>
             <CardHeader
-              avatar={
-                <Avatar sx={{ bgcolor: "grey" }} aria-label="recipe">
-                  U
-                </Avatar>
-              }
+              avatar={<Avatar />}
               title={
                 <Link
                   to={link(chat.userId, chat.secondUserId)}
@@ -74,10 +70,10 @@ function ChatList() {
                   }}
                 >
                   {chat.userId === user._id && (
-                    <Typography>{chat.secondUserId}</Typography>
+                    <Typography color="white">{chat.secondUserId}</Typography>
                   )}
                   {chat.secondUserId === user._id && (
-                    <Typography>{chat.userId}</Typography>
+                    <Typography color="white">{chat.userId}</Typography>
                   )}
                 </Link>
               }
@@ -90,8 +86,8 @@ function ChatList() {
             alt="Paella dish"
           /> */}
             <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                last msg
+              <Typography variant="body1" color="text.secondary">
+                Example last message. Just checking how it looks!
               </Typography>
             </CardContent>
           </Card>

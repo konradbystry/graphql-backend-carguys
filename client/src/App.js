@@ -18,19 +18,23 @@ import { AuthContext } from "./context/authContext";
 import { useContext } from "react";
 import ChatList from "./pages/ChatList";
 import Chat from "./pages/Chat";
+import EditProfile from "./pages/EditProfile";
 
 const theme = createTheme({
   palette: {
     type: "dark",
     primary: {
-      main: "#5893df",
+      // main: "#5893df",
+      main: "#e3da19",
     },
     secondary: {
-      main: "#2ec5d3",
+      // main: "#2ec5d3",
+      main: "#272727",
     },
     background: {
-      default: "#192231",
-      paper: "#24344d",
+      default: "#121212",
+      // default: "#192231",
+      paper: "#272727",
     },
     text: {
       primary: "#fff",
@@ -84,6 +88,7 @@ function App() {
               />
               <Route path="user/:id/chats" element={<ChatList />} />
               <Route path="user/:id/chats/:chatId" element={<Chat />} />
+              <Route path="user/:id/edit" element={<EditProfile />} />
             </Routes>
           </Box>
           {user ? (

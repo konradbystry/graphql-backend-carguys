@@ -44,15 +44,11 @@ function TopicsList() {
     <Box marginTop={10} bgcolor={"background.default"} color={"text.primary"}>
       {data.getTopics.map((topic) => (
         <Card sx={{ margin: 5 }}>
-          {/* <CardHeader
-          avatar={
-            <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
-              R
-            </Avatar>
-          }
-          title="Shrimp and Chorizo Paella"
-          subheader="September 14, 2016"
-        /> */}
+          <CardHeader
+            avatar={<Avatar />}
+            title="Owner"
+            subheader="September 14, 2016"
+          />
           <Link
             to={topic._id}
             style={{
@@ -62,7 +58,7 @@ function TopicsList() {
           >
             <CardMedia
               component="img"
-              height="100"
+              height="130"
               image="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/motorsport/customer-racing/custom_gt3.jpg"
               alt="Paella dish"
             />
@@ -78,6 +74,7 @@ function TopicsList() {
                 icon={<FavoriteBorderIcon />}
                 checkedIcon={<FavoriteIcon sx={{ color: "red" }} />}
               />
+              <Typography color="white">123</Typography>
             </IconButton>
           </CardActions>
         </Card>

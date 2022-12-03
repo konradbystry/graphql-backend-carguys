@@ -16,6 +16,7 @@ import gql from "graphql-tag";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
+import GroupsIcon from "@mui/icons-material/Groups";
 
 const GET_FRIENDS = gql`
   query GetFriends($friends: [ID]) {
@@ -39,11 +40,21 @@ function Rightbar() {
   console.log(data);
 
   return (
-    <Box flex={2} p={2} sx={{ display: { xs: "none", sm: "block" } }}>
+    <Box flex={1} p={2} sx={{ display: { xs: "none", sm: "block" } }}>
       <Box position="fixed" width="300" marginTop={10}>
-        <Typography variant="h6" mt={2} mb={2}>
-          Friends
-        </Typography>
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <GroupsIcon color={"primary"} sx={{ width: 40, height: 40 }} />
+              </ListItemIcon>
+              <ListItemText
+                primary={<Typography variant="h5">Friends</Typography>}
+              />
+            </ListItemButton>
+          </ListItem>
+        </List>
+
         {data.getFriends.map((friend) => (
           <List>
             <Link
