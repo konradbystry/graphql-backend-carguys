@@ -14,6 +14,18 @@ module.exports = {
     async getTopicByName(_, { name }) {
       return await Topic.find({ name: name });
     },
+
+    async getUsersFavourites(_, { userId }) {
+      const user = await User.findById(userId);
+      let favouriteTopics = [];
+
+      user.favourites.forEach((topicId) => {
+        var topic = Topic.findById(topicId);
+        favouriteTopics.push(topic);
+      });
+
+      return await favouriteTopics;
+    },
   },
   Mutation: {
     async createTopic(_, { topicInput: { name, ownerId } }) {

@@ -174,5 +174,18 @@ module.exports = {
         ...recevier._doc,
       };
     },
+
+    async addToFavourites(_, { userId, topicId }) {
+      const user = await User.findById(userId);
+
+      user.favourites.push(topicId);
+
+      const res = await user.save();
+
+      return {
+        id: res.id,
+        ...res._doc,
+      };
+    },
   },
 };

@@ -19,6 +19,7 @@ import { useContext } from "react";
 import ChatList from "./pages/ChatList";
 import Chat from "./pages/Chat";
 import EditProfile from "./pages/EditProfile";
+import Favourites from "./pages/Favourites";
 
 const theme = createTheme({
   palette: {
@@ -89,6 +90,7 @@ function App() {
               <Route path="user/:id/chats" element={<ChatList />} />
               <Route path="user/:id/chats/:chatId" element={<Chat />} />
               <Route path="user/:id/edit" element={<EditProfile />} />
+              <Route path="user/:id/favourites" element={<Favourites />} />
             </Routes>
           </Box>
           {user ? (

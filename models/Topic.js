@@ -6,6 +6,7 @@ const topicSchema = new Schema({
   premium: Boolean,
   ownerId: Schema.Types.ObjectId,
   ownerName: String,
+  likes: Number,
 });
 
 module.exports = model("Topic", topicSchema);

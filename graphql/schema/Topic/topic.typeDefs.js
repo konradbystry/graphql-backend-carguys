@@ -8,6 +8,7 @@ module.exports = gql`
     posts: [String]
     premium: Boolean
     ownerId: String
+    likes: Int
   }
 
   input TopicInput {
@@ -19,6 +20,7 @@ module.exports = gql`
     getTopics: [Topic]
     getTopic(ID: ID!): Topic!
     getTopicByName(name: String!): Topic!
+    getUsersFavourites(userId: ID): [Topic]
   }
 
   type Mutation {

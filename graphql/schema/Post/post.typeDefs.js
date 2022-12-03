@@ -9,6 +9,7 @@ module.exports = gql`
     date: String
     text: String
     image: String
+    likes: Int
   }
 
   input PostInput {

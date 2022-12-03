@@ -13,6 +13,7 @@ module.exports = gql`
     cars: [String]
     token: String
     friendRequests: [String]
+    favourites: [String]
   }
 
   input UserInput {
@@ -48,5 +49,6 @@ module.exports = gql`
     loginUser(loginInput: LoginInput): User
     sendFriendRequest(recevierId: ID!, senderId: ID!): User
     acceptFriendRequest(recevierId: ID!, senderId: ID!): User
+    addToFavourites(userId: ID!, topicId: ID!): User
   }
 `;

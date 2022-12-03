@@ -7,6 +7,7 @@ const postSchema = new Schema({
   date: String,
   text: String,
   image: String,
+  likes: Number,
 });
 
 module.exports = model("Post", postSchema);

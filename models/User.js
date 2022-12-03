@@ -10,6 +10,7 @@ const userSchema = new Schema({
   cars: [Schema.Types.ObjectId],
   token: String,
   friendRequests: [Schema.Types.ObjectId],
+  favourites: [Schema.Types.ObjectId],
 });
 
 module.exports = model("User", userSchema);
