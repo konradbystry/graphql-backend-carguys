@@ -83,14 +83,22 @@ function Sidebar() {
             </ListItem>
           </Link>
 
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <FavoriteIcon color={"primary"} />
-              </ListItemIcon>
-              <ListItemText primary="Favourites" />
-            </ListItemButton>
-          </ListItem>
+          <Link
+            to={"/user/" + user._id + "/favourites"}
+            style={{
+              textDecoration: "none",
+              color: "white",
+            }}
+          >
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <FavoriteIcon color={"primary"} />
+                </ListItemIcon>
+                <ListItemText primary="Favourites" />
+              </ListItemButton>
+            </ListItem>
+          </Link>
 
           <Link
             to={"/user/" + user._id}
