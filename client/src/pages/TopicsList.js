@@ -31,6 +31,8 @@ const GET_TOPICS = gql`
       posts
       premium
       ownerId
+      likes
+      banner
     }
   }
 `;
@@ -84,8 +86,8 @@ function TopicsList() {
             <CardMedia
               component="img"
               height="130"
-              image="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/motorsport/customer-racing/custom_gt3.jpg"
-              alt="Paella dish"
+              image={topic.banner}
+              alt="Topic banner"
             />
             <CardContent>
               <Typography variant="h5" color="text">
@@ -99,20 +101,8 @@ function TopicsList() {
                 topicId={topic._id}
                 addToFavourites={addToFavourites}
               />
-              {/* <Checkbox
-                onClick={(e) => {
-                  e.preventDefault();
-                  addToFavourites({
-                    variables: {
-                      userId: user._id,
-                      topicId: topic._id,
-                    },
-                  });
-                }}
-                icon={<FavoriteBorderIcon />}
-                checkedIcon={<FavoriteIcon sx={{ color: "red" }} />}
-              /> */}
-              <Typography color="white">123</Typography>
+
+              <Typography color="white">{topic.likes}</Typography>
             </IconButton>
           </CardActions>
         </Card>

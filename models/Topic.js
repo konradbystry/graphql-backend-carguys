@@ -7,6 +7,8 @@ const topicSchema = new Schema({
   ownerId: Schema.Types.ObjectId,
   ownerName: String,
   likes: Number,
+  firstPost: String,
+  banner: String,
 });
 
 module.exports = model("Topic", topicSchema);

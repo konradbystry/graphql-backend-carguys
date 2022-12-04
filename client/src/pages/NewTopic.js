@@ -16,7 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useForm } from "../utility/hooks";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "graphql-tag";
 import { CssTextField } from "./../mui/styled/CssTextField";
 
@@ -28,34 +28,31 @@ const CREATE_TOPIC = gql`
       posts
       premium
       ownerId
+      banner
     }
   }
 `;
 
-// const CssTextField = styled(TextField)({
-//   "& label.Mui-focused": {
-//     color: "#5893df",
-//   },
-//   "& .MuiInput-underline:after": {
-//     borderBottomColor: "#5893df",
-//   },
-//   "& .MuiOutlinedInput-root": {
-//     "& fieldset": {
-//       borderColor: "#5893df",
-//     },
-//     "&:hover fieldset": {
-//       borderColor: "#5893df",
-//     },
-//     "&.Mui-focused fieldset": {
-//       borderColor: "#5893df",
-//     },
-//   },
-// });
+const GET_BANNERS = gql`
+  query Query {
+    getBanners {
+      _id
+      image
+    }
+  }
+`;
 
 function NewTopic() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const { data, loading, error } = useQuery(GET_BANNERS);
+
   const [errors, setErrors] = useState([]);
+
+  function setBanner() {
+    return "t";
+  }
 
   function createTopicCallback() {
     createTopic();
@@ -63,10 +60,12 @@ function NewTopic() {
 
   const { onChange, onSubmit, values } = useForm(createTopicCallback, {
     name: "",
+    firstPost: "",
     ownerId: user._id,
+    banner: "",
   });
 
-  const [createTopic, { loading }] = useMutation(CREATE_TOPIC, {
+  const [createTopic, newTopic] = useMutation(CREATE_TOPIC, {
     update(proxy, { data: { createTopic: topicData } }) {
       navigate("/topics");
       window.location.reload();
@@ -77,6 +76,15 @@ function NewTopic() {
     },
     variables: { topicInput: values },
   });
+
+  function selectBanner(image) {
+    values.banner = image;
+  }
+
+  if (loading) return <p>loading...</p>;
+  if (error) return <p>error</p>;
+
+  console.log(values);
 
   return (
     <Box marginTop={10}>
@@ -100,7 +108,7 @@ function NewTopic() {
         <Stack spacing={2} paddingBottom={2} marginTop={2}>
           <CssTextField
             label="Post"
-            name="post"
+            name="firstPost"
             multiline
             rows={3}
             onChange={onChange}
@@ -112,29 +120,18 @@ function NewTopic() {
           Select banner
         </Typography>
 
-        <Card sx={{ margin: 5 }} variant="outlined">
-          <CardMedia
-            component="img"
-            height="100"
-            image="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/motorsport/customer-racing/custom_gt3.jpg"
-          />
-        </Card>
-
-        <Card sx={{ margin: 5 }}>
-          <CardMedia
-            component="img"
-            height="100"
-            image="http://images.summitmedia-digital.com/topgear/images/2018/06/05/JDM_FB.jpg"
-          />
-        </Card>
-
-        <Card sx={{ margin: 5 }}>
-          <CardMedia
-            component="img"
-            height="100"
-            image="https://s3-prod-europe.autonews.com/s3fs-public/styles/1200x630/public/Sales3%20web%20BB%281%29.jpg"
-          />
-        </Card>
+        {data.getBanners.map((banner) => (
+          <Card
+            sx={{ margin: 5 }}
+            variant={banner.image === values.banner ? "outlined" : ""}
+            onClick={(e) => {
+              e.preventDefault();
+              selectBanner(banner.image);
+            }}
+          >
+            <CardMedia component="img" height="100" image={banner.image} />
+          </Card>
+        ))}
 
         <Button variant="contained" onClick={onSubmit}>
           Create

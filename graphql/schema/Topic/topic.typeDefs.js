@@ -9,11 +9,15 @@ module.exports = gql`
     premium: Boolean
     ownerId: String
     likes: Int
+    firstPost: String
+    banner: String
   }
 
   input TopicInput {
     name: String
     ownerId: String
+    firstPost: String
+    banner: String
   }
 
   type Query {

@@ -28,12 +28,15 @@ module.exports = {
     },
   },
   Mutation: {
-    async createTopic(_, { topicInput: { name, ownerId } }) {
+    async createTopic(_, { topicInput: { name, ownerId, firstPost, banner } }) {
       const createdTopic = new Topic({
         name: name,
         posts: [],
         premium: 0,
         ownerId: ownerId,
+        likes: 0,
+        firstPost: firstPost,
+        banner: banner,
       });
 
       const res = await createdTopic.save();
