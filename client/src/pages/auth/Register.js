@@ -77,7 +77,16 @@ function Register(props) {
             backgroundPosition: "center",
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
+          sx={{ background: "#121212" }}
+        >
           <Box
             sx={{
               my: 8,
