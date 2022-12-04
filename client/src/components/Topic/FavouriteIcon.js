@@ -36,6 +36,9 @@ function FavouriteIcon({ topicId, addToFavourites }) {
         onClick={(e) => {
           e.preventDefault();
           addToFavourites({
+            update() {
+              window.location.reload();
+            },
             variables: {
               userId: user._id,
               topicId: topicId,

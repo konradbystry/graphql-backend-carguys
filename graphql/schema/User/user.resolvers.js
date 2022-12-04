@@ -177,6 +177,13 @@ module.exports = {
 
     async addToFavourites(_, { userId, topicId }) {
       const user = await User.findById(userId);
+      const topic = await Topic.findById(topicId);
+
+      console.log(topic.name);
+      console.log(topic.likes);
+      topic.likes += 1;
+      console.log(topic.likes);
+      topic.save();
 
       user.favourites.push(topicId);
 
