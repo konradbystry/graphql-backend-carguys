@@ -170,35 +170,6 @@ function Register(props) {
         </Grid>
       </Grid>
     </Box>
-    // <Container spacing={2} maxWidth="sm">
-    //   <Typography variant="h5" marginTop={10} marginBottom={3}>
-    //     Register
-    //   </Typography>
-    //   <Stack spacing={2} paddingBottom={2}>
-    //     <CssTextField label="Nickname" name="nickname" onChange={onChange} />
-    //     <CssTextField label="Email" name="email" onChange={onChange} />
-    //     <CssTextField label="Password" name="password" onChange={onChange} />
-    //     <CssTextField
-    //       label="Confirm password"
-    //       name="confirmPassword"
-    //       onChange={onChange}
-    //     />
-    //     {/* <TextField label="Nickname" name="nickname" onChange={onChange} />
-    //     <TextField label="Email" name="email" onChange={onChange} />
-    //     <TextField label="Password" name="password" onChange={onChange} />
-    //     <TextField
-    //       label="Confirm password"
-    //       name="confirmPassword"
-    //       onChange={onChange}
-    //     /> */}
-    //   </Stack>
-    //   {errors.map(function (error) {
-    //     return <Alert severity="error">{error.message}</Alert>;
-    //   })}
-    //   <Button variant="contained" onClick={onSubmit}>
-    //     Register
-    //   </Button>
-    // </Container>
   );
 }
 

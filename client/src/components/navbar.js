@@ -136,7 +136,18 @@ function Navbar() {
                       Profile
                     </Link>
                   </MenuItem>
-                  <MenuItem>My account</MenuItem>
+                  <MenuItem>
+                    {" "}
+                    <Link
+                      to={"/user/" + user._id + "/edit"}
+                      style={{
+                        textDecoration: "none",
+                        color: "white",
+                      }}
+                    >
+                      My account
+                    </Link>
+                  </MenuItem>
                   <MenuItem onClick={onLogout}>Logout</MenuItem>
                 </Menu>
               </Box>
