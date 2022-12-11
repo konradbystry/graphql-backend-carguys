@@ -11,6 +11,9 @@ const userSchema = new Schema({
   token: String,
   friendRequests: [Schema.Types.ObjectId],
   favourites: [Schema.Types.ObjectId],
+  banner: String,
+  profilePicture: String,
+  description: String,
 });
 
 module.exports = model("User", userSchema);
