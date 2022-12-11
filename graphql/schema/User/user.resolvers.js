@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const User = require("../../../models/User");
 const Post = require("../../../models/Post");
 const Topic = require("../../../models/Topic");
@@ -6,6 +8,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const lodash = require("lodash");
+const cloudinary = require("cloudinary").v2;
+
+console.log(cloudinary.config().cloud_name);
 
 module.exports = {
   Query: {
@@ -41,9 +46,41 @@ module.exports = {
         friends: [],
         cars: [],
         token: "just test",
+        banner: "banner",
+        profilePicture: "asdsad",
+        description: "asddsa",
       });
 
       const res = await createdUser.save();
+
+      return {
+        id: res.id,
+        ...res._doc,
+      };
+    },
+    async editUser(
+      _,
+      { editInput: { id, profilePicture, banner, nickname, description } }
+    ) {
+      const user = await User.findById(id);
+
+      const profilePictureCloud = await cloudinary.uploader.upload(
+        profilePicture,
+        {
+          resource_type: "image",
+        }
+      );
+
+      const bannerCloud = await cloudinary.uploader.upload(profilePicture, {
+        resource_type: "image",
+      });
+
+      user.profilePicture = profilePictureCloud.secure_url;
+      user.banner = bannerCloud.secure_url;
+      user.nickname = nickname;
+      user.description = description;
+
+      const res = await user.save();
 
       return {
         id: res.id,
@@ -68,6 +105,9 @@ module.exports = {
         nickname: nickname,
         email: email.toLowerCase(),
         password: encryptedPassword,
+        banner: "",
+        profilePicture: "",
+        description: "",
       });
       //Create JWT
       const token = jwt.sign(

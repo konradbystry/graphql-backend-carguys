@@ -14,12 +14,23 @@ module.exports = gql`
     token: String
     friendRequests: [String]
     favourites: [String]
+    banner: String
+    profilePicture: String
+    description: String
   }
 
   input UserInput {
     nickname: String
     email: String
     password: String
+  }
+
+  input EditInput {
+    id: String
+    profilePicture: String
+    banner: String
+    nickname: String
+    description: String
   }
 
   input LoginInput {
@@ -44,7 +55,7 @@ module.exports = gql`
   type Mutation {
     createUser(userInput: UserInput): User!
     deleteUser(ID: ID!): Boolean
-    editUser(ID: ID!, userInput: UserInput): Boolean
+    editUser(editInput: EditInput): User!
     registerUser(registerInput: RegisterInput): User
     loginUser(loginInput: LoginInput): User
     sendFriendRequest(recevierId: ID!, senderId: ID!): User
