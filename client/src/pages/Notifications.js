@@ -18,6 +18,7 @@ import {
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "graphql-tag";
 import { Container, Stack } from "@mui/system";
+import FriendRequestHeader from "../components/Notifications/FriendRequestHeader";
 
 const GET_USER = gql`
   query GetUser($id: ID!) {
@@ -61,10 +62,10 @@ function Notifications() {
   return (
     <Box marginTop={10}>
       <Container spacing={2} maxWidth="sm">
-        <h1>Friend request for {user.email}</h1>
+        <Typography variant="h5">Friend requests</Typography>
         {data.getUser.friendRequests.map((friendRequest) => (
           <Card sx={{ margin: 5 }}>
-            <CardHeader
+            {/* <CardHeader
               avatar={
                 <Avatar sx={{ bgcolor: "grey" }} aria-label="recipe">
                   R
@@ -72,7 +73,9 @@ function Notifications() {
               }
               title={friendRequest}
               subheader="Want to be your friend"
-            />
+            /> */}
+
+            <FriendRequestHeader userId={friendRequest} />
 
             <CardContent>
               <Button

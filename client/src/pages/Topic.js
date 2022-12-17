@@ -31,6 +31,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import { CssTextField } from "./../mui/styled/CssTextField";
 import { BootstrapPostField } from "../mui/styled/BootstrapPostField";
 import Post from "../components/Post";
+import TopicTitle from "../components/Topic/TopicTitle";
 
 const GET_POSTS = gql`
   query Query($topicId: String) {
@@ -96,10 +97,7 @@ function Topic() {
 
   return (
     <Box flex={4} p={2} marginTop={10}>
-      <Typography variant="h4" marginBottom={8}>
-        This is topic {id} page
-      </Typography>
-
+      <TopicTitle id={id} />
       {data.getPosts.map((post) => (
         <Post
           postDate={post.date}

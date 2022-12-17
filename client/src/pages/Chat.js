@@ -14,9 +14,12 @@ import { Container } from "@mui/system";
 import gql from "graphql-tag";
 import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
+import ProfilePicture from "../components/Topic/ProfilePicture";
 import { AuthContext } from "../context/authContext";
 import { CssTextField } from "../mui/styled/CssTextField";
 import { useForm } from "../utility/hooks";
+import ChatHeader from "../components/Chat/ChatHeader";
+import InitChatHeader from "../components/Chat/InitChatHeader";
 
 const GET_MESSAGES = gql`
   query Query($chatId: String) {
@@ -83,36 +86,11 @@ function Chat() {
 
   return (
     <Box flex={4} p={2} marginTop={10}>
-      <Card
-        style={{
-          background: "none",
-          boxShadow: "none",
-        }}
-      >
-        <CardHeader
-          avatar={
-            <Avatar sx={{ bgcolor: "grey" }} aria-label="recipe">
-              U
-            </Avatar>
-          }
-          title="username"
-        />
-        {/* <CardContent>
-          {" "}
-          <Typography>Chat</Typography>
-        </CardContent> */}
-      </Card>
+      <InitChatHeader userId={user._id} />
+
       {data.getMessages.map((message) => (
         <Card sx={{ margin: 5 }}>
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: "grey" }} aria-label="recipe">
-                U
-              </Avatar>
-            }
-            title={message.userName}
-            subheader={message.date}
-          />
+          <ProfilePicture userId={message.userId} date={message.date} />
           {/* <CardMedia
             component="img"
             height="%100"

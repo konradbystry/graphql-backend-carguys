@@ -52,6 +52,7 @@ function StartChat() {
     userId: user._id,
     secondUserId: id,
     initMessage: "",
+    initUserId: user._id,
   });
 
   console.log(values);

@@ -20,6 +20,7 @@ const GET_USER = gql`
   query GetUser($id: ID!) {
     getUser(ID: $id) {
       nickname
+      profilePicture
     }
   }
 `;
@@ -40,11 +41,7 @@ function Post({ postDate, postUserId, postText }) {
   return (
     <Card sx={{ margin: 5 }}>
       <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: "grey" }} aria-label="recipe">
-            U
-          </Avatar>
-        }
+        avatar={<Avatar src={data.getUser.profilePicture}>U</Avatar>}
         title={
           postUserId === user._id ? (
             <Link

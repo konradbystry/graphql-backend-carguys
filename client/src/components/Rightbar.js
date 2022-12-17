@@ -17,6 +17,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import GroupsIcon from "@mui/icons-material/Groups";
+import ProfilePicture from "./Friends/ProfilePicture";
 
 const GET_FRIENDS = gql`
   query GetFriends($friends: [ID]) {
@@ -67,9 +68,7 @@ function Rightbar() {
               <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
-                    <Avatar sx={{ bgcolor: "grey" }} aria-label="recipe">
-                      U
-                    </Avatar>
+                    <ProfilePicture friendId={friend._id} />
                   </ListItemIcon>
                   <ListItemText color="primary" primary={friend.nickname} />
                 </ListItemButton>

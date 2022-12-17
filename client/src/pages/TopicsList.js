@@ -22,6 +22,7 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavouriteIcon from "../components/Topic/FavouriteIcon";
+import ProfilePicture from "../components/Topic/ProfilePicture";
 
 const GET_TOPICS = gql`
   query GetTopics {
@@ -33,6 +34,7 @@ const GET_TOPICS = gql`
       ownerId
       likes
       banner
+      date
     }
   }
 `;
@@ -71,11 +73,12 @@ function TopicsList() {
     <Box marginTop={10} bgcolor={"background.default"} color={"text.primary"}>
       {data.getTopics.map((topic) => (
         <Card sx={{ margin: 5 }}>
-          <CardHeader
+          {/* <CardHeader
             avatar={<Avatar />}
             title="Owner"
             subheader="September 14, 2016"
-          />
+          /> */}
+          <ProfilePicture userId={topic.ownerId} date={topic.date} />
           <Link
             to={topic._id}
             style={{

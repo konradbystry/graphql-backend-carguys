@@ -57,17 +57,17 @@ const UserBox = styled(Box)(({ theme }) => ({
   [theme.breakpoints.up("sm")]: { display: "none" },
 }));
 
-function Navbar() {
+function LoggedNavbar() {
   const { user, logout } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   let navigate = useNavigate();
 
-  // const { data, loading, error } = useQuery(GET_USER, {
-  //   variables: { id: user._id },
-  // });
+  const { data, loading, error } = useQuery(GET_USER, {
+    variables: { id: user._id },
+  });
 
-  // if (loading) return <p>loading...</p>;
-  // if (error) return <p>error</p>;
+  if (loading) return <p>loading...</p>;
+  if (error) return <p>error</p>;
 
   const onLogout = () => {
     logout();
@@ -121,17 +121,17 @@ function Navbar() {
                     </Badge>
                   </Link>
                   <Avatar
-                    src={"data.getUser.profilePicture"}
+                    src={data.getUser.profilePicture}
                     sx={{ width: "30", height: "30" }}
                     onClick={(e) => setOpen(true)}
                   />
                 </Icons>
                 <UserBox onClick={(e) => setOpen(true)}>
                   <Avatar
-                    src={"data.getUser.profilePicture"}
+                    src={data.getUser.profilePicture}
                     sx={{ width: "30", height: "30" }}
                   />
-                  <Typography>{"data.getUser.nickname"}</Typography>
+                  <Typography>{data.getUser.nickname}</Typography>
                 </UserBox>
                 <Menu
                   id="demo-positioned-menu"
@@ -201,21 +201,21 @@ function Navbar() {
             </>
           )}
           {/* <Icons>
-            <Badge badgeContent={4} color="error">
-              <MessageIcon />
-            </Badge>
-            <Badge badgeContent={4} color="error">
-              <NotificationsIcon />
-            </Badge>
-            <Avatar
-              sx={{ width: "30", height: "30" }}
-              onClick={(e) => setOpen(true)}
-            />
-          </Icons>
-          <UserBox onClick={(e) => setOpen(true)}>
-            <Avatar sx={{ width: "30", height: "30" }} />
-            <Typography>Username</Typography>
-          </UserBox> */}
+              <Badge badgeContent={4} color="error">
+                <MessageIcon />
+              </Badge>
+              <Badge badgeContent={4} color="error">
+                <NotificationsIcon />
+              </Badge>
+              <Avatar
+                sx={{ width: "30", height: "30" }}
+                onClick={(e) => setOpen(true)}
+              />
+            </Icons>
+            <UserBox onClick={(e) => setOpen(true)}>
+              <Avatar sx={{ width: "30", height: "30" }} />
+              <Typography>Username</Typography>
+            </UserBox> */}
         </StyledToolbar>
       </AppBar>
     </div>
@@ -282,4 +282,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default LoggedNavbar;

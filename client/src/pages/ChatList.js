@@ -14,6 +14,7 @@ import { AuthContext } from "../context/authContext";
 import { Link } from "react-router-dom";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
+import ChatHeader from "../components/Chat/ChatHeader";
 
 const GET_CHATS = gql`
   query Query($userId: String) {
@@ -21,6 +22,8 @@ const GET_CHATS = gql`
       _id
       secondUserId
       userId
+      lastMessage
+      date
     }
   }
 `;
@@ -59,35 +62,17 @@ function ChatList() {
           }}
         >
           <Card sx={{ margin: 5 }}>
-            <CardHeader
-              avatar={<Avatar />}
-              title={
-                <Link
-                  to={link(chat.userId, chat.secondUserId)}
-                  style={{
-                    textDecoration: "none",
-                    color: "grey",
-                  }}
-                >
-                  {chat.userId === user._id && (
-                    <Typography color="white">{chat.secondUserId}</Typography>
-                  )}
-                  {chat.secondUserId === user._id && (
-                    <Typography color="white">{chat.userId}</Typography>
-                  )}
-                </Link>
-              }
-              subheader="date"
-            />
-            {/* <CardMedia
-            component="img"
-            height="%100"
-            image="https://www.wyborkierowcow.pl/wp-content/uploads/2022/10/bmw-m2-coupe-cennik-sylwetka1.jpg"
-            alt="Paella dish"
-          /> */}
+            {chat.userId === user._id && (
+              <ChatHeader userId={chat.secondUserId} date={chat.date} />
+            )}
+
+            {chat.secondUserId === user._id && (
+              <ChatHeader userId={chat.userId} date={chat.date} />
+            )}
+
             <CardContent>
               <Typography variant="body1" color="text.secondary">
-                Example last message. Just checking how it looks!
+                {chat.lastMessage}
               </Typography>
             </CardContent>
           </Card>

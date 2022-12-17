@@ -20,6 +20,7 @@ import ChatList from "./pages/ChatList";
 import Chat from "./pages/Chat";
 import EditProfile from "./pages/EditProfile";
 import Favourites from "./pages/Favourites";
+import LoggedNavbar from "./components/LoggedNavbar";
 
 const theme = createTheme({
   palette: {
@@ -53,7 +54,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Box bgcolor={"background.default"} color={"text.primary"}>
-        <Navbar />
+        {user ? <LoggedNavbar /> : <Navbar />}
 
         <Stack direction={"row"} spacing={2} justifyContent="space-between">
           {user ? (
