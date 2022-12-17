@@ -1,5 +1,6 @@
 const Chat = require("../../../models/Chat");
 const mongoose = require("mongoose");
+const date = require("date-and-time");
 
 module.exports = {
   Query: {
@@ -35,14 +36,25 @@ module.exports = {
 
       return firstCheck;
     },
+
+    async getChat(_, { ID }) {
+      return await Chat.findById(ID);
+    },
   },
 
   Mutation: {
-    async createChat(_, { createChat: { userId, secondUserId, initMessage } }) {
+    async createChat(
+      _,
+      { createChat: { userId, secondUserId, initMessage, initUserId } }
+    ) {
+      const now = new Date();
+
       const newChat = new Chat({
         userId: userId,
         secondUserId: secondUserId,
         initMessage: initMessage,
+        initUserId: initUserId,
+        initDate: date.format(now, "ddd, MMM DD YYYY"),
       });
       const res = await newChat.save();
 

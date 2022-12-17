@@ -17,6 +17,7 @@ module.exports = gql`
     banner: String
     profilePicture: String
     description: String
+    date: String
   }
 
   input UserInput {
@@ -46,7 +47,7 @@ module.exports = gql`
   }
 
   type Query {
-    getUser(ID: ID!): User!
+    getUser(ID: ID!): User
     getUsers: [User]
     getUserByEmail(email: String!): [User]
     getFriends(friends: [ID]): [User]

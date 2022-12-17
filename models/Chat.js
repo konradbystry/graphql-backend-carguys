@@ -6,6 +6,8 @@ const chatSchema = {
   secondUserId: Schema.Types.ObjectId,
   initMessage: String,
   lastMessage: String,
+  initUserId: String,
+  initDate: String,
 };
 
 module.exports = model("Chat", chatSchema);

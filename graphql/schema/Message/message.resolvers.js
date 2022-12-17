@@ -32,6 +32,10 @@ module.exports = {
           image: "",
         });
 
+        chat.lastMessage = text;
+        chat.date = date.format(now, "ddd, MMM DD YYYY");
+        chat.save();
+
         const res = await newMessage.save();
 
         return {

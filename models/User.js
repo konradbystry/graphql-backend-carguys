@@ -14,6 +14,7 @@ const userSchema = new Schema({
   banner: String,
   profilePicture: String,
   description: String,
+  date: String,
 });
 
 module.exports = model("User", userSchema);

@@ -90,7 +90,7 @@ module.exports = {
     async registerUser(_, { registerInput: { nickname, email, password } }) {
       //Check if user already exists
       const userAlreadyExists = await User.findOne({ email });
-
+      const now = new Date();
       //Throw error if that user exists
       if (userAlreadyExists) {
         throw new ApolloError(
@@ -108,6 +108,7 @@ module.exports = {
         banner: "",
         profilePicture: "",
         description: "",
+        date: date.format(now, "ddd, MMM DD YYYY"),
       });
       //Create JWT
       const token = jwt.sign(

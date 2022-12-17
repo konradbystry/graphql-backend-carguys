@@ -9,6 +9,7 @@ const topicSchema = new Schema({
   likes: Number,
   firstPost: String,
   banner: String,
+  date: String,
 });
 
 module.exports = model("Topic", topicSchema);

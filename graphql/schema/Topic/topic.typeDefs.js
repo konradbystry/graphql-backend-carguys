@@ -11,6 +11,7 @@ module.exports = gql`
     likes: Int
     firstPost: String
     banner: String
+    date: String
   }
 
   input TopicInput {

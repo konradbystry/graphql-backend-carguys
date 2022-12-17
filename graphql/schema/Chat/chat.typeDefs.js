@@ -9,6 +9,8 @@ module.exports = gql`
     secondUserId: String
     initMessage: String
     lastMessage: String
+    initUserId: String
+    initDate: String
   }
 
   input ChatInput {
@@ -20,11 +22,12 @@ module.exports = gql`
     initMessage: String
     userId: String
     secondUserId: String
+    initUserId: String
   }
 
   type Query {
     getChats(userId: String): [Chat]
-    getChat(name: String): Chat!
+    getChat(ID: ID!): Chat!
     isAlreadyChatting(userId: String, secondUserId: String): Chat
   }
 
