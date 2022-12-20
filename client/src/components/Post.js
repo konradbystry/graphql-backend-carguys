@@ -4,6 +4,7 @@ import {
   CardActions,
   CardContent,
   CardHeader,
+  CardMedia,
   Checkbox,
   IconButton,
   Typography,
@@ -25,7 +26,7 @@ const GET_USER = gql`
   }
 `;
 
-function Post({ postDate, postUserId, postText }) {
+function Post({ postDate, postUserId, postText, postImage }) {
   const { user } = useContext(AuthContext);
 
   const { data, loading, error } = useQuery(GET_USER, {
@@ -67,12 +68,10 @@ function Post({ postDate, postUserId, postText }) {
         }
         subheader={postDate}
       />
-      {/* <CardMedia
-          component="img"
-          height="%100"
-          image="https://www.wyborkierowcow.pl/wp-content/uploads/2022/10/bmw-m2-coupe-cennik-sylwetka1.jpg"
-          alt="Paella dish"
-        /> */}
+      {postImage !== "" && (
+        <CardMedia component="img" height="%100" image={postImage} />
+      )}
+
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           {postText}

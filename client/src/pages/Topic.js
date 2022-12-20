@@ -53,6 +53,7 @@ const CREATE_POST = gql`
       topicId
       userId
       userName
+      image
     }
   }
 `;
@@ -61,7 +62,17 @@ function Topic() {
   const { user } = useContext(AuthContext);
   const { id } = useParams();
 
-  console.log(user.name);
+  //image
+  const [image, setImage] = useState("");
+  function readImage(e) {
+    const reader = new FileReader();
+    let blob = e.target.files[0];
+    reader.readAsDataURL(blob);
+    reader.onloadend = function () {
+      let base64data = reader.result;
+      setImage(base64data);
+    };
+  }
 
   const { loading, error, data } = useQuery(GET_POSTS, {
     variables: { topicId: id },
@@ -78,6 +89,7 @@ function Topic() {
     topicId: id,
     userId: user._id,
     userName: user.name,
+    image: "",
   });
 
   const [createPost, newPost] = useMutation(CREATE_POST, {
@@ -95,6 +107,10 @@ function Topic() {
   if (loading) return <p>loading...</p>;
   if (error) return <p>error</p>;
 
+  console.log(typeof image);
+  values.image = image;
+  console.log(values);
+
   return (
     <Box flex={4} p={2} marginTop={10}>
       <TopicTitle id={id} />
@@ -103,6 +119,7 @@ function Topic() {
           postDate={post.date}
           postUserId={post.userId}
           postText={post.text}
+          postImage={post.image}
         />
       ))}
 
@@ -119,6 +136,12 @@ function Topic() {
         {errors.map(function (error) {
           return <Alert severity="error">{error.message}</Alert>;
         })}
+        <Button variant="contained" component="label">
+          Upload File
+          <input type="file" name="image" onChange={readImage} hidden />
+        </Button>
+        <br></br>
+        <br></br>
         <Button variant="contained" onClick={onSubmit}>
           Post
         </Button>

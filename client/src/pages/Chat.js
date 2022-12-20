@@ -7,6 +7,7 @@ import {
   Card,
   CardContent,
   CardHeader,
+  CardMedia,
   Stack,
   Typography,
 } from "@mui/material";
@@ -41,6 +42,7 @@ const CREATE_MESSAGE = gql`
       text
       userId
       userName
+      image
     }
   }
 `;
@@ -48,6 +50,18 @@ const CREATE_MESSAGE = gql`
 function Chat() {
   const { user } = useContext(AuthContext);
   const { chatId } = useParams();
+
+  //image
+  const [image, setImage] = useState("");
+  function readImage(e) {
+    const reader = new FileReader();
+    let blob = e.target.files[0];
+    reader.readAsDataURL(blob);
+    reader.onloadend = function () {
+      let base64data = reader.result;
+      setImage(base64data);
+    };
+  }
 
   const { data, loading, error } = useQuery(GET_MESSAGES, {
     variables: {
@@ -66,6 +80,7 @@ function Chat() {
     text: "",
     userId: user._id,
     userName: user.name,
+    image: "",
   });
 
   const [createMessage, newMessage] = useMutation(CREATE_MESSAGE, {
@@ -84,6 +99,8 @@ function Chat() {
   if (loading) return <p>loading...</p>;
   if (error) return <p>error</p>;
 
+  values.image = image;
+
   return (
     <Box flex={4} p={2} marginTop={10}>
       <InitChatHeader userId={user._id} />
@@ -91,12 +108,11 @@ function Chat() {
       {data.getMessages.map((message) => (
         <Card sx={{ margin: 5 }}>
           <ProfilePicture userId={message.userId} date={message.date} />
-          {/* <CardMedia
-            component="img"
-            height="%100"
-            image="https://www.wyborkierowcow.pl/wp-content/uploads/2022/10/bmw-m2-coupe-cennik-sylwetka1.jpg"
-            alt="Paella dish"
-          /> */}
+
+          {message.image !== "" && (
+            <CardMedia component="img" height="%100" image={message.image} />
+          )}
+
           <CardContent>
             <Typography variant="body2" color="text.secondary">
               {message.text}
@@ -117,6 +133,12 @@ function Chat() {
         {errors.map(function (error) {
           return <Alert severity="error">{error.message}</Alert>;
         })}
+        <Button variant="contained" component="label">
+          Upload File
+          <input type="file" name="image" onChange={readImage} hidden />
+        </Button>
+        <br></br>
+        <br></br>
         <Button variant="contained" onClick={onSubmit}>
           Send
         </Button>
