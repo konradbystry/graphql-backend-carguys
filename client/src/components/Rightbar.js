@@ -18,12 +18,21 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import GroupsIcon from "@mui/icons-material/Groups";
 import ProfilePicture from "./Friends/ProfilePicture";
+import RightBarFriend from "./Friends/RightBarFriend";
 
-const GET_FRIENDS = gql`
-  query GetFriends($friends: [ID]) {
-    getFriends(friends: $friends) {
-      nickname
-      _id
+// const GET_FRIENDS = gql`
+//   query GetFriends($friends: [ID]) {
+//     getFriends(friends: $friends) {
+//       nickname
+//       _id
+//     }
+//   }
+// `;
+
+const GET_USER = gql`
+  query Query($id: ID!) {
+    getUser(ID: $id) {
+      friends
     }
   }
 `;
@@ -31,8 +40,8 @@ const GET_FRIENDS = gql`
 function Rightbar() {
   const { user } = useContext(AuthContext);
 
-  const { data, error, loading } = useQuery(GET_FRIENDS, {
-    variables: { friends: user.friends },
+  const { data, error, loading } = useQuery(GET_USER, {
+    variables: { id: user._id },
   });
 
   if (loading) return <p>loading...</p>;
@@ -56,25 +65,26 @@ function Rightbar() {
           </ListItem>
         </List>
 
-        {data.getFriends.map((friend) => (
-          <List>
-            <Link
-              to={"/user/" + friend._id}
-              style={{
-                textDecoration: "none",
-                color: "white",
-              }}
-            >
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <ProfilePicture friendId={friend._id} />
-                  </ListItemIcon>
-                  <ListItemText color="primary" primary={friend.nickname} />
-                </ListItemButton>
-              </ListItem>
-            </Link>
-          </List>
+        {data.getUser.friends.map((friendId) => (
+          <RightBarFriend friendId={friendId} />
+          // <List>
+          //   <Link
+          //     to={"/user/" + friend._id}
+          //     style={{
+          //       textDecoration: "none",
+          //       color: "white",
+          //     }}
+          //   >
+          //     <ListItem disablePadding>
+          //       <ListItemButton>
+          //         <ListItemIcon>
+          //           <ProfilePicture friendId={friend._id} />
+          //         </ListItemIcon>
+          //         <ListItemText color="primary" primary={friend.nickname} />
+          //       </ListItemButton>
+          //     </ListItem>
+          //   </Link>
+          // </List>
         ))}
         {/* <AvatarGroup max={4}>
           <Avatar alt="Remy Sharp" src="" />
