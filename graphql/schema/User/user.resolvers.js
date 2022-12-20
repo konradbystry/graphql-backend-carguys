@@ -71,7 +71,7 @@ module.exports = {
         }
       );
 
-      const bannerCloud = await cloudinary.uploader.upload(profilePicture, {
+      const bannerCloud = await cloudinary.uploader.upload(banner, {
         resource_type: "image",
       });
 

@@ -17,6 +17,7 @@ module.exports = gql`
     userId: String
     userName: String
     topicId: String
+    image: String
   }
 
   type Query {
