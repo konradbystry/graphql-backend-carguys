@@ -115,6 +115,13 @@ function NewTopic() {
             id="custom-css-outlined-input"
           />
         </Stack>
+        <br></br>
+        <Button variant="contained" component="label">
+          Upload File
+          <input type="file" name="banner" onChange="" hidden />
+        </Button>
+        <br></br>
+        <br></br>
 
         <Typography variant="h5" mt={2}>
           Select banner
