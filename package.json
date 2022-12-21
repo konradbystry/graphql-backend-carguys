@@ -13,6 +13,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
+    "@graphql-tools/schema": "^9.0.12",
     "@mui/material": "^5.10.10",
     "apollo-server": "^3.10.0",
     "bcryptjs": "^2.4.3",
@@ -20,12 +21,14 @@
     "date-and-time": "^2.4.1",
     "dotenv": "^16.0.3",
     "graphql": "^16.5.0",
+    "graphql-subscriptions": "^2.0.0",
     "graphql-tag": "^2.12.6",
     "graphql-tools": "^8.3.6",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "mongoose": "^6.5.1",
     "nodemon": "^2.0.19",
-    "react-router-dom": "^6.4.2"
+    "react-router-dom": "^6.4.2",
+    "subscriptions-transport-ws": "^0.11.0"
   }
 }
