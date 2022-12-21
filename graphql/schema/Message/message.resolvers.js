@@ -4,10 +4,13 @@ const User = require("../../../models/User");
 const Message = require("../../../models/Message");
 const Chat = require("../../../models/Chat");
 const date = require("date-and-time");
-// const {ObjectId} = require('mongodb')
+
 const mongoose = require("mongoose");
 const { ApolloError } = require("apollo-server");
 const cloudinary = require("cloudinary").v2;
+const { PubSub } = require("graphql-subscriptions");
+
+const pubsub = new PubSub();
 
 module.exports = {
   Query: {
@@ -47,6 +50,17 @@ module.exports = {
 
           const res = await newMessage.save();
 
+          pubsub.publish("MESSAGE_CREATED", {
+            messageCreated: {
+              text: text,
+              userId: userId,
+              userName: userName,
+              chatId: chatId,
+              date: date.format(now, "ddd, MMM DD YYYY"),
+              image: imageCloud.secure_url,
+            },
+          });
+
           return {
             id: res.id,
             ...res._doc,
@@ -67,11 +81,27 @@ module.exports = {
 
         const res = await newMessage.save();
 
+        pubsub.publish("MESSAGE_CREATED", {
+          messageCreated: {
+            text: text,
+            userId: userId,
+            userName: userName,
+            chatId: chatId,
+            date: date.format(now, "ddd, MMM DD YYYY"),
+            image: image,
+          },
+        });
+
         return {
           id: res.id,
           ...res._doc,
         };
       }
+    },
+  },
+  Subscription: {
+    messageCreated: {
+      subscribe: () => pubsub.asyncIterator("MESSAGE_CREATED"),
     },
   },
 };

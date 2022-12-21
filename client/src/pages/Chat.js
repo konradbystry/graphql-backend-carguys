@@ -47,6 +47,19 @@ const CREATE_MESSAGE = gql`
   }
 `;
 
+const MESSAGES_SUBSCRIPTION = gql`
+  subscription Subscription {
+    messageCreated {
+      chatId
+      date
+      image
+      text
+      userId
+      userName
+    }
+  }
+`;
+
 function Chat() {
   const { user } = useContext(AuthContext);
   const { chatId } = useParams();
@@ -63,9 +76,25 @@ function Chat() {
     };
   }
 
-  const { data, loading, error } = useQuery(GET_MESSAGES, {
+  const { data, loading, error, subscribeToMore } = useQuery(GET_MESSAGES, {
     variables: {
       chatId: chatId,
+    },
+  });
+
+  subscribeToMore({
+    document: MESSAGES_SUBSCRIPTION,
+    variables: {
+      chatId: chatId,
+    },
+    updateQuery: (prev, { subscriptionData }) => {
+      if (!subscriptionData.data) return prev;
+      const newMessage = subscriptionData.data.messageCreated;
+      return Object.assign({}, prev, {
+        getMessages: {
+          messages: [newMessage, ...prev.getMessages],
+        },
+      });
     },
   });
 

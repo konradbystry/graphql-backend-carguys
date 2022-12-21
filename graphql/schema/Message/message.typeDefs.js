@@ -16,6 +16,7 @@ module.exports = gql`
     userId: String
     userName: String
     chatId: String
+    date: String
     image: String
   }
 
@@ -27,5 +28,9 @@ module.exports = gql`
     createMessage(messageInput: MessageInput): Message!
     editMessage(ID: ID!, messageInput: MessageInput): Boolean
     deleteMessage(ID: ID!): Boolean
+  }
+
+  type Subscription {
+    messageCreated: Message
   }
 `;
