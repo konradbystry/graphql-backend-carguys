@@ -1,4 +1,4 @@
-const { makeExecutableSchema } = require("graphql-tools");
+const { makeExecutableSchema } = require("@graphql-tools/schema");
 const _ = require("lodash");
 
 const userSchema = require("./User");
