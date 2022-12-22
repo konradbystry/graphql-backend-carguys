@@ -59,7 +59,12 @@ const localMONGODB = "mongodb://localhost:27017";
   });
 
   await server.start();
-  server.applyMiddleware({ app });
+  server.applyMiddleware({
+    app,
+    bodyParserConfig: {
+      limit: "100mb",
+    },
+  });
   mongoose.connect(localMONGODB, { useNewUrlParser: true });
 
   const PORT = 5000;
