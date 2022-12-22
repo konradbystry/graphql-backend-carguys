@@ -63,4 +63,9 @@ module.exports = gql`
     acceptFriendRequest(recevierId: ID!, senderId: ID!): User
     addToFavourites(userId: ID!, topicId: ID!): User
   }
+
+  type Subscription {
+    addedToFavourites: User
+    userLikedTopic: Topic
+  }
 `;

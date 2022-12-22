@@ -9,8 +9,10 @@ const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const lodash = require("lodash");
 const cloudinary = require("cloudinary").v2;
+const { PubSub } = require("graphql-subscriptions");
+const date = require("date-and-time");
 
-console.log(cloudinary.config().cloud_name);
+const pubsub = new PubSub();
 
 module.exports = {
   Query: {
@@ -105,9 +107,10 @@ module.exports = {
         nickname: nickname,
         email: email.toLowerCase(),
         password: encryptedPassword,
-        banner: "",
+        banner:
+          "https://res.cloudinary.com/dc6yaxeeh/image/upload/v1671388402/ohhrcvb4gp3pjhe3gypx.jpg",
         profilePicture: "",
-        description: "",
+        description: "I'm a new car guy!",
         date: date.format(now, "ddd, MMM DD YYYY"),
       });
       //Create JWT
@@ -224,16 +227,37 @@ module.exports = {
       console.log(topic.likes);
       topic.likes += 1;
       console.log(topic.likes);
-      topic.save();
+      const topicLiked = await topic.save();
 
       user.favourites.push(topicId);
 
+      pubsub.publish("USER_LIKED_TOPIC", {
+        userLikedTopic: {
+          likes: topic.likes,
+        },
+      });
+
       const res = await user.save();
+
+      pubsub.publish("ADDED_TO_FAVOURITES", {
+        addedToFavourites: {
+          favourites: user.favourites,
+        },
+      });
 
       return {
         id: res.id,
         ...res._doc,
       };
+    },
+  },
+
+  Subscription: {
+    addedToFavourites: {
+      subscribe: () => pubsub.asyncIterator("ADDED_TO_FAVOURITES"),
+    },
+    userLikedTopic: {
+      subscribe: () => pubsub.asyncIterator("USER_LIKED_TOPIC"),
     },
   },
 };

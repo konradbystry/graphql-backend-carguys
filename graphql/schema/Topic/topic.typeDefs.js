@@ -33,4 +33,8 @@ module.exports = gql`
     editTopic(ID: ID!, topicInput: TopicInput!): Boolean
     deleteTopic(ID: ID!): Boolean
   }
+
+  type Subscription {
+    topicCreated: Topic
+  }
 `;

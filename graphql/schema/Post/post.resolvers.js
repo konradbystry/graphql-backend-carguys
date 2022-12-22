@@ -4,9 +4,11 @@ const User = require("../../../models/User");
 const Post = require("../../../models/Post");
 const Topic = require("../../../models/Topic");
 const date = require("date-and-time");
-
 const mongoose = require("mongoose");
 const cloudinary = require("cloudinary").v2;
+const { PubSub } = require("graphql-subscriptions");
+
+const pubsub = new PubSub();
 
 module.exports = {
   Query: {
@@ -29,6 +31,8 @@ module.exports = {
           resource_type: "image",
         });
 
+        console.log("here");
+
         const createdPost = new Post({
           text: text,
           userId: userId,
@@ -39,6 +43,17 @@ module.exports = {
         });
 
         const res = await createdPost.save();
+
+        pubsub.publish("POST_CREATED", {
+          postCreated: {
+            text: text,
+            userId: userId,
+            userName: userName,
+            topicId: topicId,
+            date: date.format(now, "ddd, MMM DD YYYY"),
+            image: imageCloud.secure_url,
+          },
+        });
 
         return {
           id: res.id,
@@ -57,10 +72,26 @@ module.exports = {
 
       const res = await createdPost.save();
 
+      pubsub.publish("POST_CREATED", {
+        postCreated: {
+          text: text,
+          userId: userId,
+          userName: userName,
+          topicId: topicId,
+          date: date.format(now, "ddd, MMM DD YYYY"),
+          image: image,
+        },
+      });
+
       return {
         id: res.id,
         ...res._doc,
       };
+    },
+  },
+  Subscription: {
+    postCreated: {
+      subscribe: () => pubsub.asyncIterator("POST_CREATED"),
     },
   },
 };

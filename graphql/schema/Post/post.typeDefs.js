@@ -30,4 +30,8 @@ module.exports = gql`
     editPost(ID: ID!, postInput: PostInput): Boolean
     deletePost(ID: ID!): Boolean
   }
+
+  type Subscription {
+    postCreated: Post
+  }
 `;

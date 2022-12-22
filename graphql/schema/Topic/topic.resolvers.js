@@ -1,8 +1,12 @@
 const User = require("../../../models/User");
 const Post = require("../../../models/Post");
 const Topic = require("../../../models/Topic");
-// const {ObjectId} = require('mongodb')
 const mongoose = require("mongoose");
+const { PubSub } = require("graphql-subscriptions");
+const date = require("date-and-time");
+
+const pubsub = new PubSub();
+
 module.exports = {
   Query: {
     async getTopics() {
@@ -29,6 +33,8 @@ module.exports = {
   },
   Mutation: {
     async createTopic(_, { topicInput: { name, ownerId, firstPost, banner } }) {
+      const now = new Date();
+
       const createdTopic = new Topic({
         name: name,
         posts: [],
@@ -37,14 +43,33 @@ module.exports = {
         likes: 0,
         firstPost: firstPost,
         banner: banner,
+        date: date.format(now, "ddd, MMM DD YYYY"),
       });
 
       const res = await createdTopic.save();
+
+      pubsub.publish("TOPIC_CREATED", {
+        topicCreated: {
+          name: name,
+          posts: [],
+          premium: 0,
+          ownerId: ownerId,
+          likes: 0,
+          firstPost: firstPost,
+          banner: banner,
+        },
+      });
 
       return {
         id: res.id,
         ...res._doc,
       };
+    },
+  },
+
+  Subscription: {
+    topicCreated: {
+      subscribe: () => pubsub.asyncIterator("TOPIC_CREATED"),
     },
   },
 };
