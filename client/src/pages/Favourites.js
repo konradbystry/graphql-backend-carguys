@@ -36,12 +36,37 @@ const GET_USERS_FAVOURITES = gql`
   }
 `;
 
+const FAVOURITES_SUBSCRIPTION = gql`
+  subscription AddedToFavourites {
+    addedToFavourites {
+      favourites
+    }
+  }
+`;
+
 function Favourites() {
   const { id } = useParams();
 
-  const { loading, error, data } = useQuery(GET_USERS_FAVOURITES, {
-    variables: {
-      userId: id,
+  const { loading, error, data, subscribeToMore } = useQuery(
+    GET_USERS_FAVOURITES,
+    {
+      variables: {
+        userId: id,
+      },
+    }
+  );
+
+  subscribeToMore({
+    document: FAVOURITES_SUBSCRIPTION,
+    variables: { userId: id },
+    updateQuery: (prev, { subscriptionData }) => {
+      if (!subscriptionData.data) return prev;
+      const newFavourite = subscriptionData.data.addedToFavourites;
+      return Object.assign({}, prev, {
+        getUsersFavourites: {
+          favourites: [newFavourite, ...prev.getUsersFavourites],
+        },
+      });
     },
   });
 

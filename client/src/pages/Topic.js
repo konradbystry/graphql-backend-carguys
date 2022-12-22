@@ -32,6 +32,7 @@ import { CssTextField } from "./../mui/styled/CssTextField";
 import { BootstrapPostField } from "../mui/styled/BootstrapPostField";
 import Post from "../components/Post";
 import TopicTitle from "../components/Topic/TopicTitle";
+import FirstPost from "../components/Topic/FirstPost";
 
 const GET_POSTS = gql`
   query Query($topicId: String) {
@@ -58,6 +59,19 @@ const CREATE_POST = gql`
   }
 `;
 
+const POST_SUBSCRIPTION = gql`
+  subscription Subscription {
+    postCreated {
+      date
+      image
+      text
+      topicId
+      userId
+      userName
+    }
+  }
+`;
+
 function Topic() {
   const { user } = useContext(AuthContext);
   const { id } = useParams();
@@ -74,8 +88,22 @@ function Topic() {
     };
   }
 
-  const { loading, error, data } = useQuery(GET_POSTS, {
+  const { loading, error, data, subscribeToMore } = useQuery(GET_POSTS, {
     variables: { topicId: id },
+  });
+
+  subscribeToMore({
+    document: POST_SUBSCRIPTION,
+    variables: { topicId: id },
+    updateQuery: (prev, { subscriptionData }) => {
+      if (!subscriptionData.data) return prev;
+      const newPost = subscriptionData.data.postCreated;
+      return Object.assign({}, prev, {
+        getPosts: {
+          posts: [newPost, ...prev.getPosts],
+        },
+      });
+    },
   });
 
   const [errors, setErrors] = useState([]);
@@ -94,7 +122,6 @@ function Topic() {
 
   const [createPost, newPost] = useMutation(CREATE_POST, {
     update(proxy, { data: { createPost: postData } }) {
-      window.location.reload();
       console.log(this.variables);
     },
     onError({ graphQLErrors }) {
@@ -114,6 +141,7 @@ function Topic() {
   return (
     <Box flex={4} p={2} marginTop={10}>
       <TopicTitle id={id} />
+      <FirstPost />
       {data.getPosts.map((post) => (
         <Post
           postDate={post.date}

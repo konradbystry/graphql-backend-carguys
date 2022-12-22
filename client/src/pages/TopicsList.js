@@ -50,9 +50,45 @@ const ADD_TO_FAVOURITES = gql`
   }
 `;
 
+const TOPIC_SUBSCRIPTION = gql`
+  subscription TopicCreated {
+    topicCreated {
+      _id
+      name
+      posts
+      premium
+      ownerId
+      likes
+      banner
+      date
+    }
+  }
+`;
+
+const LIKES_SUBSCRIPTION = gql`
+  subscription Subscription {
+    userLikedTopic {
+      likes
+    }
+  }
+`;
+
 function TopicsList() {
   const { user } = useContext(AuthContext);
-  const { loading, error, data } = useQuery(GET_TOPICS);
+  const { loading, error, data, subscribeToMore } = useQuery(GET_TOPICS);
+
+  subscribeToMore({
+    document: TOPIC_SUBSCRIPTION,
+    updateQuery: (prev, { subscriptionData }) => {
+      if (!subscriptionData.data) return prev;
+      const newTopic = subscriptionData.data.topicCreated;
+      return Object.assign({}, prev, {
+        getTopics: {
+          topics: [newTopic, ...prev.getTopics],
+        },
+      });
+    },
+  });
 
   const [addToFavourites, favorites] = useMutation(ADD_TO_FAVOURITES);
 

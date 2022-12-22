@@ -37,7 +37,7 @@ function FavouriteIcon({ topicId, addToFavourites }) {
           e.preventDefault();
           addToFavourites({
             update() {
-              window.location.reload();
+              // window.location.reload();
             },
             variables: {
               userId: user._id,

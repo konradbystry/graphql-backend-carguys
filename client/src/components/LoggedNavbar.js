@@ -72,7 +72,7 @@ function LoggedNavbar() {
   const onLogout = () => {
     logout();
     setOpen(false);
-    navigate("/");
+    navigate("/login");
   };
   console.log(user);
 

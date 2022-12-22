@@ -12,11 +12,11 @@ import Avatar from "@mui/material/Avatar";
 
 import CssBaseline from "@mui/material/CssBaseline";
 
-import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { Link } from "react-router-dom";
 
 const REGISTER_USER = gql`
   mutation Mutation($registerInput: RegisterInput) {
@@ -47,10 +47,13 @@ function Register(props) {
 
   const [registerUser, { loading }] = useMutation(REGISTER_USER, {
     update(proxy, { data: { registerUser: userData } }) {
+      console.log("tutaj");
       context.login(userData);
-      navigate("/");
+      navigate("/home");
+      window.location.reload();
     },
     onError({ graphQLErrors }) {
+      console.log(this.variables);
       setErrors(graphQLErrors);
     },
     variables: { registerInput: values },
@@ -156,11 +159,17 @@ function Register(props) {
                 onClick={onSubmit}
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Sign Up
               </Button>
               <Grid container>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link
+                    to="/login"
+                    style={{
+                      textDecoration: "none",
+                      color: "yellow",
+                    }}
+                  >
                     {"Already have an account? Sign In"}
                   </Link>
                 </Grid>

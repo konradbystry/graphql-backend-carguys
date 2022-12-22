@@ -114,8 +114,6 @@ function Chat() {
 
   const [createMessage, newMessage] = useMutation(CREATE_MESSAGE, {
     update() {
-      window.location.reload();
-      console.log(this.variables);
       console.log(values);
     },
     onError({ graphQLErrors }) {

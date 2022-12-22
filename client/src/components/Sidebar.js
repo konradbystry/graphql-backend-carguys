@@ -50,7 +50,7 @@ function Sidebar() {
           <br></br>
 
           <Link
-            to="/"
+            to="/home"
             style={{
               textDecoration: "none",
               color: "white",
@@ -116,14 +116,22 @@ function Sidebar() {
               </ListItemButton>
             </ListItem>
           </Link>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <SettingsIcon color={"primary"} />
-              </ListItemIcon>
-              <ListItemText primary="Settings" />
-            </ListItemButton>
-          </ListItem>
+          <Link
+            to={"/user/" + user._id + "/edit"}
+            style={{
+              textDecoration: "none",
+              color: "white",
+            }}
+          >
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <SettingsIcon color={"primary"} />
+                </ListItemIcon>
+                <ListItemText primary="Settings" />
+              </ListItemButton>
+            </ListItem>
+          </Link>
         </List>
       </Box>
     </Box>

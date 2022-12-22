@@ -42,7 +42,7 @@ function Post({ postDate, postUserId, postText, postImage }) {
   return (
     <Card sx={{ margin: 5 }}>
       <CardHeader
-        avatar={<Avatar src={data.getUser.profilePicture}>U</Avatar>}
+        avatar={<Avatar src={data.getUser.profilePicture} />}
         title={
           postUserId === user._id ? (
             <Link

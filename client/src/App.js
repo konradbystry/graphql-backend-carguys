@@ -21,6 +21,7 @@ import Chat from "./pages/Chat";
 import EditProfile from "./pages/EditProfile";
 import Favourites from "./pages/Favourites";
 import LoggedNavbar from "./components/LoggedNavbar";
+import StartPage from "./pages/StartPage";
 
 const theme = createTheme({
   palette: {
@@ -73,7 +74,8 @@ function App() {
             color={"text.primary"}
           >
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<StartPage />} />
+              <Route path="/home" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/topics">

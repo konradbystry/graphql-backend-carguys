@@ -9,17 +9,14 @@ import { Alert, Button, TextField, Typography } from "@mui/material";
 import { CssTextField } from "../../mui/styled/CssTextField";
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
-
 import CssBaseline from "@mui/material/CssBaseline";
-
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-
+import { Link } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const LOGIN_USER = gql`
@@ -51,7 +48,7 @@ function Login(props) {
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
     update(proxy, { data: { loginUser: userData } }) {
       context.login(userData);
-      navigate("/");
+      navigate("/home");
       window.location.reload();
     },
     onError({ graphQLErrors }) {
@@ -140,13 +137,14 @@ function Login(props) {
                 Sign In
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link
+                    to="/register"
+                    style={{
+                      textDecoration: "none",
+                      color: "yellow",
+                    }}
+                  >
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

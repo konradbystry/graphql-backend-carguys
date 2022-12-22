@@ -47,10 +47,13 @@ function Notifications() {
 
   const [errors, setErrors] = useState([]);
 
-  const [acceptFreindRequest, mutation] = useMutation(ACCEPT_FRIEND_REQUEST);
+  const [acceptFreindRequest, mutation] = useMutation(ACCEPT_FRIEND_REQUEST, {
+    update() {
+      window.location.reload();
+    },
+  });
 
   function acceptFreindRequestCallback(freindRequest) {
-    console.log("test");
     acceptFreindRequest({
       variables: { recevierId: user._id, senderId: freindRequest },
     });

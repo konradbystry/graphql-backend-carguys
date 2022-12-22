@@ -68,7 +68,6 @@ function NewTopic() {
   const [createTopic, newTopic] = useMutation(CREATE_TOPIC, {
     update(proxy, { data: { createTopic: topicData } }) {
       navigate("/topics");
-      window.location.reload();
     },
     onError({ graphQLErrors }) {
       setErrors(graphQLErrors);

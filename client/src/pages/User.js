@@ -65,10 +65,10 @@ function User() {
 
   const [sendFriendRequest, freindRequest] = useMutation(SEND_FRIEND_REQUEST, {
     update() {
-      // window.location.reload();
       console.log("passed");
       console.log(data);
       console.log(this.variables);
+      window.location.reload();
     },
     onError({ graphQLErrors }) {
       console.log("error");
@@ -117,11 +117,7 @@ function User() {
     }
 
     if (user._id !== id && request) {
-      return (
-        <Button variant="contained" disabled>
-          Request send
-        </Button>
-      );
+      return <Button variant="contained">Request sent</Button>;
     }
   }
 

@@ -72,9 +72,8 @@ function Navbar() {
   const onLogout = () => {
     logout();
     setOpen(false);
-    navigate("/");
+    navigate("/login");
   };
-  console.log(user);
 
   return (
     <div>
