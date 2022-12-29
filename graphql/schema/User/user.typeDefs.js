@@ -51,6 +51,7 @@ module.exports = gql`
     getUsers: [User]
     getUserByEmail(email: String!): [User]
     getFriends(friends: [ID]): [User]
+    getUserByNickname(nickname: String!): [User]
   }
 
   type Mutation {

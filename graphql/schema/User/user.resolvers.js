@@ -36,6 +36,9 @@ module.exports = {
 
       return await getFriends;
     },
+    async getUserByNickname(_, { nickname }) {
+      return await User.find({ nickname });
+    },
   },
   Mutation: {
     async createUser(_, { userInput: { nickname, email, password } }) {

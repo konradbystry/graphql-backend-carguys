@@ -10,6 +10,8 @@ import {
   Avatar,
   Menu,
   MenuItem,
+  FormControl,
+  Select,
 } from "@mui/material";
 import { AuthContext } from "../context/authContext";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +23,7 @@ import MessageIcon from "@mui/icons-material/Message";
 import { grey } from "@mui/material/colors";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
+import { useForm } from "../utility/hooks";
 
 const GET_USER = gql`
   query Query($id: ID!) {
@@ -62,6 +65,13 @@ function LoggedNavbar() {
   const [open, setOpen] = useState(false);
   let navigate = useNavigate();
 
+  const { onChange, onSubmit, values } = useForm(
+    () => console.log("navigating"),
+    {
+      topicName: "",
+    }
+  );
+
   const { data, loading, error } = useQuery(GET_USER, {
     variables: { id: user._id },
   });
@@ -93,7 +103,16 @@ function LoggedNavbar() {
           {user ? (
             <>
               <Search>
-                <InputBase placeholder="Search..." />
+                <InputBase
+                  placeholder="Search for topics..."
+                  name="topicName"
+                  onChange={onChange}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      navigate("/topics/search/" + values.topicName);
+                    }
+                  }}
+                />
               </Search>
               <Box>
                 {" "}
@@ -200,85 +219,9 @@ function LoggedNavbar() {
               </Box>
             </>
           )}
-          {/* <Icons>
-              <Badge badgeContent={4} color="error">
-                <MessageIcon />
-              </Badge>
-              <Badge badgeContent={4} color="error">
-                <NotificationsIcon />
-              </Badge>
-              <Avatar
-                sx={{ width: "30", height: "30" }}
-                onClick={(e) => setOpen(true)}
-              />
-            </Icons>
-            <UserBox onClick={(e) => setOpen(true)}>
-              <Avatar sx={{ width: "30", height: "30" }} />
-              <Typography>Username</Typography>
-            </UserBox> */}
         </StyledToolbar>
       </AppBar>
     </div>
-    // <Box sx={{ flexGrow: 1 }}>
-    //   <AppBar position="static">
-    //     <Toolbar>
-    //       <Typography variant="h5" component="div">
-    //         <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-    //           Carguys
-    //         </Link>
-    //       </Typography>
-    //       <Box alignItems="right" sx={{ flexGrow: 1, textAlign: "right" }}>
-    //         {user ? (
-    //           <>
-    //             <Link
-    //               to={"/user/" + user._id}
-    //               style={{
-    //                 textDecoration: "none",
-    //                 color: "white",
-    //                 marginRight: "0.5rem",
-    //               }}
-    //             >
-    //               Profile
-    //             </Link>
-
-    //             <Link
-    //               to={"/user/" + user._id + "/notifications"}
-    //               style={{ textDecoration: "none", color: "white" }}
-    //             >
-    //               Notifications
-    //             </Link>
-
-    //             <Button
-    //               style={{ textDecoration: "none", color: "white" }}
-    //               onClick={onLogout}
-    //             >
-    //               Logout
-    //             </Button>
-    //           </>
-    //         ) : (
-    //           <>
-    //             <Link
-    //               to="/login"
-    //               style={{
-    //                 textDecoration: "none",
-    //                 color: "white",
-    //                 marginRight: "0.5rem",
-    //               }}
-    //             >
-    //               Login
-    //             </Link>
-    //             <Link
-    //               to="/register"
-    //               style={{ textDecoration: "none", color: "white" }}
-    //             >
-    //               Register
-    //             </Link>
-    //           </>
-    //         )}
-    //       </Box>
-    //     </Toolbar>
-    //   </AppBar>
-    // </Box>
   );
 }
 

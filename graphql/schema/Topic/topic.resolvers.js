@@ -16,7 +16,7 @@ module.exports = {
       return await Topic.findById(ID);
     },
     async getTopicByName(_, { name }) {
-      return await Topic.find({ name: name });
+      return await Topic.find({ name });
     },
 
     async getUsersFavourites(_, { userId }) {

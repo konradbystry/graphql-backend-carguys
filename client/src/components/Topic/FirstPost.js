@@ -16,6 +16,7 @@ const GET_TOPIC = gql`
     getTopic(ID: $id) {
       firstPost
       ownerId
+      date
     }
   }
 `;
@@ -37,7 +38,7 @@ function FirstPost() {
       <Card sx={{ margin: 5 }}>
         <ProfilePicture
           userId={data.getTopic.ownerId}
-          date={data.getTopic.ownerId}
+          date={data.getTopic.date}
         />
         {/* <CardMedia
         component="img"

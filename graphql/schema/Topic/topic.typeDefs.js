@@ -24,7 +24,7 @@ module.exports = gql`
   type Query {
     getTopics: [Topic]
     getTopic(ID: ID!): Topic!
-    getTopicByName(name: String!): Topic!
+    getTopicByName(name: String!): [Topic]
     getUsersFavourites(userId: ID): [Topic]
   }
 

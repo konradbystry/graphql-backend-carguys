@@ -22,6 +22,8 @@ import EditProfile from "./pages/EditProfile";
 import Favourites from "./pages/Favourites";
 import LoggedNavbar from "./components/LoggedNavbar";
 import StartPage from "./pages/StartPage";
+import Friends from "./pages/Friends";
+import TopicSearch from "./pages/TopicSearch";
 
 const theme = createTheme({
   palette: {
@@ -76,6 +78,7 @@ function App() {
             <Routes>
               <Route path="/" element={<StartPage />} />
               <Route path="/home" element={<Home />} />
+
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/topics">
@@ -84,12 +87,14 @@ function App() {
                 <Route element={<ProtectedRoutes />}>
                   <Route path="new" element={<NewTopic />} />
                 </Route>
+                <Route path="search/:topicName" element={<TopicSearch />} />
               </Route>
               <Route path="/user/:id" element={<User />} />
               <Route
                 path="/user/:id/notifications"
                 element={<Notifications />}
               />
+              <Route path="user/:id/friends" element={<Friends />} />
               <Route path="user/:id/chats" element={<ChatList />} />
               <Route path="user/:id/chats/:chatId" element={<Chat />} />
               <Route path="user/:id/edit" element={<EditProfile />} />
