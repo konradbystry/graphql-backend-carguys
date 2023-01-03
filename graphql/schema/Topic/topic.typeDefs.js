@@ -31,7 +31,7 @@ module.exports = gql`
   type Mutation {
     createTopic(topicInput: TopicInput): Topic!
     editTopic(ID: ID!, topicInput: TopicInput!): Boolean
-    deleteTopic(ID: ID!): Boolean
+    deleteTopic(ID: ID!): Topic!
   }
 
   type Subscription {

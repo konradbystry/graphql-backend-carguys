@@ -8,6 +8,7 @@ const chatSchema = require("./Chat");
 const messageSchema = require("./Message");
 const bannerSchema = require("./Banner");
 const feedSchema = require("./Feed");
+const favouritesSchema = require("./Favourites");
 
 // Multiple files to keep your project modularised
 const schema = makeExecutableSchema({
@@ -19,6 +20,7 @@ const schema = makeExecutableSchema({
     messageSchema.typeDefs,
     bannerSchema.typeDefs,
     feedSchema.typeDefs,
+    favouritesSchema.typeDefs,
   ],
   resolvers: _.merge(
     userSchema.resolvers,
@@ -27,7 +29,8 @@ const schema = makeExecutableSchema({
     chatSchema.resolvers,
     messageSchema.resolvers,
     bannerSchema.resolvers,
-    feedSchema.resolvers
+    feedSchema.resolvers,
+    favouritesSchema.resolvers
   ),
 });
 

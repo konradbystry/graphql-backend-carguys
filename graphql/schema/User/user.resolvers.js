@@ -42,18 +42,39 @@ module.exports = {
   },
   Mutation: {
     async createUser(_, { userInput: { nickname, email, password } }) {
+      const now = new Date();
+      const encryptedPassword = await bcrypt.hash(password, 10);
       const createdUser = new User({
         nickname: nickname,
-        email: email,
-        password: password,
-        posts: [],
-        premium: 0,
-        friends: [],
-        cars: [],
-        token: "just test",
-        banner: "banner",
-        profilePicture: "asdsad",
-        description: "asddsa",
+        email: email.toLowerCase(),
+        password: encryptedPassword,
+        banner:
+          "https://res.cloudinary.com/dc6yaxeeh/image/upload/v1671388402/ohhrcvb4gp3pjhe3gypx.jpg",
+        profilePicture: "",
+        description: "I'm a new car guy!",
+        date: date.format(now, "ddd, MMM DD YYYY"),
+      });
+
+      const res = await createdUser.save();
+
+      return {
+        id: res.id,
+        ...res._doc,
+      };
+    },
+    async createAdmin(_, { userInput: { nickname, email, password } }) {
+      const now = new Date();
+      const encryptedPassword = await bcrypt.hash(password, 10);
+      const createdUser = new User({
+        nickname: nickname,
+        email: email.toLowerCase(),
+        password: encryptedPassword,
+        banner:
+          "https://res.cloudinary.com/dc6yaxeeh/image/upload/v1671388402/ohhrcvb4gp3pjhe3gypx.jpg",
+        profilePicture: "",
+        description: "I'm a new car guy!",
+        date: date.format(now, "ddd, MMM DD YYYY"),
+        admin: true,
       });
 
       const res = await createdUser.save();
@@ -118,7 +139,13 @@ module.exports = {
       });
       //Create JWT
       const token = jwt.sign(
-        { _id: newUser._id, email, name: newUser.nickname },
+        {
+          _id: newUser._id,
+          email,
+          name: newUser.nickname,
+          friends: newUser.friends,
+          admin: newUser.admin,
+        },
         "TEMP_STRING",
         {
           expiresIn: "2h",
@@ -140,7 +167,13 @@ module.exports = {
 
       if (user && (await bcrypt.compare(password, user.password))) {
         const token = jwt.sign(
-          { _id: user._id, email, name: user.nickname, friends: user.friends },
+          {
+            _id: user._id,
+            email,
+            name: user.nickname,
+            friends: user.friends,
+            admin: user.admin,
+          },
           "TEMP_STRING",
           {
             expiresIn: "2h",
@@ -179,9 +212,7 @@ module.exports = {
       //   return item.toString();
       // });
       // console.log(test);
-      console.log(senderId);
-      console.log(recevierId);
-      console.log(recevier.friends + " here?");
+
       console.log(
         !lodash.includes(
           lodash.map(recevier.friends, function (item) {

@@ -7,6 +7,7 @@ import { Container, Stack } from "@mui/system";
 import {
   Avatar,
   Box,
+  Button,
   Card,
   CardActions,
   CardContent,
@@ -39,13 +40,20 @@ const GET_TOPICS = gql`
   }
 `;
 
-const ADD_TO_FAVOURITES = gql`
-  mutation Mutation($userId: ID!, $topicId: ID!) {
-    addToFavourites(userId: $userId, topicId: $topicId) {
+const ADD_FAVOURITES = gql`
+  mutation Mutation($favouritesInput: FavouritesInput) {
+    addFavourites(favouritesInput: $favouritesInput) {
       _id
-      email
-      favourites
-      nickname
+      topicId
+      userId
+    }
+  }
+`;
+
+const DELETE_TOPIC = gql`
+  mutation Mutation($id: ID!) {
+    deleteTopic(ID: $id) {
+      name
     }
   }
 `;
@@ -90,17 +98,9 @@ function TopicsList() {
     },
   });
 
-  const [addToFavourites, favorites] = useMutation(ADD_TO_FAVOURITES);
+  const [addFavourites, favorites] = useMutation(ADD_FAVOURITES);
 
-  function addToFavouritesCallback(topicId) {
-    console.log("test");
-    addToFavourites({
-      variables: {
-        userId: user._id,
-        topicId: topicId,
-      },
-    });
-  }
+  const [deleteTopic, deleteTarget] = useMutation(DELETE_TOPIC);
 
   if (loading) return <p>loading...</p>;
   if (error) return <p>error</p>;
@@ -138,12 +138,33 @@ function TopicsList() {
             <IconButton aria-label="add to favorites">
               <FavouriteIcon
                 topicId={topic._id}
-                addToFavourites={addToFavourites}
+                addFavourites={addFavourites}
               />
 
               <Typography color="white">{topic.likes}</Typography>
             </IconButton>
           </CardActions>
+          {user.admin === true && (
+            <Button
+              variant="contained"
+              sx={{
+                margin: 2,
+                color: "white",
+                background: "red",
+              }}
+              onClick={(e) => {
+                e.preventDefault();
+                deleteTopic({
+                  variables: {
+                    id: topic._id,
+                  },
+                });
+                console.log(topic._id);
+              }}
+            >
+              Delete topic
+            </Button>
+          )}
         </Card>
       ))}
     </Box>

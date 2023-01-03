@@ -15,7 +15,7 @@ const GET_USERS_FAVOURITES = gql`
   }
 `;
 
-function FavouriteIcon({ topicId, addToFavourites }) {
+function FavouriteIcon({ topicId, addFavourites }) {
   const { user } = useContext(AuthContext);
 
   const { data, loading, error } = useQuery(GET_USERS_FAVOURITES, {
@@ -26,7 +26,9 @@ function FavouriteIcon({ topicId, addToFavourites }) {
   if (loading) return <p>error</p>;
 
   let likedTopic = data.getUsersFavourites.find((topic) => {
-    return topic._id === topicId;
+    if (topic !== null) {
+      return topic._id === topicId;
+    }
   });
 
   if (likedTopic === undefined) {
@@ -35,13 +37,15 @@ function FavouriteIcon({ topicId, addToFavourites }) {
       <Checkbox
         onClick={(e) => {
           e.preventDefault();
-          addToFavourites({
+          addFavourites({
             update() {
               // window.location.reload();
             },
             variables: {
-              userId: user._id,
-              topicId: topicId,
+              favouritesInput: {
+                userId: user._id,
+                topicId: topicId,
+              },
             },
           });
         }}

@@ -4,6 +4,7 @@ const Topic = require("../../../models/Topic");
 const mongoose = require("mongoose");
 const { PubSub } = require("graphql-subscriptions");
 const date = require("date-and-time");
+const Favourites = require("../../../models/Favourites");
 
 const pubsub = new PubSub();
 
@@ -20,11 +21,11 @@ module.exports = {
     },
 
     async getUsersFavourites(_, { userId }) {
-      const user = await User.findById(userId);
+      const favourites = await Favourites.find({ userId });
       let favouriteTopics = [];
 
-      user.favourites.forEach((topicId) => {
-        var topic = Topic.findById(topicId);
+      favourites.forEach((favourite) => {
+        var topic = Topic.findById(favourite.topicId);
         favouriteTopics.push(topic);
       });
 
@@ -64,6 +65,11 @@ module.exports = {
         id: res.id,
         ...res._doc,
       };
+    },
+
+    async deleteTopic(_, { ID }) {
+      const deletedFavourites = await Favourites.deleteMany({ topicId: ID });
+      return await Topic.findByIdAndDelete(ID);
     },
   },
 

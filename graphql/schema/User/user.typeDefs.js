@@ -18,6 +18,7 @@ module.exports = gql`
     profilePicture: String
     description: String
     date: String
+    admin: Boolean
   }
 
   input UserInput {
@@ -56,6 +57,7 @@ module.exports = gql`
 
   type Mutation {
     createUser(userInput: UserInput): User!
+    createAdmin(userInput: UserInput): User!
     deleteUser(ID: ID!): Boolean
     editUser(editInput: EditInput): User!
     registerUser(registerInput: RegisterInput): User
