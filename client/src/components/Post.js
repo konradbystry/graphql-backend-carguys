@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Button,
   Card,
   CardActions,
   CardContent,
@@ -16,6 +17,7 @@ import gql from "graphql-tag";
 import { useContext } from "react";
 import { AuthContext } from "../context/authContext";
 import { useQuery } from "@apollo/client";
+import User from "../pages/User";
 
 const GET_USER = gql`
   query GetUser($id: ID!) {
@@ -88,6 +90,18 @@ function Post({ postDate, postUserId, postText, postImage }) {
                <ShareIcon />
              </IconButton> */}
       </CardActions>
+      {user.admin === true && (
+        <Button
+          variant="contained"
+          sx={{
+            margin: 2,
+            color: "white",
+            background: "red",
+          }}
+        >
+          Delete post
+        </Button>
+      )}
     </Card>
   );
 }

@@ -33,6 +33,7 @@ import { BootstrapPostField } from "../mui/styled/BootstrapPostField";
 import Post from "../components/Post";
 import TopicTitle from "../components/Topic/TopicTitle";
 import FirstPost from "../components/Topic/FirstPost";
+import { convertLength } from "@mui/material/styles/cssUtils";
 
 const GET_POSTS = gql`
   query Query($topicId: String) {
@@ -175,35 +176,6 @@ function Topic() {
         </Button>
       </Container>
     </Box>
-    // <Container spacing={2} maxWidth="md">
-    //   <h1>This is topic {id} page</h1>
-    //   <br></br>
-    //   <br></br>
-    //   <br></br>
-    //   {data.getPosts.map((post) => (
-    //     <div>
-    //       <Avatar alt="User" src={defaultProfilePicture} />
-    //       <Link to={"/user/" + post.userId}>
-    //         <h1>{post.userName} :</h1>
-    //       </Link>
-    //       <h1>{post.date}</h1>
-    //       <h1>{post.text}</h1>
-    //     </div>
-    //   ))}
-    //   <br></br>
-    //   <br></br>
-    //   <br></br>
-    //   <h3>Create new post</h3>
-    //   <Stack spacing={2} paddingBottom={2}>
-    //     <TextField label="Text" name="text" onChange={onChange} />
-    //   </Stack>
-    //   {errors.map(function (error) {
-    //     return <Alert severity="error">{error.message}</Alert>;
-    //   })}
-    //   <Button variant="contained" onClick={onSubmit}>
-    //     Post
-    //   </Button>
-    // </Container>
   );
 }
 

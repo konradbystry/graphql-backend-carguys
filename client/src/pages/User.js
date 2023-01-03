@@ -152,6 +152,18 @@ function User() {
             {data.getUser.description}
           </Typography>
         </CardContent>
+        {user.admin === true && (
+          <Button
+            variant="contained"
+            sx={{
+              margin: 2,
+              color: "white",
+              background: "red",
+            }}
+          >
+            Block
+          </Button>
+        )}
       </Card>
       {user._id !== id && <StartChat />}
 
