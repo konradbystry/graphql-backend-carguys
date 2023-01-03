@@ -15,6 +15,7 @@ const userSchema = new Schema({
   profilePicture: String,
   description: String,
   date: String,
+  admin: Boolean,
 });
 
 module.exports = model("User", userSchema);
