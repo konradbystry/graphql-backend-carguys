@@ -77,11 +77,6 @@ function Favourites() {
     <Box marginTop={10} bgcolor={"background.default"} color={"text.primary"}>
       {data.getUsersFavourites.map((topic) => (
         <Card sx={{ margin: 5 }}>
-          {/* <CardHeader
-            avatar={<Avatar />}
-            title="Owner"
-            subheader="September 14, 2016"
-          /> */}
           <ProfilePicture userId={topic.ownerId} date={topic.date} />
           <Link
             to={"/topics/" + topic._id}
