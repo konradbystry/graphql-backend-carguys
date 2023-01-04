@@ -16,7 +16,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import gql from "graphql-tag";
 import { useContext } from "react";
 import { AuthContext } from "../context/authContext";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import User from "../pages/User";
 
 const GET_USER = gql`
@@ -28,7 +28,15 @@ const GET_USER = gql`
   }
 `;
 
-function Post({ postDate, postUserId, postText, postImage }) {
+const DELETE_POST = gql`
+  mutation Mutation($id: ID!) {
+    deletePost(ID: $id) {
+      _id
+    }
+  }
+`;
+
+function Post({ postDate, postUserId, postText, postImage, postId }) {
   const { user } = useContext(AuthContext);
 
   const { data, loading, error } = useQuery(GET_USER, {
@@ -36,6 +44,8 @@ function Post({ postDate, postUserId, postText, postImage }) {
       id: postUserId,
     },
   });
+
+  const [deletePost, deleteTarget] = useMutation(DELETE_POST);
 
   //think about
   if (loading) return <p></p>;
@@ -97,6 +107,15 @@ function Post({ postDate, postUserId, postText, postImage }) {
             margin: 2,
             color: "white",
             background: "red",
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+            deletePost({
+              variables: { id: postId },
+              update() {
+                window.location.reload();
+              },
+            });
           }}
         >
           Delete post

@@ -158,8 +158,10 @@ function TopicsList() {
                   variables: {
                     id: topic._id,
                   },
+                  update() {
+                    window.location.reload();
+                  },
                 });
-                console.log(topic._id);
               }}
             >
               Delete topic

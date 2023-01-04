@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 
 module.exports = gql`
   type Post {
+    _id: String
     userId: String
     userName: String
     topicId: String
@@ -28,7 +29,7 @@ module.exports = gql`
   type Mutation {
     createPost(postInput: PostInput): Post! #to do - add params userId and topicId
     editPost(ID: ID!, postInput: PostInput): Boolean
-    deletePost(ID: ID!): Boolean
+    deletePost(ID: ID!): Post!
   }
 
   type Subscription {

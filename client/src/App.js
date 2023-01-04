@@ -24,6 +24,8 @@ import LoggedNavbar from "./components/LoggedNavbar";
 import StartPage from "./pages/StartPage";
 import Friends from "./pages/Friends";
 import TopicSearch from "./pages/TopicSearch";
+import Blocked from "./components/Blocked";
+import BlockedPage from "./pages/BlockedPage";
 
 const theme = createTheme({
   palette: {
@@ -60,7 +62,7 @@ function App() {
         {user ? <LoggedNavbar /> : <Navbar />}
 
         <Stack direction={"row"} spacing={2} justifyContent="space-between">
-          {user ? (
+          {user && user.blocked === false ? (
             <>
               <Sidebar />
             </>
@@ -77,31 +79,36 @@ function App() {
           >
             <Routes>
               <Route path="/" element={<StartPage />} />
-              <Route path="/home" element={<Home />} />
+              <Route element={<ProtectedRoutes />}>
+                <Route element={<Blocked />}>
+                  <Route path="/home" element={<Home />} />
 
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/topics">
-                <Route index element={<TopicsList />} />
-                <Route path=":id" element={<Topic />} />
-                <Route element={<ProtectedRoutes />}>
-                  <Route path="new" element={<NewTopic />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/blocked" element={<BlockedPage />} />
+                  <Route path="/topics">
+                    <Route index element={<TopicsList />} />
+                    <Route path=":id" element={<Topic />} />
+                    {/* <Route element={<ProtectedRoutes />}> */}
+                    <Route path="new" element={<NewTopic />} />
+                    {/* </Route> */}
+                    <Route path="search/:topicName" element={<TopicSearch />} />
+                  </Route>
+                  <Route path="/user/:id" element={<User />} />
+                  <Route
+                    path="/user/:id/notifications"
+                    element={<Notifications />}
+                  />
+                  <Route path="user/:id/friends" element={<Friends />} />
+                  <Route path="user/:id/chats" element={<ChatList />} />
+                  <Route path="user/:id/chats/:chatId" element={<Chat />} />
+                  <Route path="user/:id/edit" element={<EditProfile />} />
+                  <Route path="user/:id/favourites" element={<Favourites />} />
                 </Route>
-                <Route path="search/:topicName" element={<TopicSearch />} />
               </Route>
-              <Route path="/user/:id" element={<User />} />
-              <Route
-                path="/user/:id/notifications"
-                element={<Notifications />}
-              />
-              <Route path="user/:id/friends" element={<Friends />} />
-              <Route path="user/:id/chats" element={<ChatList />} />
-              <Route path="user/:id/chats/:chatId" element={<Chat />} />
-              <Route path="user/:id/edit" element={<EditProfile />} />
-              <Route path="user/:id/favourites" element={<Favourites />} />
             </Routes>
           </Box>
-          {user ? (
+          {user && user.blocked === false ? (
             <>
               <Rightbar />
             </>

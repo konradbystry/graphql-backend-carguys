@@ -44,6 +44,7 @@ const GET_POSTS = gql`
       date
       text
       image
+      _id
     }
   }
 `;
@@ -149,6 +150,7 @@ function Topic() {
           postUserId={post.userId}
           postText={post.text}
           postImage={post.image}
+          postId={post._id}
         />
       ))}
 

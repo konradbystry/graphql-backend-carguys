@@ -31,8 +31,6 @@ module.exports = {
           resource_type: "image",
         });
 
-        console.log("here");
-
         const createdPost = new Post({
           text: text,
           userId: userId,
@@ -87,6 +85,10 @@ module.exports = {
         id: res.id,
         ...res._doc,
       };
+    },
+
+    async deletePost(_, { ID }) {
+      return Post.findByIdAndDelete(ID);
     },
   },
   Subscription: {

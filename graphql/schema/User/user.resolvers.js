@@ -145,6 +145,7 @@ module.exports = {
           name: newUser.nickname,
           friends: newUser.friends,
           admin: newUser.admin,
+          blocked: newUser.blocked,
         },
         "TEMP_STRING",
         {
@@ -173,6 +174,7 @@ module.exports = {
             name: user.nickname,
             friends: user.friends,
             admin: user.admin,
+            blocked: user.blocked,
           },
           "TEMP_STRING",
           {
@@ -278,6 +280,27 @@ module.exports = {
           favourites: user.favourites,
         },
       });
+
+      return {
+        id: res.id,
+        ...res._doc,
+      };
+    },
+    async blockUser(_, { ID }) {
+      const user = await User.findById(ID);
+      user.blocked = true;
+      res = await user.save();
+
+      return {
+        id: res.id,
+        ...res._doc,
+      };
+    },
+
+    async unblockUser(_, { ID }) {
+      const user = await User.findById(ID);
+      user.blocked = false;
+      res = await user.save();
 
       return {
         id: res.id,

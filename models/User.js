@@ -16,6 +16,7 @@ const userSchema = new Schema({
   description: String,
   date: String,
   admin: Boolean,
+  blocked: Boolean,
 });
 
 module.exports = model("User", userSchema);

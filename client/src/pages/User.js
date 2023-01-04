@@ -27,6 +27,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { CssTextField } from "../mui/styled/CssTextField";
 import StartChat from "../components/StartChat";
+import AdminButton from "../components/User/AdminButton";
 
 const GET_USER = gql`
   query GetUser($id: ID!) {
@@ -37,6 +38,24 @@ const GET_USER = gql`
       profilePicture
       description
       banner
+    }
+  }
+`;
+
+const BLOCK_USER = gql`
+  mutation Mutation($id: ID!) {
+    blockUser(ID: $id) {
+      nickname
+      blocked
+    }
+  }
+`;
+
+const UNBLOCK_USER = gql`
+  mutation UnblockUser($id: ID!) {
+    unblockUser(ID: $id) {
+      blocked
+      nickname
     }
   }
 `;
@@ -79,6 +98,10 @@ function User() {
     },
     variables: { recevierId: id, senderId: user._id },
   });
+
+  const [blockUser, blockTarget] = useMutation(BLOCK_USER);
+
+  const [unblockUser, unblockTarget] = useMutation(UNBLOCK_USER);
 
   //loading
   if (loading) {
@@ -153,36 +176,21 @@ function User() {
           </Typography>
         </CardContent>
         {user.admin === true && (
-          <Button
-            variant="contained"
-            sx={{
-              margin: 2,
-              color: "white",
-              background: "red",
-            }}
-          >
-            Block
-          </Button>
+          // <Button
+          //   variant="contained"
+          //   sx={{
+          //     margin: 2,
+          //     color: "white",
+          //     background: "red",
+          //   }}
+          //   onClick={blockUser({ variables: { id: id } })}
+          // >
+          //   Block
+          // </Button>
+          <AdminButton />
         )}
       </Card>
       {user._id !== id && <StartChat />}
-
-      {/* {user._id !== id && (
-        <Container spacing={2} maxWidth="md">
-          <Stack spacing={2} paddingBottom={2}>
-            <CssTextField
-              label="Start chatting with friend..."
-              name="text"
-              multiline
-              rows={3}
-              onChange=""
-            />
-          </Stack>
-          <Button variant="contained" onClick="">
-            Start chat
-          </Button>
-        </Container>
-      )} */}
     </Box>
   );
 }

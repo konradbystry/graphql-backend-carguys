@@ -19,6 +19,7 @@ module.exports = gql`
     description: String
     date: String
     admin: Boolean
+    blocked: Boolean
   }
 
   input UserInput {
@@ -65,6 +66,8 @@ module.exports = gql`
     sendFriendRequest(recevierId: ID!, senderId: ID!): User
     acceptFriendRequest(recevierId: ID!, senderId: ID!): User
     addToFavourites(userId: ID!, topicId: ID!): User
+    blockUser(ID: ID!): User
+    unblockUser(ID: ID!): User
   }
 
   type Subscription {
