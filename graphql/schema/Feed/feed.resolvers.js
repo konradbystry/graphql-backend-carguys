@@ -38,5 +38,8 @@ module.exports = {
         };
       }
     },
+    async deleteFeed(_, { ID }) {
+      return Feed.findByIdAndDelete(ID);
+    },
   },
 };

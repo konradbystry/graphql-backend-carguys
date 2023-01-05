@@ -39,6 +39,14 @@ const CREATE_FEED = gql`
   }
 `;
 
+const DELETE_FEED = gql`
+  mutation Mutation($id: ID!) {
+    deleteFeed(ID: $id) {
+      _id
+    }
+  }
+`;
+
 function Home() {
   const { user } = useContext(AuthContext);
   const { data, loading, error } = useQuery(GET_FEED);
@@ -72,6 +80,8 @@ function Home() {
     },
   });
 
+  const [deleteFeed, deleteTarget] = useMutation(DELETE_FEED);
+
   if (loading) return <p>loading...</p>;
   if (error) return <p>error</p>;
 
@@ -79,44 +89,48 @@ function Home() {
 
   return (
     <Box marginTop={10}>
-      <CssTextField
-        margin="normal"
-        required
-        fullWidth
-        id="title"
-        label="Title"
-        name="title"
-        autoComplete="title"
-        onChange={onChange}
-        autoFocus
-      />
+      {user.admin === true && (
+        <Box>
+          <CssTextField
+            margin="normal"
+            required
+            fullWidth
+            id="title"
+            label="Title"
+            name="title"
+            autoComplete="title"
+            onChange={onChange}
+            autoFocus
+          />
 
-      <CssTextField
-        margin="normal"
-        required
-        fullWidth
-        id="text"
-        label="Text"
-        name="text"
-        autoComplete="text"
-        onChange={onChange}
-        autoFocus
-      />
+          <CssTextField
+            margin="normal"
+            required
+            fullWidth
+            id="text"
+            label="Text"
+            name="text"
+            autoComplete="text"
+            onChange={onChange}
+            autoFocus
+          />
 
-      <Button sx={{ marginTop: 2 }} variant="contained" component="label">
-        Image
-        <input type="file" name="banner" onChange={readImage} hidden />
-      </Button>
+          <Button sx={{ marginTop: 2 }} variant="contained" component="label">
+            Image
+            <input type="file" name="banner" onChange={readImage} hidden />
+          </Button>
 
-      <Button
-        type="submit"
-        fullWidth
-        variant="contained"
-        onClick={onSubmit}
-        sx={{ mt: 3, mb: 2, background: "red", color: "white" }}
-      >
-        Create
-      </Button>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            onClick={onSubmit}
+            sx={{ mt: 3, mb: 2, background: "red", color: "white" }}
+          >
+            Create
+          </Button>
+        </Box>
+      )}
 
       {data.getFeed.map((feed) => (
         <Card sx={{ marginTop: 6 }}>
@@ -137,7 +151,15 @@ function Home() {
                 color: "white",
                 background: "red",
               }}
-              onClick=""
+              onClick={(e) => {
+                e.preventDefault();
+                deleteFeed({
+                  variables: { id: feed._id },
+                  update() {
+                    window.location.reload();
+                  },
+                });
+              }}
             >
               Delete feed
             </Button>

@@ -22,6 +22,6 @@ module.exports = gql`
 
   type Mutation {
     createFeed(feedInput: FeedInput): Feed!
-    deleteFeed(ID: ID!): Boolean
+    deleteFeed(ID: ID!): Feed!
   }
 `;
