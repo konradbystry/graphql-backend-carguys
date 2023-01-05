@@ -1,10 +1,10 @@
-const User = require("../../../models/User");
-const Post = require("../../../models/Post");
-const Topic = require("../../../models/Topic");
+require("dotenv").config();
+
 const Feed = require("../../../models/Feed");
 const mongoose = require("mongoose");
 const { PubSub } = require("graphql-subscriptions");
 const date = require("date-and-time");
+const cloudinary = require("cloudinary").v2;
 
 const pubsub = new PubSub();
 
@@ -17,19 +17,26 @@ module.exports = {
   Mutation: {
     async createFeed(_, { feedInput: { title, text, image } }) {
       const now = new Date();
-      const createdFeed = new Feed({
-        title: title,
-        text: text,
-        image: image,
-        date: date.format(now, "ddd, MMM DD YYYY"),
-      });
 
-      const res = await createdFeed.save();
+      if (image !== "") {
+        const imageCloud = await cloudinary.uploader.upload(image, {
+          resource_type: "image",
+        });
 
-      return {
-        id: res.id,
-        ...res._doc,
-      };
+        const createdFeed = new Feed({
+          title: title,
+          text: text,
+          image: imageCloud.secure_url,
+          date: date.format(now, "ddd, MMM DD YYYY"),
+        });
+
+        const res = await createdFeed.save();
+
+        return {
+          id: res.id,
+          ...res._doc,
+        };
+      }
     },
   },
 };
