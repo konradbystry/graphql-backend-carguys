@@ -1,39 +1,17 @@
 import { AuthContext } from "../context/authContext";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "graphql-tag";
 import { Container, Stack } from "@mui/system";
-import {
-  Alert,
-  Button,
-  TextField,
-  Avatar,
-  Paper,
-  Typography,
-  Grid,
-  Box,
-  Card,
-  CardHeader,
-  IconButton,
-  CardMedia,
-  CardContent,
-  CardActions,
-  Checkbox,
-} from "@mui/material";
+import { Alert, Button, Box } from "@mui/material";
 import { useForm } from "../utility/hooks";
 import { useContext, useState } from "react";
-import defaultProfilePicture from "../assets/defaultProfilePicture.png";
-import { styled } from "@mui/material/styles";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ShareIcon from "@mui/icons-material/Share";
+
 import { CssTextField } from "./../mui/styled/CssTextField";
-import { BootstrapPostField } from "../mui/styled/BootstrapPostField";
+
 import Post from "../components/Post";
 import TopicTitle from "../components/Topic/TopicTitle";
 import FirstPost from "../components/Topic/FirstPost";
-import { convertLength } from "@mui/material/styles/cssUtils";
 
 const GET_POSTS = gql`
   query Query($topicId: String) {
@@ -128,7 +106,6 @@ function Topic() {
     },
     onError({ graphQLErrors }) {
       setErrors(graphQLErrors);
-      console.log(this.variables);
     },
     variables: { newPost: values },
   });
@@ -165,7 +142,11 @@ function Topic() {
           />
         </Stack>
         {errors.map(function (error) {
-          return <Alert severity="error">{error.message}</Alert>;
+          return (
+            <Alert sx={{ marginTop: 2, marginBottom: 3 }} severity="warning">
+              {error.message}
+            </Alert>
+          );
         })}
         <Button variant="contained" component="label">
           Upload File

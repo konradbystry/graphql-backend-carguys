@@ -1,7 +1,6 @@
 require("dotenv").config();
 
 const User = require("../../../models/User");
-const Post = require("../../../models/Post");
 const Topic = require("../../../models/Topic");
 const { ApolloError } = require("apollo-server-errors");
 const bcrypt = require("bcryptjs");
@@ -90,6 +89,18 @@ module.exports = {
     ) {
       const user = await User.findById(id);
 
+      if (
+        profilePicture === "" ||
+        banner === "" ||
+        nickname === "" ||
+        description === ""
+      ) {
+        throw new ApolloError(
+          "Please fill all fields to update profile",
+          "EMPTY_FIELD"
+        );
+      }
+
       const profilePictureCloud = await cloudinary.uploader.upload(
         profilePicture,
         {
@@ -124,6 +135,17 @@ module.exports = {
           "USER_ALREDY_EXISTS"
         );
       }
+
+      if (nickname === "" || email === "" || password === "") {
+        throw new ApolloError("Please fill all fields", "EMPTY_FIELD");
+      }
+
+      const emailRegex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
+
+      if (emailRegex.test(email) === false) {
+        throw new ApolloError("Email address is not valid", "INVALID_EMAIL");
+      }
+
       //Encrypt password
       const encryptedPassword = await bcrypt.hash(password, 10);
       //Build mongoose model
@@ -136,6 +158,8 @@ module.exports = {
         profilePicture: "",
         description: "I'm a new car guy!",
         date: date.format(now, "ddd, MMM DD YYYY"),
+        blocked: false,
+        admin: false,
       });
       //Create JWT
       const token = jwt.sign(
@@ -188,7 +212,10 @@ module.exports = {
           ...user._doc,
         };
       } else {
-        throw new ApolloError("Incorrect password", "INCORRECT_PASSWORD");
+        throw new ApolloError(
+          "Please check if email and password are correct",
+          "INCORRECT_LOGIN_DATA"
+        );
       }
     },
 

@@ -66,6 +66,11 @@ function Notifications() {
     <Box marginTop={10}>
       <Container spacing={2} maxWidth="sm">
         <Typography variant="h5">Friend requests</Typography>
+        {data.getUser.friendRequests.length === 0 && (
+          <Box marginTop={3}>
+            <p>No pending friend requests at the moment</p>
+          </Box>
+        )}
         {data.getUser.friendRequests.map((friendRequest) => (
           <Card sx={{ margin: 5 }}>
             {/* <CardHeader

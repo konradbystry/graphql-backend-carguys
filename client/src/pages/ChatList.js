@@ -53,6 +53,13 @@ function ChatList() {
   return (
     <Box marginTop={10}>
       <Typography variant="h5">Chats</Typography>
+      {data.getChats.length === 0 && (
+        <Box marginTop={3}>
+          {" "}
+          <p>No active chats at the moment</p>{" "}
+        </Box>
+      )}
+
       {data.getChats.map((chat) => (
         <Link
           to={"/user/" + user._id + "/chats/" + chat._id}

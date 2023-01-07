@@ -4,14 +4,11 @@ import { useForm } from "../../utility/hooks";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "graphql-tag";
 import { useNavigate } from "react-router-dom";
-import { Container, Stack } from "@mui/system";
-import { Alert, Button, TextField, Typography } from "@mui/material";
+import { Alert, Button, Typography } from "@mui/material";
 import { CssTextField } from "../../mui/styled/CssTextField";
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
-
 import CssBaseline from "@mui/material/CssBaseline";
-
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -174,6 +171,11 @@ function Register(props) {
                   </Link>
                 </Grid>
               </Grid>
+              {errors.map((error) => (
+                <Alert sx={{ marginTop: 2 }} severity="error">
+                  {error.message}
+                </Alert>
+              ))}
             </Box>
           </Box>
         </Grid>

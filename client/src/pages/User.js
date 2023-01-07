@@ -175,20 +175,7 @@ function User() {
             {data.getUser.description}
           </Typography>
         </CardContent>
-        {user.admin === true && (
-          // <Button
-          //   variant="contained"
-          //   sx={{
-          //     margin: 2,
-          //     color: "white",
-          //     background: "red",
-          //   }}
-          //   onClick={blockUser({ variables: { id: id } })}
-          // >
-          //   Block
-          // </Button>
-          <AdminButton />
-        )}
+        {user.admin === true && <AdminButton />}
       </Card>
       {user._id !== id && <StartChat />}
     </Box>

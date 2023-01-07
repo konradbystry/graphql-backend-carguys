@@ -79,12 +79,11 @@ function App() {
           >
             <Routes>
               <Route path="/" element={<StartPage />} />
+              <Route path="/register" element={<Register />} />
               <Route element={<ProtectedRoutes />}>
                 <Route element={<Blocked />}>
                   <Route path="/home" element={<Home />} />
-
                   <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
                   <Route path="/blocked" element={<BlockedPage />} />
                   <Route path="/topics">
                     <Route index element={<TopicsList />} />

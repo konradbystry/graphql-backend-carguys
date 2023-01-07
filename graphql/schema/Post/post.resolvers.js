@@ -7,7 +7,7 @@ const date = require("date-and-time");
 const mongoose = require("mongoose");
 const cloudinary = require("cloudinary").v2;
 const { PubSub } = require("graphql-subscriptions");
-
+const { ApolloError } = require("apollo-server-errors");
 const pubsub = new PubSub();
 
 module.exports = {
@@ -25,6 +25,13 @@ module.exports = {
       { postInput: { text, userId, userName, topicId, image } }
     ) {
       const now = new Date();
+
+      if (text === "") {
+        throw new ApolloError(
+          "This post is a bit empty, please write something to post!",
+          "EMPTY_MESSAGE"
+        );
+      }
 
       if (image !== "") {
         const imageCloud = await cloudinary.uploader.upload(image, {

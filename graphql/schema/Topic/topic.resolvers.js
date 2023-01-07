@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const { PubSub } = require("graphql-subscriptions");
 const date = require("date-and-time");
 const Favourites = require("../../../models/Favourites");
+const { ApolloError } = require("apollo-server-errors");
 
 const pubsub = new PubSub();
 
@@ -35,6 +36,14 @@ module.exports = {
   Mutation: {
     async createTopic(_, { topicInput: { name, ownerId, firstPost, banner } }) {
       const now = new Date();
+
+      if (name === "" || firstPost === "") {
+        throw new ApolloError("Please fill all fields", "EMPTY_FIELD");
+      }
+
+      if (banner === "") {
+        throw new ApolloError("Please select banner", "EMPTY_FIELD");
+      }
 
       const createdTopic = new Topic({
         name: name,

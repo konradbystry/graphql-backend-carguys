@@ -75,6 +75,13 @@ function Favourites() {
 
   return (
     <Box marginTop={10} bgcolor={"background.default"} color={"text.primary"}>
+      {data.getUsersFavourites.length === 0 && (
+        <Container maxWidth="sm">
+          <Typography variant="h4">You haven't liked any topics yet</Typography>
+          <Typography variant="h4">Go browse some topics!</Typography>
+        </Container>
+      )}
+
       {data.getUsersFavourites.map((topic) => (
         <Card sx={{ margin: 5 }}>
           <ProfilePicture userId={topic.ownerId} date={topic.date} />

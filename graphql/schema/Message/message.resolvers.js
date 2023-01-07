@@ -25,6 +25,10 @@ module.exports = {
     ) {
       const chat = await Chat.findById(chatId);
 
+      if (text === "") {
+        throw new ApolloError("Message is empty!", "EMPTY_MESSAGE");
+      }
+
       if (chat === null) {
         throw new ApolloError("Chat doesn't exist");
       } else {

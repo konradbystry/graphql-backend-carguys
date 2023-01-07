@@ -76,6 +76,13 @@ function Rightbar() {
           </Link>
         </List>
 
+        {data.getUser.friends.length === 0 && (
+          <p>
+            Click on friends icon and search for friends! Your firend list will
+            be displayed here
+          </p>
+        )}
+
         {data.getUser.friends.map((friendId) => (
           <RightBarFriend friendId={friendId} />
           // <List>

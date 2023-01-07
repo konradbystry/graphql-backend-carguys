@@ -71,7 +71,6 @@ function NewTopic() {
     },
     onError({ graphQLErrors }) {
       setErrors(graphQLErrors);
-      console.log(localStorage.getItem("token"));
     },
     variables: { topicInput: values },
   });
@@ -97,9 +96,6 @@ function NewTopic() {
             id="custom-css-outlined-input"
           />
         </Stack>
-        {errors.map(function (error) {
-          return <Alert severity="error">{error.message}</Alert>;
-        })}
 
         <Typography variant="h5" mt={2}>
           First post
@@ -142,6 +138,13 @@ function NewTopic() {
         <Button variant="contained" onClick={onSubmit}>
           Create
         </Button>
+        {errors.map(function (error) {
+          return (
+            <Alert sx={{ marginTop: 2 }} severity="error">
+              {error.message}
+            </Alert>
+          );
+        })}
       </Container>
     </Box>
   );

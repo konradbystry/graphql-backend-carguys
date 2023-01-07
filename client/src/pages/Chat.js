@@ -158,7 +158,11 @@ function Chat() {
           />
         </Stack>
         {errors.map(function (error) {
-          return <Alert severity="error">{error.message}</Alert>;
+          return (
+            <Alert sx={{ marginBottom: 2 }} severity="warning">
+              {error.message}
+            </Alert>
+          );
         })}
         <Button variant="contained" component="label">
           Upload File

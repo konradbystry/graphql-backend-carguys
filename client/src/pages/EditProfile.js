@@ -1,5 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import {
+  Alert,
   Avatar,
   Box,
   Button,
@@ -65,6 +66,8 @@ function EditProfile() {
     variables: { id: id },
   });
 
+  const [errors, setErrors] = useState([]);
+
   function editUserCallback() {
     editUser();
   }
@@ -84,6 +87,9 @@ function EditProfile() {
     },
     variables: {
       editInput: values,
+    },
+    onError({ graphQLErrors }) {
+      setErrors(graphQLErrors);
     },
   });
 
@@ -179,6 +185,13 @@ function EditProfile() {
           <Button variant="contained" onClick={onSubmit}>
             Update
           </Button>
+          {errors.map(function (error) {
+            return (
+              <Alert sx={{ marginTop: 2 }} severity="error">
+                {error.message}
+              </Alert>
+            );
+          })}
         </Stack>
       </Container>
     </Box>
