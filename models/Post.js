@@ -8,6 +8,7 @@ const postSchema = new Schema({
   text: String,
   image: String,
   likes: Number,
+  likedBy: [Schema.Types.ObjectId],
 });
 
 module.exports = model("Post", postSchema);

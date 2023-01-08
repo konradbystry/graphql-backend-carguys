@@ -18,6 +18,7 @@ import { useContext } from "react";
 import { AuthContext } from "../context/authContext";
 import { useMutation, useQuery } from "@apollo/client";
 import User from "../pages/User";
+import FavouriteIcon from "./Post/FavouriteIcon";
 
 const GET_USER = gql`
   query GetUser($id: ID!) {
@@ -36,7 +37,15 @@ const DELETE_POST = gql`
   }
 `;
 
-function Post({ postDate, postUserId, postText, postImage, postId }) {
+function Post({
+  postDate,
+  postUserId,
+  postText,
+  postImage,
+  postId,
+  postLikes,
+  postLikedBy,
+}) {
   const { user } = useContext(AuthContext);
 
   const { data, loading, error } = useQuery(GET_USER, {
@@ -91,10 +100,12 @@ function Post({ postDate, postUserId, postText, postImage, postId }) {
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-          <Checkbox
+          <FavouriteIcon postId={postId} postLikedBy={postLikedBy} />
+          {/* <Checkbox
             icon={<FavoriteBorderIcon />}
             checkedIcon={<FavoriteIcon sx={{ color: "red" }} />}
-          />
+          /> */}
+          <Typography color="white">{postLikes}</Typography>
         </IconButton>
         {/* <IconButton aria-label="share">
                <ShareIcon />

@@ -124,9 +124,10 @@ function LoggedNavbar() {
                       color: "white",
                     }}
                   >
-                    <Badge badgeContent={4} color="primary">
-                      <MessageIcon />
-                    </Badge>
+                    {/* <Badge badgeContent={4} color="primary">
+                      
+                    </Badge> */}
+                    <MessageIcon />
                   </Link>
                   <Link
                     to={"/user/" + user._id + "/notifications"}
@@ -135,9 +136,9 @@ function LoggedNavbar() {
                       color: "white",
                     }}
                   >
-                    <Badge badgeContent={4} color="primary">
-                      <NotificationsIcon />
-                    </Badge>
+                    {/* <Badge badgeContent={4} color="primary">
+                    </Badge> */}
+                    <NotificationsIcon />
                   </Link>
                   <Avatar
                     src={data.getUser.profilePicture}

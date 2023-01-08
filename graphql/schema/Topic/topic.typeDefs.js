@@ -36,5 +36,6 @@ module.exports = gql`
 
   type Subscription {
     topicCreated: Topic
+    topicDeleted: Topic
   }
 `;

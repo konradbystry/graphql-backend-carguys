@@ -70,6 +70,14 @@ const SEND_FRIEND_REQUEST = gql`
   }
 `;
 
+const FRIEND_REQUEST_SEND = gql`
+  subscription FriendRequestSend {
+    friendRequestSend {
+      friendRequests
+    }
+  }
+`;
+
 function User() {
   const { id } = useParams();
   const { user } = useContext(AuthContext);
@@ -79,14 +87,27 @@ function User() {
     variables: { id: id },
   });
 
+  // subscribeToMore({
+  //   document: FRIEND_REQUEST_SEND,
+  //   updateQuery: (prev, { subscriptionData }) => {
+  //     if (!subscriptionData.data) return prev;
+  //     const freindRequestSend = subscriptionData.data.freindRequestSend;
+  //     return Object.assign({}, prev, {
+  //       getTopics: {
+  //         topics: [freindRequestSend, ...prev.getUser],
+  //       },
+  //     });
+  //   },
+  // });
+
   //send friend request
   const [errors, setErrors] = useState([]);
 
   const [sendFriendRequest, freindRequest] = useMutation(SEND_FRIEND_REQUEST, {
     update() {
       console.log("passed");
-      console.log(data);
-      console.log(this.variables);
+      // console.log(data);
+      // console.log(this.variables);
       window.location.reload();
     },
     onError({ graphQLErrors }) {

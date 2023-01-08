@@ -73,9 +73,18 @@ const TOPIC_SUBSCRIPTION = gql`
   }
 `;
 
-const LIKES_SUBSCRIPTION = gql`
+const DELETE_TOPIC_SUB = gql`
   subscription Subscription {
-    userLikedTopic {
+    topicDeleted {
+      name
+    }
+  }
+`;
+
+const TOPIC_LIKED = gql`
+  subscription TopicLiked {
+    topicLiked {
+      name
       likes
     }
   }
@@ -93,6 +102,32 @@ function TopicsList() {
       return Object.assign({}, prev, {
         getTopics: {
           topics: [newTopic, ...prev.getTopics],
+        },
+      });
+    },
+  });
+
+  subscribeToMore({
+    document: DELETE_TOPIC_SUB,
+    updateQuery: (prev, { subscriptionData }) => {
+      if (!subscriptionData.data) return prev;
+      const deletedTopic = subscriptionData.data.topicDeleted;
+      return Object.assign({}, prev, {
+        getTopics: {
+          topics: [deletedTopic, ...prev.getTopics],
+        },
+      });
+    },
+  });
+
+  subscribeToMore({
+    document: TOPIC_LIKED,
+    updateQuery: (prev, { subscriptionData }) => {
+      if (!subscriptionData.data) return prev;
+      const topicLiked = subscriptionData.data.topicLiked;
+      return Object.assign({}, prev, {
+        getTopics: {
+          topics: [topicLiked, ...prev.getTopics],
         },
       });
     },
@@ -157,9 +192,6 @@ function TopicsList() {
                 deleteTopic({
                   variables: {
                     id: topic._id,
-                  },
-                  update() {
-                    window.location.reload();
                   },
                 });
               }}

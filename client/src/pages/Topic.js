@@ -23,6 +23,8 @@ const GET_POSTS = gql`
       text
       image
       _id
+      likes
+      likedBy
     }
   }
 `;
@@ -48,6 +50,15 @@ const POST_SUBSCRIPTION = gql`
       topicId
       userId
       userName
+    }
+  }
+`;
+
+const POST_LIKED = gql`
+  subscription Subscription {
+    postLiked {
+      likes
+      likedBy
     }
   }
 `;
@@ -78,6 +89,20 @@ function Topic() {
     updateQuery: (prev, { subscriptionData }) => {
       if (!subscriptionData.data) return prev;
       const newPost = subscriptionData.data.postCreated;
+      return Object.assign({}, prev, {
+        getPosts: {
+          posts: [newPost, ...prev.getPosts],
+        },
+      });
+    },
+  });
+
+  subscribeToMore({
+    document: POST_LIKED,
+    variables: { topicId: id },
+    updateQuery: (prev, { subscriptionData }) => {
+      if (!subscriptionData.data) return prev;
+      const newPost = subscriptionData.data.postLiked;
       return Object.assign({}, prev, {
         getPosts: {
           posts: [newPost, ...prev.getPosts],
@@ -128,6 +153,8 @@ function Topic() {
           postText={post.text}
           postImage={post.image}
           postId={post._id}
+          postLikes={post.likes}
+          postLikedBy={post.likedBy}
         />
       ))}
 

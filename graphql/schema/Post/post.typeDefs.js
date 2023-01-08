@@ -11,6 +11,7 @@ module.exports = gql`
     text: String
     image: String
     likes: Int
+    likedBy: [String]
   }
 
   input PostInput {
@@ -30,9 +31,11 @@ module.exports = gql`
     createPost(postInput: PostInput): Post! #to do - add params userId and topicId
     editPost(ID: ID!, postInput: PostInput): Boolean
     deletePost(ID: ID!): Post!
+    likePost(postId: ID!, userId: ID!): Post!
   }
 
   type Subscription {
     postCreated: Post
+    postLiked: Post
   }
 `;

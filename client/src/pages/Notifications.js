@@ -28,6 +28,14 @@ const GET_USER = gql`
   }
 `;
 
+// const FRIEND_REQUEST_SEND = gql`
+//   subscription FriendRequestSend {
+//     friendRequestSend {
+//       friendRequests
+//     }
+//   }
+// `;
+
 const ACCEPT_FRIEND_REQUEST = gql`
   mutation Mutation($recevierId: ID!, $senderId: ID!) {
     acceptFriendRequest(recevierId: $recevierId, senderId: $senderId) {
@@ -44,6 +52,19 @@ function Notifications() {
   const { loading, error, data } = useQuery(GET_USER, {
     variables: { id: user._id },
   });
+
+  // subscribeToMore({
+  //   document: FRIEND_REQUEST_SEND,
+  //   updateQuery: (prev, { subscriptionData }) => {
+  //     if (!subscriptionData.data) return prev;
+  //     const freindRequestSend = subscriptionData.data.freindRequestSend;
+  //     return Object.assign({}, prev, {
+  //       getTopics: {
+  //         topics: [freindRequestSend, ...prev.getUser],
+  //       },
+  //     });
+  //   },
+  // });
 
   const [errors, setErrors] = useState([]);
 

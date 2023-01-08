@@ -45,6 +45,8 @@ module.exports = {
           topicId: topicId,
           date: date.format(now, "ddd, MMM DD YYYY"),
           image: imageCloud.secure_url,
+          likes: 0,
+          likedBy: [],
         });
 
         const res = await createdPost.save();
@@ -57,6 +59,8 @@ module.exports = {
             topicId: topicId,
             date: date.format(now, "ddd, MMM DD YYYY"),
             image: imageCloud.secure_url,
+            likes: 0,
+            likedBy: [],
           },
         });
 
@@ -73,6 +77,8 @@ module.exports = {
         topicId: topicId,
         date: date.format(now, "ddd, MMM DD YYYY"),
         image: image,
+        likes: 0,
+        likedBy: [],
       });
 
       const res = await createdPost.save();
@@ -85,6 +91,8 @@ module.exports = {
           topicId: topicId,
           date: date.format(now, "ddd, MMM DD YYYY"),
           image: image,
+          likes: 0,
+          likedBy: [],
         },
       });
 
@@ -97,10 +105,37 @@ module.exports = {
     async deletePost(_, { ID }) {
       return Post.findByIdAndDelete(ID);
     },
+
+    async likePost(_, { postId, userId }) {
+      const post = await Post.findById(postId);
+      if (post.likes === undefined) {
+        post.likes = 0;
+      }
+      post.likes += 1;
+      post.likedBy.push(userId);
+
+      res = await post.save();
+
+      pubsub.publish("POST_LIKED", {
+        postLiked: {
+          likes: post.likes,
+          likedBy: post.likedBy,
+        },
+      });
+
+      return {
+        id: res.id,
+        ...res._doc,
+      };
+    },
   },
+
   Subscription: {
     postCreated: {
       subscribe: () => pubsub.asyncIterator("POST_CREATED"),
+    },
+    postLiked: {
+      subscribe: () => pubsub.asyncIterator("POST_LIKED"),
     },
   },
 };

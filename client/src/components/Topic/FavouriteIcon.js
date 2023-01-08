@@ -15,11 +15,37 @@ const GET_USERS_FAVOURITES = gql`
   }
 `;
 
+const ADDED_FAVOURITES_SUB = gql`
+  subscription AddedFavourites {
+    addedFavourites {
+      topicId
+      userId
+    }
+  }
+`;
+
 function FavouriteIcon({ topicId, addFavourites }) {
   const { user } = useContext(AuthContext);
 
-  const { data, loading, error } = useQuery(GET_USERS_FAVOURITES, {
+  const { data, loading, error, subscribeToMore } = useQuery(
+    GET_USERS_FAVOURITES,
+    {
+      variables: { userId: user._id },
+    }
+  );
+
+  subscribeToMore({
+    document: ADDED_FAVOURITES_SUB,
     variables: { userId: user._id },
+    updateQuery: (prev, { subscriptionData }) => {
+      if (!subscriptionData.data) return prev;
+      const newFavourite = subscriptionData.data.addedFavourites;
+      return Object.assign({}, prev, {
+        getUsersFavourites: {
+          favourites: [newFavourite, ...prev.getUsersFavourites],
+        },
+      });
+    },
   });
 
   if (loading) return <p>loading...</p>;

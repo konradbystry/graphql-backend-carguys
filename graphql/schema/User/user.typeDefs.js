@@ -73,5 +73,6 @@ module.exports = gql`
   type Subscription {
     addedToFavourites: User
     userLikedTopic: Topic
+    friendRequestSend: User
   }
 `;

@@ -3,6 +3,9 @@ const User = require("../../../models/User");
 const Topic = require("../../../models/Topic");
 const mongoose = require("mongoose");
 const date = require("date-and-time");
+const { PubSub } = require("graphql-subscriptions");
+
+const pubsub = new PubSub();
 
 module.exports = {
   Query: {
@@ -18,20 +21,21 @@ module.exports = {
       topic.likes += 1;
       const topicLiked = await topic.save();
 
-      user.favourites.push(topicId);
+      //user.favourites.push(topicId);
       const addedToFavourites = await user.save();
 
-      //   pubsub.publish("USER_LIKED_TOPIC", {
-      //     userLikedTopic: {
-      //       likes: topic.likes,
-      //     },
-      //   });
+      pubsub.publish("TOPIC_LIKED", {
+        topicLiked: {
+          likes: topic.likes,
+        },
+      });
 
-      //   pubsub.publish("ADDED_TO_FAVOURITES", {
-      //     addedToFavourites: {
-      //       favourites: user.favourites,
-      //     },
-      //   });
+      pubsub.publish("ADDED_FAVOURITES", {
+        addedFavourites: {
+          userId: userId,
+          topicId: topicId,
+        },
+      });
 
       const newFavourites = new Favourites({
         userId: userId,
@@ -51,6 +55,14 @@ module.exports = {
       //words.filter(word => word !== "limit");
 
       //return await Favourites.deleteMany({ topicId });
+    },
+  },
+  Subscription: {
+    addedFavourites: {
+      subscribe: () => pubsub.asyncIterator("ADDED_FAVOURITES"),
+    },
+    topicLiked: {
+      subscribe: () => pubsub.asyncIterator("TOPIC_LIKED"),
     },
   },
 };

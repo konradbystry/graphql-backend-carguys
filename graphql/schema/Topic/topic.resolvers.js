@@ -18,7 +18,7 @@ module.exports = {
       return await Topic.findById(ID);
     },
     async getTopicByName(_, { name }) {
-      return await Topic.find({ name });
+      return await Topic.find({ name: { $regex: name } });
     },
 
     async getUsersFavourites(_, { userId }) {
@@ -77,14 +77,27 @@ module.exports = {
     },
 
     async deleteTopic(_, { ID }) {
-      const deletedFavourites = await Favourites.deleteMany({ topicId: ID });
-      return await Topic.findByIdAndDelete(ID);
+      const deletedTopic = await Topic.findByIdAndDelete(ID);
+      const deletedFromFavourites = await Favourites.deleteMany({
+        topicId: ID,
+      });
+
+      pubsub.publish("TOPIC_CREATED", {
+        topicDeleted: {
+          _id: ID,
+        },
+      });
+
+      return deletedTopic;
     },
   },
 
   Subscription: {
     topicCreated: {
       subscribe: () => pubsub.asyncIterator("TOPIC_CREATED"),
+    },
+    topicDeleted: {
+      subscribe: () => pubsub.asyncIterator("TOPIC_DELETED"),
     },
   },
 };

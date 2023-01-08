@@ -44,6 +44,15 @@ const FAVOURITES_SUBSCRIPTION = gql`
   }
 `;
 
+const ADDED_FAVOURITES_SUB = gql`
+  subscription AddedFavourites {
+    addedFavourites {
+      topicId
+      userId
+    }
+  }
+`;
+
 function Favourites() {
   const { id } = useParams();
 
@@ -57,11 +66,11 @@ function Favourites() {
   );
 
   subscribeToMore({
-    document: FAVOURITES_SUBSCRIPTION,
+    document: ADDED_FAVOURITES_SUB,
     variables: { userId: id },
     updateQuery: (prev, { subscriptionData }) => {
       if (!subscriptionData.data) return prev;
-      const newFavourite = subscriptionData.data.addedToFavourites;
+      const newFavourite = subscriptionData.data.addedFavourites;
       return Object.assign({}, prev, {
         getUsersFavourites: {
           favourites: [newFavourite, ...prev.getUsersFavourites],

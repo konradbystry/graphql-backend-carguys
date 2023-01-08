@@ -21,4 +21,9 @@ module.exports = gql`
     addFavourites(favouritesInput: FavouritesInput): Favourites!
     deleteFavourites(topicId: ID!): Boolean
   }
+
+  type Subscription {
+    addedFavourites: Favourites
+    topicLiked: Topic
+  }
 `;

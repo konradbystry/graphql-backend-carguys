@@ -36,7 +36,7 @@ module.exports = {
       return await getFriends;
     },
     async getUserByNickname(_, { nickname }) {
-      return await User.find({ nickname });
+      return await User.find({ nickname: { $regex: nickname } });
     },
   },
   Mutation: {
@@ -222,10 +222,17 @@ module.exports = {
     async sendFriendRequest(_, { recevierId, senderId }) {
       const user = await User.findById(recevierId);
 
-      user.friendRequest = true;
+      //user.friendRequest = true;
       user.friendRequests.push(senderId);
 
       user.save();
+
+      pubsub.publish("FRIEND_REQUEST_SEND", {
+        friendRequestSend: {
+          _id: recevierId,
+          friendRequests: user.friendRequests,
+        },
+      });
 
       return {
         id: user.id,
@@ -342,6 +349,9 @@ module.exports = {
     },
     userLikedTopic: {
       subscribe: () => pubsub.asyncIterator("USER_LIKED_TOPIC"),
+    },
+    friendRequestSend: {
+      subscribe: () => pubsub.asyncIterator("FRIEND_REQUEST_SEND"),
     },
   },
 };
