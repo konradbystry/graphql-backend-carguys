@@ -1,6 +1,9 @@
 const Chat = require("../../../models/Chat");
 const mongoose = require("mongoose");
 const date = require("date-and-time");
+const { PubSub } = require("graphql-subscriptions");
+
+const pubsub = new PubSub();
 
 module.exports = {
   Query: {
@@ -58,10 +61,26 @@ module.exports = {
       });
       const res = await newChat.save();
 
+      pubsub.publish("CHAT_CREATED", {
+        chatCreated: {
+          userId: userId,
+          secondUserId: secondUserId,
+          initMessage: initMessage,
+          initUserId: initUserId,
+          initDate: date.format(now, "ddd, MMM DD YYYY"),
+        },
+      });
+
       return {
         id: res.id,
         ...res._doc,
       };
+    },
+  },
+
+  Subscription: {
+    chatCreated: {
+      subscribe: () => pubsub.asyncIterator("CHAT_CREATED"),
     },
   },
 };

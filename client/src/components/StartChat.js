@@ -32,6 +32,20 @@ const CREATE_CHAT = gql`
   }
 `;
 
+const CHAT_CREATED = gql`
+  subscription ChatCreated {
+    chatCreated {
+      _id
+      date
+      initDate
+      initMessage
+      lastMessage
+      secondUserId
+      userId
+    }
+  }
+`;
+
 function StartChat() {
   const { id } = useParams();
   const { user } = useContext(AuthContext);
@@ -43,6 +57,23 @@ function StartChat() {
       secondUserId: id,
     },
   });
+
+  // subscribeToMore({
+  //   document: CHAT_CREATED,
+  //   variables: {
+  //     userId: user._id,
+  //     secondUserId: id,
+  //   },
+  //   updateQuery: (prev, { subscriptionData }) => {
+  //     if (!subscriptionData.data) return prev;
+  //     const chatCreated = subscriptionData.data.chatCreated;
+  //     return Object.assign({}, prev, {
+  //       isAlreadyChatting: {
+  //         isAlreadyChatting: [chatCreated, ...prev.isAlreadyChatting],
+  //       },
+  //     });
+  //   },
+  // });
 
   function startChatCallback() {
     createChat();
@@ -59,8 +90,8 @@ function StartChat() {
 
   const [createChat, chat] = useMutation(CREATE_CHAT, {
     update() {
-      navigate("/user/" + user._id + "/chats/");
       window.location.reload();
+      //navigate("/user/" + user._id + "/chats/");
     },
     onError() {
       console.log("look");

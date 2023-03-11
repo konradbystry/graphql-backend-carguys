@@ -96,6 +96,12 @@ module.exports = {
           },
         });
 
+        pubsub.publish("CHAT_UPDATED", {
+          chatUpdated: {
+            _id: chatId,
+          },
+        });
+
         return {
           id: res.id,
           ...res._doc,
@@ -106,6 +112,9 @@ module.exports = {
   Subscription: {
     messageCreated: {
       subscribe: () => pubsub.asyncIterator("MESSAGE_CREATED"),
+    },
+    chatUpdated: {
+      subscribe: () => pubsub.asyncIterator("CHAT_UPDATED"),
     },
   },
 };

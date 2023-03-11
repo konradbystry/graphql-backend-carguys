@@ -35,4 +35,8 @@ module.exports = gql`
     createChat(createChat: CreateChat): Chat!
     deleteChat(ID: ID!): Boolean
   }
+
+  type Subscription {
+    chatCreated: Chat
+  }
 `;

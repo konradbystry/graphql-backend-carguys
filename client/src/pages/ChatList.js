@@ -30,11 +30,65 @@ const GET_CHATS = gql`
   }
 `;
 
+const CHAT_CREATED = gql`
+  subscription ChatCreated {
+    chatCreated {
+      _id
+      date
+      initDate
+      initMessage
+      lastMessage
+      secondUserId
+      userId
+    }
+  }
+`;
+
+const CHAT_UPDATED = gql`
+  subscription ChatUpdated {
+    chatUpdated {
+      _id
+      date
+      initDate
+      initMessage
+      lastMessage
+      secondUserId
+      userId
+    }
+  }
+`;
+
 function ChatList() {
   const { user } = useContext(AuthContext);
 
-  const { data, loading, error } = useQuery(GET_CHATS, {
+  const { data, loading, error, subscribeToMore } = useQuery(GET_CHATS, {
     variables: { userId: user._id },
+  });
+
+  subscribeToMore({
+    document: CHAT_CREATED,
+    updateQuery: (prev, { subscriptionData }) => {
+      if (!subscriptionData.data) return prev;
+      const chatCreated = subscriptionData.data.chatCreated;
+      return Object.assign({}, prev, {
+        getChats: {
+          chats: [chatCreated, ...prev.getChats],
+        },
+      });
+    },
+  });
+
+  subscribeToMore({
+    document: CHAT_UPDATED,
+    updateQuery: (prev, { subscriptionData }) => {
+      if (!subscriptionData.data) return prev;
+      const chatUpdated = subscriptionData.data.chatUpdated;
+      return Object.assign({}, prev, {
+        getChats: {
+          chats: [chatUpdated, ...prev.getChats],
+        },
+      });
+    },
   });
 
   function displayDate(date, initDate) {

@@ -32,5 +32,6 @@ module.exports = gql`
 
   type Subscription {
     messageCreated: Message
+    chatUpdated: Chat
   }
 `;
