@@ -198,7 +198,7 @@ function User() {
         </CardContent>
         {user.admin === true && <AdminButton />}
       </Card>
-      {user._id !== id && <StartChat />}
+      {user._id !== id && friend && <StartChat />}
     </Box>
   );
 }

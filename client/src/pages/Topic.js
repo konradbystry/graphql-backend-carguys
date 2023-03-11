@@ -176,7 +176,7 @@ function Topic() {
           );
         })}
         <Button variant="contained" component="label">
-          Upload File
+          Upload Image
           <input type="file" name="image" onChange={readImage} hidden />
         </Button>
         <br></br>

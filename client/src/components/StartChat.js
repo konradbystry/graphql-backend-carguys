@@ -59,8 +59,8 @@ function StartChat() {
 
   const [createChat, chat] = useMutation(CREATE_CHAT, {
     update() {
-      console.log("here hre hre herh");
       navigate("/user/" + user._id + "/chats/");
+      window.location.reload();
     },
     onError() {
       console.log("look");

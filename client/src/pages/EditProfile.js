@@ -133,7 +133,7 @@ function EditProfile() {
             component="label"
             sx={{ width: { xs: 300, md: 600 }, marginBottom: 5 }}
           >
-            Upload File
+            Upload Image
             <input
               type="file"
               name="profilePicture"
@@ -157,7 +157,7 @@ function EditProfile() {
 
           <br></br>
           <Button variant="contained" component="label">
-            Upload File
+            Upload Image
             <input type="file" name="banner" onChange={changeBanner} hidden />
           </Button>
           <br></br>

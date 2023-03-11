@@ -24,6 +24,8 @@ const GET_CHATS = gql`
       userId
       lastMessage
       date
+      initMessage
+      initDate
     }
   }
 `;
@@ -34,6 +36,26 @@ function ChatList() {
   const { data, loading, error } = useQuery(GET_CHATS, {
     variables: { userId: user._id },
   });
+
+  function displayDate(date, initDate) {
+    if (date === null || date === undefined || date === "") {
+      return initDate;
+    } else {
+      return date;
+    }
+  }
+
+  function displayLastMessage(lastMessage, initMessage) {
+    if (
+      lastMessage === null ||
+      lastMessage === undefined ||
+      lastMessage === ""
+    ) {
+      return initMessage;
+    } else {
+      return lastMessage;
+    }
+  }
 
   function link(userId, secondUserId) {
     if (userId === user._id) {
@@ -70,7 +92,10 @@ function ChatList() {
         >
           <Card sx={{ margin: 5 }}>
             {chat.userId === user._id && (
-              <ChatHeader userId={chat.secondUserId} date={chat.date} />
+              <ChatHeader
+                userId={chat.secondUserId}
+                date={displayDate(chat.date, chat.initDate)}
+              />
             )}
 
             {chat.secondUserId === user._id && (
@@ -79,7 +104,7 @@ function ChatList() {
 
             <CardContent>
               <Typography variant="body1" color="text.secondary">
-                {chat.lastMessage}
+                {displayLastMessage(chat.lastMessage, chat.initMessage)}
               </Typography>
             </CardContent>
           </Card>

@@ -57,8 +57,8 @@ function Post({
   const [deletePost, deleteTarget] = useMutation(DELETE_POST);
 
   //think about
-  if (loading) return <p></p>;
-  if (error) return <p></p>;
+  if (loading) return <p>loading</p>;
+  if (error) return <p>error</p>;
 
   return (
     <Card sx={{ margin: 5 }}>

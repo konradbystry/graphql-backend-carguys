@@ -111,10 +111,10 @@ function NewTopic() {
           />
         </Stack>
         <br></br>
-        <Button variant="contained" component="label">
+        {/* <Button variant="contained" component="label">
           Upload File
           <input type="file" name="banner" onChange="" hidden />
-        </Button>
+        </Button> */}
         <br></br>
         <br></br>
 

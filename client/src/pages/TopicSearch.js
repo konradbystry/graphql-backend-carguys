@@ -78,7 +78,7 @@ function TopicSearch() {
   const { topicName } = useParams();
   const { loading, error, data, subscribeToMore } = useQuery(
     GET_TOPICS_BY_NAME,
-    { variables: { name: topicName } }
+    { variables: { name: topicName.replace("-", " ") } }
   );
 
   subscribeToMore({

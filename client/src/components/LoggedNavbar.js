@@ -109,7 +109,9 @@ function LoggedNavbar() {
                   onChange={onChange}
                   onKeyPress={(e) => {
                     if (e.key === "Enter") {
-                      navigate("/topics/search/" + values.topicName);
+                      navigate(
+                        "/topics/search/" + values.topicName.replace(" ", "-")
+                      );
                     }
                   }}
                 />
@@ -187,7 +189,7 @@ function LoggedNavbar() {
                         color: "white",
                       }}
                     >
-                      My account
+                      Settings
                     </Link>
                   </MenuItem>
                   <MenuItem onClick={onLogout}>Logout</MenuItem>
